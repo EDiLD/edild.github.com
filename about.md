@@ -8,8 +8,7 @@ I am a PhD student at the University of Koblenz-Landau, Germany, working within 
 
 I learned a lot from online resources and  would like to give something back.  
 
-I am an active member of the [german R-community](http://forum.r-statistik.de/index.php), but you can also find me on [stackoverflow](http://stackoverflow.com/users/511399/edi) and [github](https://github.com/EDiLD).
-
+I am an active member of the [german R-community](http://forum.r-statistik.de/index.php), but you can also find me on [stackoverflow](http://stackoverflow.com/users/511399/edi).
 Moreover, I am a freelance R developer with backgorund in ecology and ecotoxicology.
 
 
