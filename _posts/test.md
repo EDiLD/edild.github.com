@@ -1,6 +1,6 @@
 ---
 layout: post
-title: test
+title: Test new blog
 author: Eduard Szöcs
 date: July 14, 2015
 published: true
