@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "test"
-author: "Eduard Szöcs"
-date: "July 14, 2015"
+title: test
+author: Eduard Szöcs
+date: July 14, 2015
 published: true
 status: publish
 draft: false
