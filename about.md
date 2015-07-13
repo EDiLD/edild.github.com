@@ -4,12 +4,30 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I am a PhD student at the University of Koblenz-Landau, Germany, working within the [Quantitative Landscape Ecology Group](http://www.uni-koblenz-landau.de/landau/fb7/umweltwissenschaften/landscape-ecology).
 
-### More Information
+I learned a lot from online resources and  would like to give something back.  
 
-A place to include any other types of information that you'd like to include about yourself.
+I am an active member of the [german R-community](http://forum.r-statistik.de/index.php), but you can also find me on [stackoverflow](http://stackoverflow.com/users/511399/edi) and [github](https://github.com/EDiLD).
 
-### Contact me
+Moreover, I am a freelance R developer with backgorund in ecology and ecotoxicology.
 
-[email@domain.com](mailto:email@domain.com)
+
+
+For more see my [CV](/files/escv.pdf).
+
+<a href="https://scholar.google.de/citations?user=QlQH1zEAAAAJ&hl=en" target="_blank">
+<img height="49" src="http://scholar.google.de/intl/de/scholar/images/scholar_logo_lg_2011.gif" alt="google scholar">
+</a>
+
+<a href="https://www.researchgate.net/profile/Eduard_Szoecs/">
+<img alt="" src="https://www.researchgate.net/images/public/profile_share_badge.png">
+</a>
+
+<a href="http://stackexchange.com/users/240905/edi">
+<img src="http://stackexchange.com/users/flair/240905.png?theme=dark" width="208" height="58" alt="profile for EDi on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for EDi on Stack Exchange, a network of free, community-driven Q&amp;A sites">
+</a>
+
+### Contact
+
+[eduardszoecs@gmail.com](mailto:eduardszoecs@gmail.com)
