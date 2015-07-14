@@ -12,7 +12,6 @@ tags: QETXR R
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
 options(scipen = 1, digits = 5)
 require(knitcitations)
-cite_options(linked=TRUE)
 ```
 ```{r echo=FALSE, message=FALSE}
 require(knitr)

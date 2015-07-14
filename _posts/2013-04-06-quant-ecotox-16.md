@@ -10,9 +10,6 @@ tags: QETXR R
 ---
 
 
-{% highlight text %}
-## Error in BibOptions(check.entries = check.entries, style = style, hyperlink = hyperlink, : Invalid name specified, see ?BibOptions
-{% endhighlight %}
 
 
 This is example 4.9 on page 178 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - time-to-death data.

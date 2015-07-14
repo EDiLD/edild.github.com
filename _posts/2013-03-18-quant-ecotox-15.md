@@ -9,9 +9,6 @@ draft: false
 tags: QETXR R
 ---
 
-{% highlight text %}
-## Error in BibOptions(check.entries = check.entries, style = style, hyperlink = hyperlink, : Invalid name specified, see ?BibOptions
-{% endhighlight %}
 
 
 This is a short one (example 4.7 on page 1621 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647)). 

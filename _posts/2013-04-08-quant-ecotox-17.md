@@ -10,9 +10,6 @@ tags: QETXR R
 ---
 
 
-{% highlight text %}
-## Error in BibOptions(check.entries = check.entries, style = style, hyperlink = hyperlink, : Invalid name specified, see ?BibOptions
-{% endhighlight %}
 
 
 This is example 4.10 on page 180 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). A follow-up to [example 4.9](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/).
@@ -145,7 +142,7 @@ df
 ##         .Call(C_df, x, df1, df2, log)
 ##     else .Call(C_dnf, x, df1, df2, ncp, log)
 ## }
-## <bytecode: 0x29b1a70>
+## <bytecode: 0x3754748>
 ## <environment: namespace:stats>
 {% endhighlight %}
 

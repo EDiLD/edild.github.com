@@ -9,9 +9,6 @@ draft: false
 tags: QETXR R
 ---
 
-{% highlight text %}
-## Error in BibOptions(check.entries = check.entries, style = style, hyperlink = hyperlink, : Invalid name specified, see ?BibOptions
-{% endhighlight %}
 
 
 This is about example 4.3 on page 147 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). This example is about Calculations of $LC_{50}$ values.
