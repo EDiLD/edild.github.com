@@ -11,6 +11,9 @@ tags: R web-scraping ecotoxicology
  
 
 
+**Update:**
+The function allanwood() has been integrated into the [webchem package](https://github.com/ropensci/webchem) and the function removed from the esmisc package!
+ 
  
 This week I had to find the [CAS-numbers](http://en.wikipedia.org/wiki/CAS_Registry_Number) for a bunch of pesticides. 
 Moreover, I also needed information about the major groups of these pesticides (e.g. herbicides, fungicides, ...) and some of them were in German language.
@@ -55,27 +58,13 @@ sapply(c('2,4-D', 'DDT', 'Diclopfop'), etox_to_cas)
  
 #### Query CAS and pesticide group from Allan Wood
  
+**Update:**
+The function allanwood() has been integrated into the [webchem package](https://github.com/ropensci/webchem) and the function removed from the esmisc package!
+ 
 
 {% highlight r %}
 allanwood('Fluazinam')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "allanwood"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 sapply(c('Fluazinam', 'Diclofop', 'DDT'), allanwood)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in match.fun(FUN): object 'allanwood' not found
 {% endhighlight %}
  
  
