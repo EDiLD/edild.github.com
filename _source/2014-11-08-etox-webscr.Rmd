@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: R, web-scraping, ecotoxicology
+tags: R web-scraping ecotoxicology
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}

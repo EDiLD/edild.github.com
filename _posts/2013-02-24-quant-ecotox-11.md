@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR, R
+tags: QETXR R
 ---
 
 
@@ -96,7 +96,7 @@ summary(mod)
 ## Residual standard error: 43.7 on 4 degrees of freedom
 ## 
 ## Number of iterations to convergence: 7 
-## Achieved convergence tolerance: 2.1e-06
+## Achieved convergence tolerance: 2.07e-06
 {% endhighlight %}
 So the parameter estimates are:
  

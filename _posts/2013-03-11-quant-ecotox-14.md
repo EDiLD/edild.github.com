@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR, R
+tags: QETXR R
 ---
 
 
@@ -20,17 +20,6 @@ First we need the data:
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p160.csv",
 ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in function (type, msg, asError = TRUE) : Could not resolve host: raw.github.com
-{% endhighlight %}
-
-
-
-{% highlight r %}
 NAP <- read.table(text = url, header = TRUE, sep = ";")
 {% endhighlight %}
 
@@ -41,13 +30,13 @@ head(NAP)
 
 
 {% highlight text %}
-##   DEAD TOTAL CONC
-## 1   16    76 10.3
-## 2   22    79 10.8
-## 3   40    77 11.6
-## 4   69    76 13.2
-## 5   78    78 15.8
-## 6   77    77 20.1
+##   CONC DEAD TOTAL
+## 1    0    1    26
+## 2    0    0    26
+## 3    0    0    26
+## 4    0    0    26
+## 5    0    1    26
+## 6    0    0    26
 {% endhighlight %}
  
 The data consists of number of dead animals (DEAD) from all animals (TOTAL) exposed to different concentrations (CONC).
@@ -77,24 +66,23 @@ We can estimate the mean control mortality and the confidence interval for the m
 
 {% highlight r %}
 contr_m <- t.test(NAP$PROP[NAP$CONC==0])
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in t.test.default(NAP$PROP[NAP$CONC == 0]): not enough 'x' observations
-{% endhighlight %}
-
-
-
-{% highlight r %}
 contr_m
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'contr_m' not found
+## 
+## 	One Sample t-test
+## 
+## data:  NAP$PROP[NAP$CONC == 0]
+## t = 1.58, df = 5, p-value = 0.17
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  -0.0080228  0.0336638
+## sample estimates:
+## mean of x 
+##  0.012821
 {% endhighlight %}
  
 These can be also easily extracted from the t.test object:
@@ -109,7 +97,8 @@ contr_m$estimate
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'contr_m' not found
+## mean of x 
+##  0.012821
 {% endhighlight %}
 
 
@@ -122,7 +111,9 @@ contr_m$conf.int
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'contr_m' not found
+## [1] -0.0080228  0.0336638
+## attr(,"conf.level")
+## [1] 0.95
 {% endhighlight %}
  
 This gives nearly the same values as in the book. I don't know what the SAS option `OPTC` is doing or computing, however it seems like it is the mean +- CI for the control group.
@@ -146,7 +137,7 @@ d_control
 
 
 {% highlight text %}
-## [1] NaN
+## [1] 0.012821
 {% endhighlight %}
  
 And the corrected mortalities using Abbotts formula as:
@@ -159,7 +150,11 @@ NAP$PROP_c
 
 
 {% highlight text %}
-## [1] NaN NaN NaN NaN NaN NaN
+##  [1]  0.025974 -0.012987 -0.012987 -0.012987  0.025974 -0.012987  0.064935
+##  [8]  0.181818 -0.012987  0.311169  0.259740  0.181818  0.512266  0.454545
+## [15]  0.610390  0.649351  0.688312  0.766234  0.774892  0.805195  0.805195
+## [22]  1.000000  1.000000  0.922078  1.000000  0.961039  1.000000  1.000000
+## [29]  1.000000  1.000000
 {% endhighlight %}
  
  
@@ -182,38 +177,23 @@ mselect(mod1, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
 
 
 {% highlight text %}
-##      logLik      IC Lack of fit    Res var
-## LL.2 14.613 -23.226          NA 0.00067322
-## LL.3     NA      NA          NA         NA
-## LL.4     NA      NA          NA         NA
-## LL.5     NA      NA          NA         NA
-## W1.2     NA      NA          NA         NA
-## W1.3     NA      NA          NA         NA
-## W1.4     NA      NA          NA         NA
+##      logLik      IC Lack of fit   Res var
+## LL.2 47.803 -89.607    0.015649 0.0025908
+## LL.3     NA      NA          NA        NA
+## LL.4     NA      NA          NA        NA
+## LL.5     NA      NA          NA        NA
+## W1.2     NA      NA          NA        NA
+## W1.3     NA      NA          NA        NA
+## W1.4     NA      NA          NA        NA
 {% endhighlight %}
  
 
 {% highlight r %}
 plot(mod1, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot.drc(mod1, broken = TRUE, type = "all", bp = 500, xt = seq(500, : Argument 'conLevel' is set too high
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mtext('Dose-Response-Model - LL2.2', 3)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in mtext("Dose-Response-Model - LL2.2", 3): plot.new has not been called yet
-{% endhighlight %}
+![plot of chunk plot_mod1](/figures/plot_mod1-1.png) 
  
  
 #### Using the corrected mortalities
@@ -232,12 +212,6 @@ Then we fit a dose-response model:
 {% highlight r %}
 mod2 <- drm(PROP_c ~ CONC, data = NAP, fct = LL.2())
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(PROP_c = c(NaN, NaN, NaN, NaN, : missing values in object
-{% endhighlight %}
  
 However a Weibull model fits slightly better the data, so I change to a two-parameter Weibull model (using the `update` function).
  
@@ -249,7 +223,14 @@ mselect(mod2, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
 
 
 {% highlight text %}
-## Error in identical(object$type, "continuous"): object 'mod2' not found
+##      logLik      IC Lack of fit   Res var
+## LL.2 48.451 -90.902  3.7032e-71 0.0024813
+## LL.3     NA      NA          NA        NA
+## LL.4     NA      NA          NA        NA
+## LL.5     NA      NA          NA        NA
+## W1.2     NA      NA          NA        NA
+## W1.3     NA      NA          NA        NA
+## W1.4     NA      NA          NA        NA
 {% endhighlight %}
 
 
@@ -257,35 +238,14 @@ mselect(mod2, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
 {% highlight r %}
 mod2 <- update(mod2, fct = W1.2())
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in update(mod2, fct = W1.2()): error in evaluating the argument 'object' in selecting a method for function 'update': Error: object 'mod2' not found
-{% endhighlight %}
  
 
 {% highlight r %}
 plot(mod2, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(mod2, broken = TRUE, type = "all", bp = 500, xt = seq(500, : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod2' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mtext('Corrected mortalities - W1.2', 3)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in mtext("Corrected mortalities - W1.2", 3): plot.new has not been called yet
-{% endhighlight %}
+![plot of chunk plot_mod2](/figures/plot_mod2-1.png) 
  
  
 #### A model without fixed lower limit
@@ -299,25 +259,10 @@ Let's fit a three parameter log-logistic function, where the lower limit is an a
 {% highlight r %}
 mod3 <- drm(PROP ~ CONC, data = NAP, fct = LL.3u())
 plot(mod3, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot.drc(mod3, broken = TRUE, type = "all", bp = 500, xt = seq(500, : Argument 'conLevel' is set too high
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mtext('Free (estimated) lower limit - LL3.u', 3)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in mtext("Free (estimated) lower limit - LL3.u", 3): plot.new has not been called yet
-{% endhighlight %}
+![plot of chunk plot_mod3](/figures/plot_mod3-1.png) 
  
 However looking at the summary we see that the lower limit is estimated as $0.007 \pm 0.02$ and is statistically not significant.
 
@@ -333,14 +278,14 @@ summary(mod3)
 ## 
 ## Parameter estimates:
 ## 
-##               Estimate Std. Error  t-value p-value
-## b:(Intercept) -18.6783     0.6366 -29.3421       0
-## c:(Intercept)   0.1394     0.0114  12.2045       0
-## e:(Intercept)  11.7583     0.0266 442.0403       0
+##                 Estimate Std. Error    t-value p-value
+## b:(Intercept)  -13.71026    1.11140  -12.33603    0.00
+## c:(Intercept)    0.00686    0.01958    0.35045    0.73
+## e:(Intercept) 2099.76948   13.38536  156.87056    0.00
 ## 
 ## Residual standard error:
 ## 
-##  0.00587 (3 degrees of freedom)
+##  0.051716 (27 degrees of freedom)
 {% endhighlight %}
  
 Since the lower limit (=control mortality) is so low we could also stick with `mod1`.
@@ -352,10 +297,10 @@ mselect(mod3, fctList = list(LL.2(), LL2.3u()))
 
 
 {% highlight text %}
-##        logLik      IC Lack of fit     Res var
-## LL.3u  24.393 -40.786          NA 0.000034457
-## LL.2       NA      NA          NA          NA
-## LL2.3u     NA      NA          NA          NA
+##        logLik      IC Lack of fit   Res var
+## LL.3u  47.872 -87.744    0.014383 0.0026746
+## LL.2       NA      NA          NA        NA
+## LL2.3u     NA      NA          NA        NA
 {% endhighlight %}
  
  
@@ -372,8 +317,8 @@ ED(mod1, 50, interval='delta')
 ## Estimated effective doses
 ## (Delta method-based confidence interval(s))
 ## 
-##      Estimate Std. Error   Lower Upper
-## 1:50  11.4768     0.0575 11.3171  11.6
+##      Estimate Std. Error  Lower Upper
+## 1:50   2097.1       10.9 2074.9  2119
 {% endhighlight %}
 
 
@@ -385,7 +330,12 @@ ED(mod2, 50, interval='delta')
 
 
 {% highlight text %}
-## Error in ED(mod2, 50, interval = "delta"): object 'mod2' not found
+## 
+## Estimated effective doses
+## (Delta method-based confidence interval(s))
+## 
+##      Estimate Std. Error  Lower Upper
+## 1:50   2088.2       10.2 2067.2  2109
 {% endhighlight %}
 
 
@@ -401,7 +351,7 @@ ED(mod3, 50, interval='delta')
 ## Estimated effective doses
 ## (Delta method-based confidence interval(s))
 ## 
-##      Estimate Std. Error   Lower Upper
-## 1:50  11.7583     0.0266 11.6736  11.8
+##      Estimate Std. Error  Lower Upper
+## 1:50   2099.8       13.4 2072.3  2127
 {% endhighlight %}
  

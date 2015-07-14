@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR, R
+tags: QETXR R
 ---
  
 
@@ -21,17 +21,6 @@ Thankfully, Prof. Newman provided me the data for this example. You can get it f
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv",
 ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in function (type, msg, asError = TRUE) : Could not resolve host: raw.github.com
-{% endhighlight %}
-
-
-
-{% highlight r %}
 TOXICITY <- read.table(text = url, header = TRUE)
 head(TOXICITY)
 {% endhighlight %}
@@ -39,13 +28,13 @@ head(TOXICITY)
 
 
 {% highlight text %}
-##   DEAD X..TOTAL...CONC.
-## 1   16    ;"76";"10.30"
-## 2   22    ;"79";"10.80"
-## 3   40    ;"77";"11.60"
-## 4   69    ;"76";"13.20"
-## 5   78    ;"78";"15.80"
-## 6   77    ;"77";"20.10"
+##   TTD TANK  PPT WETWT STDLGTH
+## 1   8    1 15.8 0.112     1.9
+## 2   8    1 15.8 0.050     1.5
+## 3   8    1 15.8 0.029     1.2
+## 4   8    1 15.8 0.045     1.4
+## 5   8    2 15.8 0.097     1.8
+## 6   8    2 15.8 0.048     1.4
 {% endhighlight %}
 
 
@@ -57,13 +46,22 @@ summary(TOXICITY)
 
 
 {% highlight text %}
-##       DEAD           X..TOTAL...CONC.
-##  Min.   :16.0   ;"76";"10.30":1      
-##  1st Qu.:26.5   ;"76";"13.20":1      
-##  Median :54.5   ;"77";"11.60":1      
-##  Mean   :50.3   ;"77";"20.10":1      
-##  3rd Qu.:75.0   ;"78";"15.80":1      
-##  Max.   :78.0   ;"79";"10.80":1
+##       TTD            TANK           PPT           WETWT      
+##  Min.   : 8.0   Min.   : 1.0   Min.   : 0.0   Min.   :0.024  
+##  1st Qu.:24.0   1st Qu.: 4.0   1st Qu.:10.3   1st Qu.:0.068  
+##  Median :72.0   Median : 7.0   Median :11.6   Median :0.092  
+##  Mean   :63.3   Mean   : 7.5   Mean   :11.7   Mean   :0.135  
+##  3rd Qu.:97.0   3rd Qu.:11.0   3rd Qu.:15.8   3rd Qu.:0.129  
+##  Max.   :97.0   Max.   :14.0   Max.   :20.1   Max.   :1.489  
+##                                               NA's   :70     
+##     STDLGTH    
+##  Min.   :1.20  
+##  1st Qu.:1.60  
+##  Median :1.70  
+##  Mean   :1.87  
+##  3rd Qu.:2.00  
+##  Max.   :4.90  
+##  NA's   :70
 {% endhighlight %}
  
 The data consists of 5 columns:
@@ -82,12 +80,6 @@ First we need to create a column `FLAG` for the status of the animal (dead/alive
 {% highlight r %}
 TOXICITY$FLAG <- ifelse(TOXICITY$TTD > 96, 1, 2)
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in `$<-.data.frame`(`*tmp*`, "FLAG", value = logical(0)): replacement has 0 rows, data has 6
-{% endhighlight %}
 So 1 denotes alive and 2 dead.
  
 Then we can plot the data. Each line is a tank and colors denote the NaCl concentrations.
@@ -95,68 +87,11 @@ Then we can plot the data. Each line is a tank and colors denote the NaCl concen
 {% highlight r %}
 require(survival)
 mod <- survfit(Surv(TTD, FLAG) ~ PPT + strata(TANK), data = TOXICITY)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 plot(mod, col = rep(1:7, each=2), mark.time=FALSE, xlab = 'Hours', ylab = '% Survival')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in plot.window(...): "mark.time" is not a graphical parameter
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in plot.xy(xy, type, ...): "mark.time" is not a graphical parameter
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in box(...): "mark.time" is not a graphical parameter
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in title(...): "mark.time" is not a graphical parameter
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in plot.xy(xy.coords(x, y), type = type, ...): "mark.time" is not a
-## graphical parameter
-{% endhighlight %}
-
-![plot of chunk plot_surv](/figures/plot_surv-1.png) 
-
-{% highlight r %}
 legend('bottomleft', legend = sort(unique(TOXICITY$PPT)), col=1:7, lty = 1)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Warning in is.na(x): is.na() applied to non-(list or vector) of type 'NULL'
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in legend("bottomleft", legend = sort(unique(TOXICITY$PPT)), col = 1:7, : 'legend' is of length 0
-{% endhighlight %}
+![plot of chunk plot_surv](/figures/plot_surv-1.png) 
  
 We see a clear relationship between concentration and the survival curves. In  this example we are interested in differences between the duplicates. We see that the two curves for the 11.6 g/L concentration are quite similar, while there is more divergence between tanks in the 13.2 g/L treatment.
  
@@ -172,7 +107,15 @@ survdiff(Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT==10.3, ], rho = 0)
 
 
 {% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     10.3, ], rho = 0)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=9  40        6     9.02      1.01      2.22
+## TANK=10 38       11     7.98      1.14      2.22
+## 
+##  Chisq= 2.2  on 1 degrees of freedom, p= 0.136
 {% endhighlight %}
 
 
@@ -184,7 +127,15 @@ survdiff(Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT==10.8, ], rho = 0)
 
 
 {% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     10.8, ], rho = 0)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=7 41       10     11.6     0.226     0.503
+## TANK=8 39       12     10.4     0.253     0.503
+## 
+##  Chisq= 0.5  on 1 degrees of freedom, p= 0.478
 {% endhighlight %}
 
 
@@ -196,7 +147,15 @@ survdiff(Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT==11.6, ], rho = 0)
 
 
 {% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     11.6, ], rho = 0)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=5 37       20     18.9    0.0623     0.129
+## TANK=6 41       20     21.1    0.0559     0.129
+## 
+##  Chisq= 0.1  on 1 degrees of freedom, p= 0.719
 {% endhighlight %}
 
 
@@ -208,7 +167,15 @@ survdiff(Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT==13.2, ], rho = 0)
 
 
 {% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     13.2, ], rho = 0)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=3 38       34     40.6      1.06       3.1
+## TANK=4 40       37     30.4      1.41       3.1
+## 
+##  Chisq= 3.1  on 1 degrees of freedom, p= 0.0781
 {% endhighlight %}
 
 
@@ -220,7 +187,15 @@ survdiff(Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT==15.8, ], rho = 0)
 
 
 {% highlight text %}
-## Error in Surv(TTD, FLAG): object 'TTD' not found
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     15.8, ], rho = 0)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=1 39       39     44.5     0.674      3.09
+## TANK=2 40       40     34.5     0.868      3.09
+## 
+##  Chisq= 3.1  on 1 degrees of freedom, p= 0.0789
 {% endhighlight %}
  
  
@@ -236,7 +211,61 @@ for(i in sort(unique(TOXICITY$PPT)[-c(2,7)])) {
 
 
 {% highlight text %}
-## Warning in is.na(x): is.na() applied to non-(list or vector) of type 'NULL'
+## 
+##  10.3 
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     i, ], rho = 1)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=9  40     5.41     8.21     0.952      2.28
+## TANK=10 38    10.09     7.29     1.071      2.28
+## 
+##  Chisq= 2.3  on 1 degrees of freedom, p= 0.131 
+## 
+##  10.8 
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     i, ], rho = 1)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=7 41     8.75    10.33     0.240     0.596
+## TANK=8 39    10.81     9.24     0.269     0.596
+## 
+##  Chisq= 0.6  on 1 degrees of freedom, p= 0.44 
+## 
+##  11.6 
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     i, ], rho = 1)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=5 37     15.4     14.8    0.0205    0.0524
+## TANK=6 41     15.9     16.5    0.0184    0.0524
+## 
+##  Chisq= 0.1  on 1 degrees of freedom, p= 0.819 
+## 
+##  13.2 
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     i, ], rho = 1)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=3 38     17.8     23.5      1.37      5.02
+## TANK=4 40     24.9     19.2      1.68      5.02
+## 
+##  Chisq= 5  on 1 degrees of freedom, p= 0.0251 
+## 
+##  15.8 
+## Call:
+## survdiff(formula = Surv(TTD, FLAG) ~ TANK, data = TOXICITY[TOXICITY$PPT == 
+##     i, ], rho = 1)
+## 
+##         N Observed Expected (O-E)^2/E (O-E)^2/V
+## TANK=1 39     22.6     27.0     0.707      3.15
+## TANK=2 40     27.8     23.4     0.814      3.15
+## 
+##  Chisq= 3.1  on 1 degrees of freedom, p= 0.076
 {% endhighlight %}
  
 Basically we get the same results as in the book: 
