@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Read gridded daily precipitation data into R"
+date: 2015-06-14 12:22
+author: Eduard Szöcs
+published: false
+status: process
+draft: true
+tags: R spatial
+---
+
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height = 6, fig.width = 8, cache = FALSE)
+set.seed(1234)
+options(width = 90)
+```
+
+For one of my projects I needed some precipitation data for germany.
+The German Weather Service (Deutscher Wetterdienst, DWD) provides such data as gridded ASCII-files.
+You can find a description of the data [here(german)](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/REGNIE_Beschreibung.pdf).
+The data is available for download [here](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/).
+
+The data comes in ASCII format:
+
+```
+-999-999-999-999-999-999-999-999-999  47  47  46  46  45-999-999-999-999-999-999-999-999  43  43  43  42  44  44  44  45-999-999  49  49  47-999-999-999-999-999  54  54  54  54  54  54  55  56  57  55  56  57  58  59  60  64  65  66  67  67  66  66  67  71  72  72  70  70  71  71  71  71  70  71  72  74  76  79  81  83  87  90  93  94  91  93  93  93  92  92  92  91  89  87  85  84  84  83  84  82  82  82  82  83  82  79  77  78  79  75  74  73  73-999-999-999-999-999-999-999-999
+```
+Values are the daily precipitation x 10 in mm -999 codes `NA` and there are 611 x 971 cells in the raster.
+
+A added a new function to my [esmisc-package](https://github.com/EDiLD/esmisc) to read this data as raster-object into R.
+
+The function is easy to use and just needs the path to the .gz archive:
+
+```{r, message=FALSE}
+require(esmisc) 
+require(raster)
+# read ASCII file shipped with the esmisc package
+r <- read_regnie(system.file("extdata", "ra141224.gz", package = "esmisc"))
+plot(r)
+```
+
+The returned raster is in lat/lon format. 
+However, `read_regnie()` also allows to reproject the raster, if you supply a crs argument.
+Here I reproject the raster to EPSG 31467:
+
+```{r, message=FALSE}
+system.time(
+r <- read_regnie(system.file("extdata", "ra141224.gz", package = "esmisc"),
+                 crs = CRS('+init=epsg:31467'))
+)
+extent(r)
+```
+
+By default `read_regnie()` uses `projectRaster` from the raster package.
+However, I found that this function is quite slow and using gdal is much faster.
+`read_regnie()` can also use the power of gdal (specify `usegdal = TRUE`):
+
+```{r, message=FALSE}
+system.time(
+r <- read_regnie(system.file("extdata", "ra141224.gz", package = "esmisc"),
+                 crs = CRS('+init=epsg:31467'), usegdal = TRUE)
+)
+extent(r)
+```
+
+Why different extent???!
+
