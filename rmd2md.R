@@ -78,7 +78,7 @@ rmd2md <- function(path_site = getwd(),
           try(knit(text = content, output = outFile), silent = FALSE)
           
         } else {
-          warning(paste("Not processing ", f, ", status is '", status, 
+          message(paste("Not processing ", f, ", status is '", status, 
                         "'. Set status to 'process' to convert.", sep=''))
         }
       } else {

@@ -4,7 +4,7 @@ title: "Analysing mesocosm experiments using Generalized Linear Models"
 date: 2015-02-20 15:39
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: R ecotoxicology prc mvabund
 ---

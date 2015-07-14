@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 223, Example 5.1, with GLM"
 date: 2015-01-19 22:08
 author: Eduard Szöcs
 published: false
-status: process
+status: publish
 draft: true
 tags: QETXR R
 ---
