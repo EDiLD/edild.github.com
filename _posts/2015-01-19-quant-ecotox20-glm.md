@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: true
-tags: QETXR R
+tags: QETXR, R
 ---
 
 

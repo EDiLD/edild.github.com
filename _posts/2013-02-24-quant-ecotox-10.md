@@ -6,17 +6,17 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR R
+tags: QETXR, R
 ---
+ 
 
 
-
-
-
+ 
+ 
 This is example 3.6 on page 101 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about adsorption and how to fit an adsorption model to data.
-
+ 
 Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv) and read it into R: 
-
+ 
 
 {% highlight r %}
 require(RCurl)
@@ -40,20 +40,20 @@ head(ZINC)
 ## 5 3.03 0.217
 ## 6 3.53 0.270
 {% endhighlight %}
-
+ 
 So we have a data.frame with two columns,
 where N = amount adsorbed (mmol) per unit mass (g) and  C = equilibrium concentration in the aqueous phase (mmol/ml).
-
+ 
 We want fit a Langmuir Model (Equation 3.28 in the book) to this data. 
-
+ 
 The three methods described are:
-
+ 
 * Nonlinear Regression
 * linear transformation
 * linear transformation with weighting
-
-
-
+ 
+ 
+ 
 #### Nonlinear Regression
 
 {% highlight r %}
@@ -62,13 +62,13 @@ mod_nls <- nls(N ~ (K*C*M)/(1+K*C), data = ZINC,
            algorithm = 'port')
 {% endhighlight %}
 This fits the model 
-
+ 
 $$ N = \frac{KCM}{1+KC} $$ 
-
+ 
 to the data. 
-
+ 
 We supplied some starting values and specified the lower bonds for K and M as 0 (bonds can only be used with the port algorithm).
-
+ 
 This gives us the estimates for K and M as:
 
 {% highlight r %}
@@ -92,12 +92,12 @@ summary(mod_nls)
 ## 
 ## Algorithm "port", convergence message: relative convergence (4)
 {% endhighlight %}
-
+ 
 * $K = 2.097 \pm 0.188$
 * $M = 9.899 \pm 0.521$
-
+ 
 The t and p-values of this output are not of interest for us (tests if the parameters deviate from 0).
-
+ 
 We can plot the raw data and the model easily using the predict-function:
 
 {% highlight r %}
@@ -108,10 +108,10 @@ x_n <- seq(min(ZINC$C), max(ZINC$C), length.out=200)
 lines(x_n, predict(mod_nls, newdata = data.frame(C = x_n)))
 {% endhighlight %}
 
-<img src="../figures/source/2013-02-24-quant-ecotox-10/plot-nls-1.png" title="plot of chunk plot-nls" alt="plot of chunk plot-nls" width="400px" />
-
-
-
+<img src="/figures/plot-nls-1.png" title="plot of chunk plot-nls" alt="plot of chunk plot-nls" width="400px" />
+ 
+ 
+ 
 #### Linear model of transformation
 We use were the reciprocal transformation, so C/N versus C.
 First we create a the transformed y-variable:
@@ -119,7 +119,7 @@ First we create a the transformed y-variable:
 {% highlight r %}
 ZINC$Y <- ZINC$C / ZINC$N
 {% endhighlight %}
-
+ 
 Fitting a linear model to this data is done with lm():
 
 {% highlight r %}
@@ -128,7 +128,7 @@ plot(ZINC$C, ZINC$Y, ylab = 'C/N', xlab = 'C')
 abline(mod_lm)
 {% endhighlight %}
 
-<img src="../figures/source/2013-02-24-quant-ecotox-10/plot-lm-1.png" title="plot of chunk plot-lm" alt="plot of chunk plot-lm" width="400px" />
+<img src="/figures/plot-lm-1.png" title="plot of chunk plot-lm" alt="plot of chunk plot-lm" width="400px" />
 
 {% highlight r %}
 summary(mod_lm)
@@ -157,20 +157,20 @@ summary(mod_lm)
 ## F-statistic:  229 on 1 and 8 DF,  p-value: 3.62e-07
 {% endhighlight %}
 We get from this K and M as:
-
+ 
 * $K = \frac{slope}{intercept} = \frac{0.114}{0.043} = 2.62$
 * $M = \frac{1}{slope} = \frac{1}{0.114} = 8.77$
-
+ 
 The R^2 is 0.966.
-
-
+ 
+ 
 #### Linear model of transformation with weights
 Newman used N^4 / C^2 weighting. So first we need to calculate the weights:
 
 {% highlight r %}
 ZINC$WGT = ZINC$N^4 / ZINC$C^2
 {% endhighlight %}
-
+ 
 And fit the linear model with weighting:
 
 {% highlight r %}
@@ -201,7 +201,7 @@ summary(mod_wgt)
 ## F-statistic:  333 on 1 and 8 DF,  p-value: 8.32e-08
 {% endhighlight %}
 The R^2 is slightly higher: 0.977.
-
+ 
 The result for K is:
 
 {% highlight r %}
@@ -214,7 +214,7 @@ coef(mod_wgt)[2] / coef(mod_wgt)[1]
 ##      C 
 ## 2.2033
 {% endhighlight %}
-
+ 
 and for M:
 
 {% highlight r %}
@@ -227,12 +227,12 @@ and for M:
 ##      C 
 ## 9.6403
 {% endhighlight %}
-
+ 
 #### Are the models appropiate?
-
+ 
 We can inspect the residuals of both models:
-
-
+ 
+ 
 
 {% highlight r %}
 par(mfrow = c(1,2))
@@ -243,14 +243,14 @@ plot(fitted(mod_nls), residuals(mod_nls), xlab = 'fitted', ylab = 'Residuals', m
 abline(h = 0, lty = 'dotted')
 {% endhighlight %}
 
-<img src="../figures/source/2013-02-24-quant-ecotox-10/plot-resid-1.png" title="plot of chunk plot-resid" alt="plot of chunk plot-resid" width="500px" />
-
+<img src="/figures/plot-resid-1.png" title="plot of chunk plot-resid" alt="plot of chunk plot-resid" width="500px" />
+ 
 The linear model clearly shows an arc-pattern in the residuals - so the data may not follow a linear relationship.
 The nonlinear model performs better.
-
-
-
+ 
+ 
+ 
 Once again we reproduced the same results as in the book using R :)
 Code and data are available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p101'.
-
-
+ 
+ 

@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: R web-scraping
+tags: R, web-scraping
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}

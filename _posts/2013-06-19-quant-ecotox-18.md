@@ -6,35 +6,35 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR R
+tags: QETXR, R
 ---
 
 
-
+ 
 This is example 4.12 on page 189 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R.
-
+ 
 ### Introduction
 Quantitative Ion Character-Activity Relationships (QICAR) are models that are used to predict toxicity from metal ion characteristics. 
-
+ 
 One such metal ion characteristic is the *'softness'*:
-
+ 
 metal ions can classified into 
-
+ 
 * hard (e.g., Be2, Al3, Fe3)
 * soft (e.g., Cu, Ag, Hg, Pt2)
 * borderline (e.g., Fe2, Co2 , Ni2, Zn2,Cu2) metal ions.
-
+ 
 Hard acids preferentially bind to O or N, soft acids to S, and the borderline ions form stable complexes with S, O, or N (Ownby and Newman, 2003). 
-
+ 
 In this example the softness of 20 metal ions is given, as well as associated toxicity data (EC50 values from a bacterial assay). 
-
+ 
 We want to relate softness to toxicity by a linear model.
-
-
+ 
+ 
 ### Analysis
-
+ 
 Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p189.csv) and read it into R:
-
+ 
 
 {% highlight r %}
 require(RCurl)
@@ -42,12 +42,12 @@ url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicolo
               .opts = curlOptions(followlocation=TRUE), ssl.verifypeer = FALSE)
 QICAR <- read.table(text = url, header = TRUE, sep = ";")
 {% endhighlight %}
-
+ 
 As always our first step is to look at the data:
  
 Data consists of a three column table: TOTLEC is the log10 of EC50 values and SOFTCON is a measure of metal ion softness.
 Plotting the data reveals that there is a strong relationship between both.
-
+ 
 
 {% highlight r %}
 head(QICAR)
@@ -71,15 +71,15 @@ head(QICAR)
 plot(TOTLEC ~ SOFTCON, data = QICAR)
 {% endhighlight %}
 
-![plot of chunk plot_data](../figures/source/2013-06-19-quant-ecotox-18/plot_data-1.png) 
-
+![plot of chunk plot_data](/figures/plot_data-1.png) 
+ 
 To build a linear model we use the `lm()` function.
 We specify the model via the formula notation `repose ~ predictor` and store it as an object names `mod`.
 
 {% highlight r %}
 mod <- lm(TOTLEC ~ SOFTCON, data = QICAR)
 {% endhighlight %}
-
+ 
 Since we are interested in the model properties we take a look at the model summary:
 
 {% highlight r %}
@@ -109,7 +109,7 @@ Since we are interested in the model properties we take a look at the model summ
 ## F-statistic:  116 on 1 and 18 DF,  p-value: 2.81e-09
 {% endhighlight %}
 This output shows us the intercept (2.617) and slope (SOFTCON, - 2.931) of our model, the R-Square (0.866) as well as some other usefull information.
-
+ 
 To make a quick plot of our data and model we can use `abline`:
 
 {% highlight r %}
@@ -117,16 +117,16 @@ plot(TOTLEC ~ SOFTCON, data = QICAR)
 abline(mod)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-5](../figures/source/2013-06-19-quant-ecotox-18/unnamed-chunk-5-1.png) 
-
-
+![plot of chunk unnamed-chunk-5](/figures/unnamed-chunk-5-1.png) 
+ 
+ 
 ### Polishing the plot
-
+ 
 The above plot isn't very nice, so let's try to reproduce the plot from Figure 4.15.
-
+ 
 To get greek symbols, sub- and superscripts etc into R plots we have to use some special mathematical annotation (see `?plotmath` for more information).
-
-
+ 
+ 
 
 {% highlight r %}
 plot(TOTLEC ~ SOFTCON, data = QICAR, 
@@ -139,9 +139,9 @@ abline(mod, lty = 'dashed')
 {% endhighlight %}
 As above we plot the data and our model. The model is display as a dashed line (`lty = 'dashed'`), the raw data as solid (`pch = 16`) and bigger (`cex = 1.4`) points. 
 Moreoever the axis labels were customized. All `plotmath` annotations have to be wrapped into expressions, `sigma[con]` is equal to the greek letter sigma subscript with con.
-
+ 
 We can also add the model equation to this plot via `text()` which is slightly trickier:
-
+ 
 
 {% highlight r %}
 coefs <- round(coef(mod), 2)
@@ -152,18 +152,23 @@ text(0, 4.5, labels = bquote(r^2 == .(round(mod_sum$r.squared, 2))),
 {% endhighlight %}
 First we extract the model coefficients via `coef()`. 
 If we want to access these numbers (and not type them manually) in the equation, we have to embed the equation into `bqoute()`. `bqoute()` works like `expression()` above, except that  objects wrapped in `.()` will be replaced by their respective values.
-
-
-![plot of chunk plot_model2](../figures/source/2013-06-19-quant-ecotox-18/plot_model2-1.png) 
-
+ 
+ 
+![plot of chunk plot_model2](/figures/plot_model2-1.png) 
+ 
 Once again we reproduced the same results as in the book using R :)
 Code and data are available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p189'.
-
+ 
 ### References
-
+ 
 [1] D. Ownby and M. Newman. "Advances in Quantitative Ion
 Character-Activity Relationships (QICARs): Using Metal-Ligand
-Binding Characteristics to Predict Metal Toxicity". In: _QSAR
-\& Combinatorial Science_ 22.2 (Apr. 2003), pp. 241-246. DOI:
+Binding Characteristics to Predict Metal Toxicity". In: _QSAR \&
+Combinatorial Science_ 22.2 (Apr. 2003), pp. 241-246. DOI:
 10.1002/qsar.200390018. <URL:
 http://dx.doi.org/10.1002/qsar.200390018>.
+
+[2] C. Ritz. "Toward a unified approach to dose-response modeling
+in ecotoxicology". In: _Environ Toxicol Chem_ 29.1 (Jan. 2010),
+pp. 220-229. DOI: 10.1002/etc.7. <URL:
+http://dx.doi.org/10.1002/etc.7>.

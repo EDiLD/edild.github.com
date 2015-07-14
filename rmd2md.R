@@ -13,14 +13,15 @@
 #' @param recursive should rmd files in subdirectories be processed.
 #' @return nothing.
 #' @author Jason Bryer <jason@bryer.org> edited by Andy South
-rmd2md <- function( path_site = getwd(),
+rmd2md <- function(path_site = getwd(),
                     dir_rmd = "_source",
                     dir_md = "_posts",                              
                     #dir_images = "figures",
                     url_images = "figures/",
                     out_ext = '.md', 
                     in_ext = '.Rmd', 
-                    recursive=FALSE) {
+                    recursive = FALSE, 
+                    all = FALSE) {
   
   require(knitr, quietly = TRUE, warn.conflicts = FALSE)
   
@@ -39,7 +40,7 @@ rmd2md <- function( path_site = getwd(),
         status <- unlist(strsplit(content[statusLine], ':'))[2]
         status <- sub('[[:space:]]+$', '', status)
         status <- sub('^[[:space:]]+', '', status)
-        if (tolower(status) == 'process') {
+        if (tolower(status) == 'process' | all) {
           #This is a bit of a hack but if a line has zero length (i.e. a
           #black line), it will be removed in the resulting markdown file.
           #This will ensure that all line returns are retained.

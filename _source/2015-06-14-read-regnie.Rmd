@@ -4,9 +4,9 @@ title: "Read gridded daily precipitation data into R"
 date: 2015-06-14 12:22
 author: Eduard Szöcs
 published: false
-status: process
+status: no_process
 draft: true
-tags: R spatial
+tags: R, spatial
 ---
 
 ```{r echo=FALSE, message=FALSE}

@@ -6,13 +6,13 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: QETXR R
+tags: QETXR, R
 ---
 
 
-
+ 
 This is a short one (example 4.7 on page 1621 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647)). 
-
+ 
 First we create the data as matrix:
 
 {% highlight r %}
@@ -28,8 +28,8 @@ TEST
 ## Tank_A           1               19
 ## Tank_B           6               14
 {% endhighlight %}
-
-
+ 
+ 
 The we can easily run fisher's Exact test for this 2x2 table using the function `fisher.test()`:
 
 {% highlight r %}
@@ -95,5 +95,5 @@ fisher.test(TEST, alternative='less')
 ## odds ratio 
 ##    0.12883
 {% endhighlight %}
-
+ 
 The results are identical to the one in the book.

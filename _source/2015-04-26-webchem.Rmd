@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: process
 draft: false
-tags: R ecotoxicology web-scraping ropensci
+tags: R, ecotoxicology, web-scraping, ropensci
 ---
 
 

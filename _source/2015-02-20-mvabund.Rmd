@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: R ecotoxicology prc
+tags: R, ecotoxicology, prc, mvabund
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}

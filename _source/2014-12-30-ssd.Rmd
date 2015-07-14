@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: true
 status: publish
 draft: false
-tags: R ecotoxicology
+tags: R, ecotoxicology
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}

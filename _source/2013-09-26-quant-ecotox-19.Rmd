@@ -6,7 +6,7 @@ author: Eduard Szöcs
 published: false
 status: no_process
 draft: true
-tags: QETXR R
+tags: QETXR, R
 ---
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
 options(scipen = 1, digits = 5)

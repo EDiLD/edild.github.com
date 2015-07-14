@@ -7,7 +7,7 @@ permalink: /tags/
 <div class="well">
 {% capture tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
 {% assign tag = tags | split:',' | sort %}
-{% for item in (0..site.categories.size) %}{% unless forloop.last %}
+{% for item in (0..site.tags.size) %}{% unless forloop.last %}
 {% capture word %}{{ tag[item] | strip_newlines }}{% endcapture %}
 <h2 class="tag" id="{{ word }}">{{ word }}</h2>
 <ul>
