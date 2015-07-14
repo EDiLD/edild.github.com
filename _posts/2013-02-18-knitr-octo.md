@@ -39,7 +39,8 @@ Here are the changes I made to my octopress:
 1) I added a new function `rake new_rmd` to my Rakefile. This mimics the behavior of `rake new_post`
 and creates a .Rmd-file in source/src. Simply add these lines to your Rakefile:
 
-```
+
+{% highlight ruby %}
 # usage rake new_rmd[my-new-rmd] or rake new_post['my new rmd'] or rake new_rmd (defaults to "new-rmd")
 desc "Begin a new post in #{source_dir}/#{src_dir}"
 task :new_rmd, :title do |t, args|
@@ -63,13 +64,27 @@ task :new_rmd, :title do |t, args|
     post.puts "---"
   end
 end
-```
+{% endhighlight %}
+
+
+
+
+{% highlight text %}
+## -e:2:in `<main>': undefined local variable or method `source_dir' for main:Object (NameError)
+{% endhighlight %}
 
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
 
-```
-#! /usr/bin/Rscript
 
+```r
+#! /usr/bin/Rscript
+```
+
+```r
+
+```
+
+```r
 knit <- function (inputFile, outputFile) {
 
   # per-document figure paths
@@ -85,8 +100,17 @@ knit <- function (inputFile, outputFile) {
   # do the knit
   knitr::knit(input = inputFile, output = outputFile)
 }
+```
 
+```r
+
+```
+
+```r
 # adaption of knitr::render_jekyll
+```
+
+```r
 renderOcto <- function(extra = '') {
   knitr::render_markdown(TRUE)
   # code
@@ -108,36 +132,42 @@ renderOcto <- function(extra = '') {
   knitr::knit_hooks$set(source = hook.c, output = hook.o, warning = hook.o,
                         error = hook.o, message = hook.o)
 }
+```
 
+```r
+
+```
+
+```r
 # get arguments and call knit
+```
+
+```r
 args <- commandArgs(TRUE)
+```
+
+```r
 inputFile <- args[1]
+```
+
+```r
 outputFile <- args[2]
+```
+
+```r
 knit(inputFile, outputFile)
+```
+
+```
+## Warning in readLines(if (is.character(input2)) {: cannot open file
+## '_source/2013-02-18-knitr-octo.Rmd': No such file or directory
+```
+
+```
+## Error in readLines(if (is.character(input2)) {: cannot open the connection
 ```
 
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
 
-```
-KNIT = ../_scripts/knit.sh
-POSTS_DIR = ../_posts
-MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
 
-all: $(MD_FILES)
 
-$(POSTS_DIR)/%.markdown: %.Rmd
-  $(KNIT) $< $@
-	$(RM) *.md
-	$(RM) *.html
-```
-
-You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com) for this site and copy the files from there. I have not tested this very extensively - in case you find any bugs or have improvements, please let me know.
-
-**Edit 01.03.2013**
-
-I had to add this line of code
-
-{% gist 5064922 %}
-
-to `source/_includes/custom/head.html` so that the figures are displayed properly, see
-[here](source/_includes/custom/head.html).
