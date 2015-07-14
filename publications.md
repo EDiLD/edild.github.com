@@ -3,7 +3,11 @@ layout: page
 title: "Publications"
 date: 2015-02-12 16:00
 ---
-  
+
+<a href="https://scholar.google.de/citations?user=QlQH1zEAAAAJ&hl=en" target="_blank">
+<img height="49" src="http://scholar.google.de/intl/de/scholar/images/scholar_logo_lg_2011.gif" alt="google scholar">
+</a>
+
 ### 2015
   
 **Szöcs E**,  Schäfer RB, 2015. Ecotoxicology is not normal. Environmental Science and Pollution Research, DOI 10.1007/s11356-015-4579-3.  [Online (paywall)](http://link.springer.com/article/10.1007%2Fs11356-015-4579-3). [Supplemental Material / github repo](https://github.com/EDiLD/usetheglm).
