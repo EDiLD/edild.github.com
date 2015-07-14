@@ -4,6 +4,9 @@ title: Tags
 permalink: /tags/
 ---
 
+Topics covered in this blog.
+
+
 {% capture tags %}
   {% for tag in site.tags %}
     {{ tag[0] }}
