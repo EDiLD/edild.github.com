@@ -40,7 +40,7 @@ Poster presented at [International Statistical Ecology Conference 2014](http://i
 
 **Szöcs E**, Kefford BJ, & Schäfer RB (2012). Is there an interaction of the effects of salinity and pesticides on the community structure of macroinvertebrates? Science of the Total Environment, 437(1), 121–126. [Online (paywall)](http://www.sciencedirect.com/science/article/pii/S004896971201011X).
 
-<span class="badge badge-data">dataset</span> **Szöcs E**, Kefford BJ, & Schäfer RB (2012). Data from: Is there an interaction of the effects of salinity and pesticides on the community structure of macroinvertebrates? Dryad Digital Repository. [Online](http://datadryad.org/resource/doi:10.5061/dryad.23hs6).
+<span class="badge badge-success">dataset</span> **Szöcs E**, Kefford BJ, & Schäfer RB (2012). Data from: Is there an interaction of the effects of salinity and pesticides on the community structure of macroinvertebrates? Dryad Digital Repository. [Online](http://datadryad.org/resource/doi:10.5061/dryad.23hs6).
 
 Schäfer RB, Bundschuh M, Rouch DA, **Szöcs E**, von der Ohe PC, Pettigrove V, Schulz R, Nugegoda D, Kefford BJ (2012). Effects of pesticide toxicity, salinity and other environmental variables on selected ecosystem functions in streams and the relevance for ecosystem services. Science of the Total Environment, 415(1), 69–78. [Online (paywall)](http://www.sciencedirect.com/science/article/pii/S0048969711005912).
 
