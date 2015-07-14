@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Publications"
-date: 2015-02-12 16:00
+permalink: /publications/
 ---
 
 <a href="https://scholar.google.de/citations?user=QlQH1zEAAAAJ&hl=en" target="_blank">

@@ -43,11 +43,11 @@
       {% assign current = page.url | downcase | split: '/' %}
           <nav>
             <a href="{{ site.baseurl }}/">Blog</a>
-            <a href="{{ site.baseurl }}/publications">Publications</a>
-            <a href="{{ site.baseurl }}/packages">R-Packages</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-            <a href="{{ site.baseurl }}/tags">Topics</a>
-            <a href="{{ site.baseurl }}/indexbrief">Index</a>
+            <a href="{{ site.baseurl }}/publications" {% if current[1] == 'publications' %}class='active'{% endif %} >Publications</a>
+            <a href="{{ site.baseurl }}/packages" {% if current[1] == 'packages' %}class='active'{% endif %}>R-Packages</a>
+            <a href="{{ site.baseurl }}/about" {% if current[1] == 'about' %}class='active'{% endif %}>About</a>
+            <a href="{{ site.baseurl }}/tags" {% if current[1] == 'tags' %}class='active'{% endif %}>Topics</a>
+            <a href="{{ site.baseurl }}/indexbrief" {% if current[1] == 'indexbrief' %}class='active'{% endif %}>Index</a>
           </nav>
         </header>
       </div>

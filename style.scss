@@ -155,7 +155,7 @@ img {
 }
 
 .masthead {
-  padding: 10px 0;
+  padding: 4px 0;
   border-bottom: 4px solid $lightGray;
 
   @include mobile {
@@ -212,10 +212,11 @@ img {
 
 nav {
   float: right;
-  margin-top: 35px; // @TODO: Vertically middle align
+  margin-top: 35px; 
   font-family: $helveticaNeue;
   font-size: 18px;
   border-top: 4px solid $lightGray;
+  padding-top: 10px 0;
 
   @include mobile {
     float: none;
@@ -231,12 +232,22 @@ nav {
     font-weight: 300;
     letter-spacing: 1px;
 
+
     @include mobile {
       margin: 0 10px;
       color: $blue;
     }
   }
 }
+
+.active {
+    background-color: $lightGray;
+    color: $black;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+    padding: 1px 6px 4px 6px;
+} 
 
 //
 // .main
