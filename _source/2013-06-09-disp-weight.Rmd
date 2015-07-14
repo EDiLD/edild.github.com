@@ -4,7 +4,7 @@ title: "Dispersion-based weighting - a new function in vegan"
 date: 2013-07-12 11:00
 author: Eduard Szöcs
 published: true
-status: process
+status: no_process
 draft: false
 tags: R vegan
 ---
