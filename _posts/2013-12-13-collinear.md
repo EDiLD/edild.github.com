@@ -82,9 +82,9 @@ cor(df1)
 
 {% highlight text %}
 ##          y      X1      X2
-## y  1.00000 0.94741 0.94546
-## X1 0.94741 1.00000 0.80073
-## X2 0.94546 0.80073 1.00000
+## y  1.00000 0.94834 0.94950
+## X1 0.94834 1.00000 0.81063
+## X2 0.94950 0.81063 1.00000
 {% endhighlight %}
 
 And the data follows the specified model.
@@ -102,20 +102,20 @@ summary(mod)
 ## lm(formula = y ~ X1 + X2, data = df1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.1123 -0.6223  0.0017  0.6440  2.6804 
+##    Min     1Q Median     3Q    Max 
+## -3.236 -0.704 -0.035  0.651  4.583 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   4.9953     0.0310     161   <2e-16 ***
-## X1            7.0114     0.0501     140   <2e-16 ***
-## X2            6.9552     0.0506     137   <2e-16 ***
+## (Intercept)   5.0048     0.0318     157   <2e-16 ***
+## X1            7.0247     0.0534     131   <2e-16 ***
+## X2            7.0172     0.0527     133   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.98 on 997 degrees of freedom
+## Residual standard error: 1 on 997 degrees of freedom
 ## Multiple R-squared:  0.995,	Adjusted R-squared:  0.995 
-## F-statistic: 9.66e+04 on 2 and 997 DF,  p-value: <2e-16
+## F-statistic: 9.24e+04 on 2 and 997 DF,  p-value: <2e-16
 {% endhighlight %}
 
 
@@ -141,8 +141,8 @@ Dormann lists eight methods to spot collinearity (see their Table 1). I will onl
 
 {% highlight text %}
 ##         X1      X2
-## X1 1.00000 0.80073
-## X2 0.80073 1.00000
+## X1 1.00000 0.81063
+## X2 0.81063 1.00000
 {% endhighlight %}
 
 Dormann (2013) found that 'coefficients between predictor variables of r > 0.7 was an appropriate indicator for when collinearity begins to severely distort model estimation'.
@@ -159,7 +159,7 @@ vif(mod)
 
 {% highlight text %}
 ##     X1     X2 
-## 2.7868 2.7868
+## 2.9164 2.9164
 {% endhighlight %}
 
 Which is equivalent to (for variable X1):
@@ -172,7 +172,7 @@ sum <- summary(lm(X1 ~ X2, data = df1))
 
 
 {% highlight text %}
-## [1] 2.7868
+## [1] 2.9164
 {% endhighlight %}
 
 Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ...
@@ -182,7 +182,7 @@ Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ..
 
 
 
-### Simulation 1: How does collinearity affect the precision of estimates?
+### Simulation 1: How does collinearity affect the precision of estimates? 
 
 Here we simulate datasets with correlations ranging from -0.8 to 0.8:
 
@@ -283,6 +283,17 @@ This is confirmed by looking at the standard deviation of the estimates:
 {% highlight r %}
 sds <- data.frame(ps, t(sapply(res2, function(x) apply(x[, 2:4], 2, sd))))
 require(reshape2)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading required package: reshape2
+{% endhighlight %}
+
+
+
+{% highlight r %}
 sds_m <- melt(sds, id.vars='ps')
 ggplot(sds_m, aes(x = ps, y = value)) +
   geom_point(size = 3) +
@@ -292,7 +303,11 @@ ggplot(sds_m, aes(x = ps, y = value)) +
   xlab('Correlation')
 {% endhighlight %}
 
-![plot of chunk plot3](../figures/source/2013-12-13-collinear/plot3-1.png) 
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): could not find function "ggplot"
+{% endhighlight %}
 
 
 If the standard errors are large enough it may happen that parameter estimates may be so variable that even their sign is changed.
