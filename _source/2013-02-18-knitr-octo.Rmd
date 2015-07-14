@@ -1,0 +1,143 @@
+---
+layout: post
+title: "R, knitr and Octopress"
+date: 2013-03-01 14:00
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: R knitr Octopress
+---
+
+Recently, I moved this blog from [tumblr](http://edild.tumblr.com/) to github since I feeled I need more liberty.
+I have no experience with web programming, so I chose [Octopress](http://octopress.org/) as blogging framework since it nicely integrates with github.
+
+However after relocation my workflow for generating posts was quite laborious - it was similar to the tumblr-workflow:
+
+* Create an .Rmd file
+* knit the file
+* move the file to octopress/source/_posts/
+* move the figures to octopress/source/figure/
+* and so on...
+
+This was non-satisfying and I thought that this must be automated into a smooth workflow! 
+
+Last week I took a look at the new [Rcpp Gallery](http://gallery.rcpp.org/) and noticed that this is also hosted on [github](https://github.com/jjallaire/rcpp-gallery). I skimmed through their code and found a lot of useful stuff. Shamelessly I copied some files from the and modified them for my octopress needs.
+
+Basically I have now a folder for my .Rmd files (octopress/source/src). Invoking `make` in this folder creates the markdown-files in _posts and sets up the right figure paths (in _posts/figure). My workflow now:
+
+* `rake new_rmd[test]`, this sets up an empty .Rmd file in /src, according to the octopress naming-scheme and header.
+* add my post to this .Rmd file
+* invoke `make` in /src, this sets up the .markdown file in _posts and figures
+* the usual `rake gen_deploy`
+
+I am quite happy at the moment with this workflow. I can also use R-Studio.
+
+
+Here are the changes I made to my octopress:
+
+1) I added a new function `rake new_rmd` to my Rakefile. This mimics the behavior of `rake new_post`
+and creates a .Rmd-file in source/src. Simply add these lines to your Rakefile:
+
+```ruby
+# usage rake new_rmd[my-new-rmd] or rake new_post['my new rmd'] or rake new_rmd (defaults to "new-rmd")
+desc "Begin a new post in #{source_dir}/#{src_dir}"
+task :new_rmd, :title do |t, args|
+  raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
+  mkdir_p "#{source_dir}/#{src_dir}"
+  args.with_defaults(:title => 'new-rmd')
+  title = args.title
+  filename = "#{source_dir}/#{src_dir}/#{Time.now.strftime('%Y-%m-%d')}-#{title.to_url}.#{new_src_ext}"
+  if File.exist?(filename)
+    abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
+  end
+  puts "Creating new post: #{filename}"
+  open(filename, 'w') do |post|
+    post.puts "---"
+    post.puts "layout: post"
+    post.puts "title: \"#{title.gsub(/&/,'&amp;')}\""
+    post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+    post.puts "comments: true"
+    post.puts "categories: "
+    post.puts "published: false"
+    post.puts "---"
+  end
+end
+```
+
+2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
+
+```r
+#! /usr/bin/Rscript
+
+knit <- function (inputFile, outputFile) {
+
+  # per-document figure paths
+  stem <- tools::file_path_sans_ext(inputFile)
+  prefix <- paste(stem, "-", sep="")
+  knitr::opts_chunk$set(fig.path=file.path('../figure', prefix))
+  
+  # configure output options
+  knitr::pat_md()
+  knitr::opts_knit$set(out.format = 'markdown')
+  renderOcto()
+   
+  # do the knit
+  knitr::knit(input = inputFile, output = outputFile)
+}
+
+# adaption of knitr::render_jekyll
+renderOcto <- function(extra = '') {
+  knitr::render_markdown(TRUE)
+  # code
+  hook.c = function(x, options) {
+	  prefix <- sprintf("\n\n```r", options$label)
+	  suffix <- "```\n\n"
+	  paste(prefix, x, suffix,sep="\n")
+	}
+  # output
+  hook.o = function(x, options) {
+	if (knitr:::output_asis(x, options))
+		x
+	else
+		stringr::str_c('\n\n```\n', 
+					   x, 
+					   '```\n\n')
+  }
+
+  knitr::knit_hooks$set(source = hook.c, output = hook.o, warning = hook.o,
+                        error = hook.o, message = hook.o)
+}
+
+# get arguments and call knit
+args <- commandArgs(TRUE)
+inputFile <- args[1]
+outputFile <- args[2]
+knit(inputFile, outputFile)
+```
+
+3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
+
+```basemake 
+KNIT = ../_scripts/knit.sh
+POSTS_DIR = ../_posts
+MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
+
+all: $(MD_FILES)
+
+$(POSTS_DIR)/%.markdown: %.Rmd
+  $(KNIT) $< $@
+	$(RM) *.md
+	$(RM) *.html
+```
+
+You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com) for this site and copy the files from there. I have not tested this very extensively - in case you find any bugs or have improvements, please let me know.
+
+**Edit 01.03.2013**
+
+I had to add this line of code
+
+{% gist 5064922 %}
+
+to `source/_includes/custom/head.html` so that the figures are displayed properly, see
+[here](source/_includes/custom/head.html).

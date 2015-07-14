@@ -1,0 +1,229 @@
+---
+layout: post
+title: "Collinearity"
+date: 2013-12-13 15:12
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: R
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
+options(scipen = 1, digits = 5)
+```
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height=6, fig.width=6, chache=TRUE)
+require(methods)
+```
+
+It has been quiet the last months here - main reason is that I'm working on my master's thesis.
+I have already prepared some more examples from 'Quantitative Ecotoxicolgy', but I didn't come to publish them here.
+
+
+This post is about collinearity and the implications for linear models. The best way to explore this is by simulations - where I create data with known properties and look what happens.
+
+
+### Create correlated random variables
+
+The first problem for this simulation was: How can we create correlated random variables?
+
+This simulation is similar to the one in Dormann (2013), where it is also mentioned that one could use Cholesky Decompostion to create correlated variables:
+
+What this function function does:
+
+* Create two normal random variables (X1, X2 ~ N(0, 1))
+* Create desired correlation matrix
+* Compute the Choleski factorization of the correlation matrix ( R )
+* Apply the resulting matrix on the two variables (this rotates, shears and scales the variables so that they are correlated)
+* Create a dependent variable `y` after the model:
+
+`y ~ 5 + 7*X1 + 7*X2 + e` with `e ~ N(0, 1)`
+
+
+```{r datagen, tidy=FALSE}
+#############################################################################
+# create two correlated variables and a dependent variable
+# n : number of points
+# p:correlation
+
+datagen <- function(n , p){
+  # random points N(0,1)
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  X <- cbind(x1, x2)
+  
+  # desired correlation matrix
+  R <- matrix(c(1, p, p, 1), ncol = 2)
+  
+  # use cholesky decomposition `t(U) %*% U = R`
+  U <- chol(R)
+  corvars <- X %*% U
+  
+  # create dependent variable after model:
+  # y ~ 5 + 7 * X1 + 7 * X2 + e | E ~ N(0,10)
+  y <- 5 + 7*corvars[,1] + 7*corvars[,2] + rnorm(n, 0, 1)
+  df <- data.frame(y, corvars)
+  return(df)
+}
+```
+
+
+Let's see if it works. 
+This creates two variables with 1000 observations with a correlation of 0.8 between them and a dependent variable.
+```{r example_datagen}
+df1 <- datagen(n = 1000, p = 0.8)
+```
+
+The correlation between X1 and X2 is as desired nearly 0.8
+```{r example_datagen2}
+cor(df1)
+```
+
+And the data follows the specified model.
+```{r example_datagen3}
+mod <- lm(y~X1+X2, data = df1)
+summary(mod)
+pairs(df1)
+```
+
+
+### Methods to spot collinearity
+
+Dormann lists eight methods to spot collinearity (see their Table 1). I will only show how to calculate two of those (but see the Appendix of the Dormann paper for code to all methods):
+
+#### Absolute value of correlation coefficients r
+```{r}
+( cormat <- cor(df1[,2:3]) )
+```
+
+Dormann (2013) found that 'coefficients between predictor variables of r > 0.7 was an appropriate indicator for when collinearity begins to severely distort model estimation'.
+
+
+#### Variance Inflation Factors
+```{r vif, message=FALSE}
+require(car)
+vif(mod)
+```
+
+Which is equivalent to (for variable X1):
+```{r}
+sum <- summary(lm(X1 ~ X2, data = df1))
+1 / (1 - sum$r.squared)
+```
+
+Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ...
+
+
+
+
+
+
+### Simulation 1: How does collinearity affect the precision of estimates?
+
+Here we simulate datasets with correlations ranging from -0.8 to 0.8:
+```{r sim1, cache=TRUE}
+ps <- seq(-0.8, 0.8, 0.005)
+n = 1000
+
+sim1 <- lapply(ps, function(x) datagen(n=n, p=x))
+```
+
+
+Next we fit a linear model to each of the datasets and extract the coefficients table:
+```{r res1}
+# Function to fit and extract coefficients
+regfun <- function(x){
+  return(summary(lm(y~X1+X2, data = x))$coefficients)
+}
+# run regfun on every dataset
+res1 <- lapply(sim1, regfun)
+```
+
+Finally we extract the Standard Errors and plot them against the degree of correlation:
+```{r plot1, message=FALSE, fig.width=10, fig.height=5, cache=TRUE}
+# extract Standard Errors from results
+ses <- data.frame(ps, t(sapply(res1, function(x) x[,2])))
+
+# plot
+require(ggplot2)
+require(reshape2)
+ses_m <- melt(ses, id.vars='ps')
+ggplot(ses_m, aes(x = ps, y = value)) +
+  geom_point(size = 3) +
+  facet_wrap(~variable) +
+  theme_bw() +
+  ylab('Std. Error') +
+  xlab('Correlation')
+```
+
+It can be clearly seen, that collinearity inflates the Standard Errors for the correlated variables. The intercept is not affected.
+
+Having large standard errors parameter estimates are also variable, which is demonstrated in the next simulation:
+
+
+### Simulation 2: Are estimated parameters stable under collinearity?
+
+Here I simulate for different correlations 100 datasets each in order to see how stable the estimates are. 
+
+The code creates the datasets, fits a linear model to each dataset and extracts the estimates.
+
+```{r sim2, cache=TRUE}
+n_sims <- 100
+ps <- seq(-0.8, 0.8, 0.05)
+
+# function to generate n_sims datasets, for give p
+sim2 <- function(p){
+  sim <- lapply(1:n_sims, function(x) datagen(n=1000, p=p))
+  res <- lapply(sim, regfun)
+  est <- t(sapply(res, function(x) x[,1]))
+  out <- data.frame(p, est)
+  return(out)
+}
+
+res2 <- lapply(ps, function(x) {
+  return(sim2(x))
+})
+```
+
+
+The we create a plot of the estimates for the three coefficients, each boxplot represents 100 datasets.
+
+
+```{r plot2, fig.width=10, fig.height=5, cache=TRUE}
+ests <- lapply(res2, melt, id.vars = 'p')
+ests <- do.call(rbind, ests)
+
+ggplot(ests, aes(y = value, x=factor(p))) +
+  geom_boxplot() +
+  facet_wrap(~variable, scales='free_y') +
+  theme_bw() +
+  geom_hline(aes(yintercept = 7), data = subset(ests, variable %in% c("X1","X2")), 
+             col = 'red', lwd = 1) + 
+  ylab('Estimate')+
+  xlab('Correlation')
+```
+The red line indicates the coefficients after the data has been generated (7 * X1 and 7 * X2). We see that the spread of estimates increases as correlation increases.
+
+
+This is confirmed by looking at the standard deviation of the estimates:
+```{r plot3, fig.width=10, fig.height=5}
+sds <- data.frame(ps, t(sapply(res2, function(x) apply(x[, 2:4], 2, sd))))
+sds_m <- melt(sds, id.vars='ps')
+ggplot(sds_m, aes(x = ps, y = value)) +
+  geom_point(size = 3) +
+  facet_wrap(~variable) +
+  theme_bw() +
+  ylab('SD of estimates from 100 simulations') +
+  xlab('Correlation')
+```
+
+
+If the standard errors are large enough it may happen that parameter estimates may be so variable that even their sign is changed.
+
+
+
+
+
+

@@ -1,0 +1,317 @@
+---
+layout: post
+title: "Quantitative Ecotoxicology, Page 101, Example 3.6, Langmuir"
+date: 2013-02-24 00:25
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: QETXR R
+---
+
+
+
+
+
+This is example 3.6 on page 101 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about adsorption and how to fit an adsorption model to data.
+
+Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv) and read it into R:
+
+
+{% highlight r %}
+require(RCurl)
+url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv",
+ssl.verifypeer = FALSE)
+ZINC <- read.table(text = url, header = TRUE, sep = ";")
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in read.table(text = url, header = TRUE, sep = ";"): no lines available in input
+{% endhighlight %}
+
+{% highlight r %}
+head(ZINC)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in head(ZINC): object 'ZINC' not found
+{% endhighlight %}
+
+So we have a data.frame with two columns,
+where N = amount adsorbed (mmol) per unit mass (g) and  C = equilibrium concentration in the aqueous phase (mmol/ml).
+
+We want fit a Langmuir Model (Equation 3.28 in the book) to this data. 
+
+The three methods described are:
+
+* Nonlinear Regression
+* linear transformation
+* linear transformation with weighting
+
+
+
+#### Nonlinear Regression
+
+{% highlight r %}
+mod_nls <- nls(N ~ (K*C*M)/(1+K*C), data = ZINC, 
+           start = list(K = 3, M = 9), lower = 0, 
+           algorithm = 'port')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in nls(N ~ (K * C * M)/(1 + K * C), data = ZINC, start = list(K = 3, : object 'ZINC' not found
+{% endhighlight %}
+This fits the model 
+
+$$ N = \frac{KCM}{1+KC} $$ 
+
+to the data. 
+
+We supplied some starting values and specified the lower bonds for K and M as 0 (bonds can only be used with the port algorithm).
+
+This gives us the estimates for K and M as:
+
+{% highlight r %}
+summary(mod_nls)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in summary(mod_nls): object 'mod_nls' not found
+{% endhighlight %}
+
+* $K = 2.097 \pm 0.188$
+* $M = 9.899 \pm 0.521$
+
+The t and p-values of this output are not of interest for us (tests if the parameters deviate from 0).
+
+We can plot the raw data and the model easily using the predict-function:
+
+{% highlight r %}
+plot(ZINC$C, ZINC$N, xlab = 'C', ylab = 'N')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in plot(ZINC$C, ZINC$N, xlab = "C", ylab = "N"): object 'ZINC' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+# generate C-values to predict
+x_n <- seq(min(ZINC$C), max(ZINC$C), length.out=200)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in seq(min(ZINC$C), max(ZINC$C), length.out = 200): object 'ZINC' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+# add predicts to plot
+lines(x_n, predict(mod_nls, newdata = data.frame(C = x_n)))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in lines(x_n, predict(mod_nls, newdata = data.frame(C = x_n))): object 'x_n' not found
+{% endhighlight %}
+
+
+
+#### Linear model of transformation
+We use were the reciprocal transformation, so C/N versus C.
+First we create a the transformed y-variable:
+
+{% highlight r %}
+ZINC$Y <- ZINC$C / ZINC$N
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'ZINC' not found
+{% endhighlight %}
+
+Fitting a linear model to this data is done with lm():
+
+{% highlight r %}
+mod_lm <- lm(Y ~ C, data = ZINC)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in is.data.frame(data): object 'ZINC' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+plot(ZINC$C, ZINC$Y, ylab = 'C/N', xlab = 'C')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in plot(ZINC$C, ZINC$Y, ylab = "C/N", xlab = "C"): object 'ZINC' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+abline(mod_lm)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in abline(mod_lm): object 'mod_lm' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+summary(mod_lm)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in summary(mod_lm): object 'mod_lm' not found
+{% endhighlight %}
+We get from this K and M as:
+
+* $K = \frac{slope}{intercept} = \frac{0.114}{0.043} = 2.62$
+* $M = \frac{1}{slope} = \frac{1}{0.114} = 8.77$
+
+The R^2 is 0.966.
+
+
+#### Linear model of transformation with weights
+Newman used N^4 / C^2 weighting. So first we need to calculate the weights:
+
+{% highlight r %}
+ZINC$WGT = ZINC$N^4 / ZINC$C^2
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in eval(expr, envir, enclos): object 'ZINC' not found
+{% endhighlight %}
+
+And fit the linear model with weighting:
+
+{% highlight r %}
+mod_wgt <- lm(Y ~ C, data = ZINC, weights = ZINC$WGT)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in is.data.frame(data): object 'ZINC' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+summary(mod_wgt)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in summary(mod_wgt): object 'mod_wgt' not found
+{% endhighlight %}
+The R^2 is slightly higher: 0.977.
+
+The result for K is:
+
+{% highlight r %}
+coef(mod_wgt)[2] / coef(mod_wgt)[1]
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in coef(mod_wgt): object 'mod_wgt' not found
+{% endhighlight %}
+
+and for M:
+
+{% highlight r %}
+1 / coef(mod_wgt)[2]
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in coef(mod_wgt): object 'mod_wgt' not found
+{% endhighlight %}
+
+#### Are the models appropiate?
+
+We can inspect the residuals of both models:
+
+
+
+{% highlight r %}
+par(mfrow = c(1,2))
+# lm
+plot(mod_lm, which = 1, main='linear model without weights')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in plot(mod_lm, which = 1, main = "linear model without weights"): object 'mod_lm' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+# nls
+plot(fitted(mod_nls), residuals(mod_nls), xlab = 'fitted', ylab = 'Residuals', main = 'nonlinear regression')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in fitted(mod_nls): object 'mod_nls' not found
+{% endhighlight %}
+
+
+
+{% highlight r %}
+abline(h = 0, lty = 'dotted')
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet
+{% endhighlight %}
+
+The linear model clearly shows an arc-pattern in the residuals - so the data may not follow a linear relationship.
+The nonlinear model performs better.
+
+
+
+Once again we reproduced the same results as in the book using R :)
+Code and data are available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p101'.
+
+

@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Quantitative Ecotoxicology, Page 162, Example 4.7, Duplicate Treatments"
+date: 2013-03-18 00:24
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: QETXR R
+---
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
+options(scipen = 1, digits = 5)
+require(knitcitations)
+cite_options(linked=TRUE)
+```
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height=6, fig.width=6)
+```
+
+This is a short one (example 4.7 on page 1621 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647)). 
+
+First we create the data as matrix:
+```{r}
+TEST <- matrix(c(1,19,6,14), byrow=TRUE, ncol = 2, 
+               dimnames=list(c('Tank_A', 'Tank_B'), c('Number_Dead', 'Number_Surviving')))
+TEST
+```
+
+
+The we can easily run fisher's Exact test for this 2x2 table using the function `fisher.test()`:
+```{r}
+fisher.test(TEST)
+fisher.test(TEST, alternative='greater')
+fisher.test(TEST, alternative='less')
+```
+
+The results are identical to the one in the book.
