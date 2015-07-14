@@ -39,7 +39,7 @@ Here are the changes I made to my octopress:
 1) I added a new function `rake new_rmd` to my Rakefile. This mimics the behavior of `rake new_post`
 and creates a .Rmd-file in source/src. Simply add these lines to your Rakefile:
 
-```ruby
+```
 # usage rake new_rmd[my-new-rmd] or rake new_post['my new rmd'] or rake new_rmd (defaults to "new-rmd")
 desc "Begin a new post in #{source_dir}/#{src_dir}"
 task :new_rmd, :title do |t, args|
@@ -67,7 +67,7 @@ end
 
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
 
-```r
+```
 #! /usr/bin/Rscript
 
 knit <- function (inputFile, outputFile) {
@@ -118,7 +118,7 @@ knit(inputFile, outputFile)
 
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
 
-```basemake 
+```
 KNIT = ../_scripts/knit.sh
 POSTS_DIR = ../_posts
 MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
