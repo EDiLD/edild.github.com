@@ -66,7 +66,7 @@ plot(salt$CONC, salt$prop, xlab = 'Concentration', ylab = 'Proportion dead', log
 
 
 {% highlight text %}
-## Error in plot(salt$CONC, salt$prop, xlab = "Concentration", ylab = "Proportion dead", : object 'salt' not found
+## Error in plot(salt$CONC, salt$prop, xlab = "Concentration", ylab = "Proportion dead", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'salt' not found
 {% endhighlight %}
  
  

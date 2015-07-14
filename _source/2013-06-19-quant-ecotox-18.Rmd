@@ -17,7 +17,7 @@ require(knitr)
 opts_chunk$set(fig.height=6, fig.width=6)
 ```
 
-This is example 4.12 on page 189 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. 
+This is example 4.12 on page 189 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R.
 
 ### Introduction
 Quantitative Ion Character-Activity Relationships (QICAR) are models that are used to predict toxicity from metal ion characteristics. 
@@ -44,7 +44,7 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 ```{r message=FALSE}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p189.csv",
-ssl.verifypeer = FALSE)
+              .opts=curlOptions(followlocation=TRUE), ssl.verifypeer = FALSE)
 QICAR <- read.table(text = url, header = TRUE, sep = ";")
 ```
 
@@ -131,5 +131,5 @@ Code and data are available on my [github-repo](https://github.com/EDiLD/r-ed/tr
 ### References
 
 ```{r, results='asis', echo=FALSE}
-bibliography("markdown")
+bibliography()
 ```

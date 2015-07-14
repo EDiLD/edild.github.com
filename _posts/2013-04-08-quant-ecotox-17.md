@@ -160,7 +160,7 @@ summary(mod_wei)
 
 
 {% highlight text %}
-## Error in summary(mod_wei): object 'mod_wei' not found
+## Error in summary(mod_wei): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_wei' not found
 {% endhighlight %}
  
 Note that the estimate of $0.0602 \pm 0.2566$ for WETWT in the book must be a typo: The standard error is way too big to be statistically significant, so I think the R result is right here.
@@ -238,7 +238,7 @@ plot(km, col = 1:7)
 
 
 {% highlight text %}
-## Error in plot(km, col = 1:7): object 'km' not found
+## Error in plot(km, col = 1:7): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'km' not found
 {% endhighlight %}
 
 
@@ -338,7 +338,7 @@ plot(log(km$time), log(-log(km$surv)), col=cols[fac], pch = 16)
 
 
 {% highlight text %}
-## Error in plot(log(km$time), log(-log(km$surv)), col = cols[fac], pch = 16): object 'km' not found
+## Error in plot(log(km$time), log(-log(km$surv)), col = cols[fac], pch = 16): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'km' not found
 {% endhighlight %}
 
 

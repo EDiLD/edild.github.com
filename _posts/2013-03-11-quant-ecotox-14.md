@@ -66,7 +66,7 @@ plot(NAP$CONC, NAP$PROP,
 
 
 {% highlight text %}
-## Error in plot(NAP$CONC, NAP$PROP, pch = 16, xlab = expression(paste("Concentration (", : object 'NAP' not found
+## Error in plot(NAP$CONC, NAP$PROP, pch = 16, xlab = expression(paste("Concentration (", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'NAP' not found
 {% endhighlight %}
  
  
@@ -220,7 +220,7 @@ plot(mod1, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 
 
 {% highlight text %}
-## Error in plot(mod1, broken = TRUE, type = "all", bp = 500, xt = seq(500, : object 'mod1' not found
+## Error in plot(mod1, broken = TRUE, type = "all", bp = 500, xt = seq(500, : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod1' not found
 {% endhighlight %}
 
 
@@ -298,7 +298,7 @@ plot(mod2, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 
 
 {% highlight text %}
-## Error in plot(mod2, broken = TRUE, type = "all", bp = 500, xt = seq(500, : object 'mod2' not found
+## Error in plot(mod2, broken = TRUE, type = "all", bp = 500, xt = seq(500, : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod2' not found
 {% endhighlight %}
 
 
@@ -341,7 +341,7 @@ plot(mod3, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 
 
 {% highlight text %}
-## Error in plot(mod3, broken = TRUE, type = "all", bp = 500, xt = seq(500, : object 'mod3' not found
+## Error in plot(mod3, broken = TRUE, type = "all", bp = 500, xt = seq(500, : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod3' not found
 {% endhighlight %}
 
 
@@ -365,7 +365,7 @@ summary(mod3)
 
 
 {% highlight text %}
-## Error in summary(mod3): object 'mod3' not found
+## Error in summary(mod3): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod3' not found
 {% endhighlight %}
  
 Since the lower limit (=control mortality) is so low we could also stick with `mod1`.

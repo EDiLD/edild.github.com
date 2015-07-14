@@ -119,7 +119,7 @@ plot(disp_nmds, display = 'sites', type = 'n')
 
 
 {% highlight text %}
-## Error in plot(disp_nmds, display = "sites", type = "n"): object 'disp_nmds' not found
+## Error in plot(disp_nmds, display = "sites", type = "n"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'disp_nmds' not found
 {% endhighlight %}
 
 

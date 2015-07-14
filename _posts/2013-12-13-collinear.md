@@ -82,9 +82,9 @@ cor(df1)
 
 {% highlight text %}
 ##          y      X1      X2
-## y  1.00000 0.94290 0.94014
-## X1 0.94290 1.00000 0.78396
-## X2 0.94014 0.78396 1.00000
+## y  1.00000 0.94859 0.94180
+## X1 0.94859 1.00000 0.79764
+## X2 0.94180 0.79764 1.00000
 {% endhighlight %}
  
 And the data follows the specified model.
@@ -103,19 +103,19 @@ summary(mod)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -2.734 -0.724 -0.009  0.704  3.374 
+## -3.373 -0.684 -0.002  0.689  3.164 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   4.9554     0.0318     156   <2e-16 ***
-## X1            7.0168     0.0527     133   <2e-16 ***
-## X2            6.9797     0.0537     130   <2e-16 ***
+## (Intercept)   4.9507     0.0324     153   <2e-16 ***
+## X1            7.0781     0.0527     134   <2e-16 ***
+## X2            6.9256     0.0549     126   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1 on 997 degrees of freedom
+## Residual standard error: 1.03 on 997 degrees of freedom
 ## Multiple R-squared:  0.994,	Adjusted R-squared:  0.994 
-## F-statistic: 8.02e+04 on 2 and 997 DF,  p-value: <2e-16
+## F-statistic: 8.38e+04 on 2 and 997 DF,  p-value: <2e-16
 {% endhighlight %}
 
 
@@ -141,8 +141,8 @@ Dormann lists eight methods to spot collinearity (see their Table 1). I will onl
 
 {% highlight text %}
 ##         X1      X2
-## X1 1.00000 0.78396
-## X2 0.78396 1.00000
+## X1 1.00000 0.79764
+## X2 0.79764 1.00000
 {% endhighlight %}
  
 Dormann (2013) found that 'coefficients between predictor variables of r > 0.7 was an appropriate indicator for when collinearity begins to severely distort model estimation'.
@@ -158,8 +158,8 @@ vif(mod)
 
 
 {% highlight text %}
-##     X1     X2 
-## 2.5947 2.5947
+##    X1    X2 
+## 2.749 2.749
 {% endhighlight %}
  
 Which is equivalent to (for variable X1):
@@ -172,7 +172,7 @@ sum <- summary(lm(X1 ~ X2, data = df1))
 
 
 {% highlight text %}
-## [1] 2.5947
+## [1] 2.749
 {% endhighlight %}
  
 Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ...

@@ -56,7 +56,7 @@ plot(MERCURY)
 
 
 {% highlight text %}
-## Error in plot(MERCURY): object 'MERCURY' not found
+## Error in plot(MERCURY): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'MERCURY' not found
 {% endhighlight %}
  
 We can specify the model as follows:
@@ -93,7 +93,7 @@ summary(mod)
 
 
 {% highlight text %}
-## Error in summary(mod): object 'mod' not found
+## Error in summary(mod): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod' not found
 {% endhighlight %}
 So the parameter estimates are:
  
@@ -147,7 +147,7 @@ plot(MERCURY)
 
 
 {% highlight text %}
-## Error in plot(MERCURY): object 'MERCURY' not found
+## Error in plot(MERCURY): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'MERCURY' not found
 {% endhighlight %}
 
 

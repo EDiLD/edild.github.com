@@ -70,7 +70,7 @@ summary(mod_accum)
 
 
 {% highlight text %}
-## Error in summary(mod_accum): object 'mod_accum' not found
+## Error in summary(mod_accum): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_accum' not found
 {% endhighlight %}
  
 
@@ -94,7 +94,7 @@ plot(ACCUM, main = 'Accumulation')
 
 
 {% highlight text %}
-## Error in plot(ACCUM, main = "Accumulation"): object 'ACCUM' not found
+## Error in plot(ACCUM, main = "Accumulation"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ACCUM' not found
 {% endhighlight %}
 
 
@@ -158,7 +158,7 @@ plot(ELIMIN)
 
 
 {% highlight text %}
-## Error in plot(ELIMIN): object 'ELIMIN' not found
+## Error in plot(ELIMIN): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ELIMIN' not found
 {% endhighlight %}
  
  
@@ -197,7 +197,7 @@ summary(mod_elimin_lm)
 
 
 {% highlight text %}
-## Error in summary(mod_elimin_lm): object 'mod_elimin_lm' not found
+## Error in summary(mod_elimin_lm): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_elimin_lm' not found
 {% endhighlight %}
  
 So we get an estimate of $k_e$ as $0.0147 \pm 0.0003$.
@@ -240,7 +240,7 @@ plot(fitted(mod_elimin_lm), residuals(mod_elimin_lm), main = 'Residuals')
 
 
 {% highlight text %}
-## Error in fitted(mod_elimin_lm): object 'mod_elimin_lm' not found
+## Error in plot(fitted(mod_elimin_lm), residuals(mod_elimin_lm), main = "Residuals"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_elimin_lm) : object 'mod_elimin_lm' not found
 {% endhighlight %}
 
 
@@ -282,7 +282,7 @@ summary(mod_accum2)
 
 
 {% highlight text %}
-## Error in summary(mod_accum2): object 'mod_accum2' not found
+## Error in summary(mod_accum2): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_accum2' not found
 {% endhighlight %}
  
 This estimates $k_u = 643.9 \pm 40.4$ which differs greatly from our initial results!
@@ -309,7 +309,7 @@ plot(ACCUM, main = 'Accumulation')
 
 
 {% highlight text %}
-## Error in plot(ACCUM, main = "Accumulation"): object 'ACCUM' not found
+## Error in plot(ACCUM, main = "Accumulation"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ACCUM' not found
 {% endhighlight %}
 
 
@@ -334,7 +334,7 @@ plot(fitted(mod_accum2), residuals(mod_accum2))
 
 
 {% highlight text %}
-## Error in fitted(mod_accum2): object 'mod_accum2' not found
+## Error in plot(fitted(mod_accum2), residuals(mod_accum2)): error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_accum2) : object 'mod_accum2' not found
 {% endhighlight %}
  
  

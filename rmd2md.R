@@ -18,37 +18,38 @@ rmd2md <- function( path_site = getwd(),
                     dir_md = "_posts",                              
                     #dir_images = "figures",
                     url_images = "figures/",
-                    out_ext='.md', 
-                    in_ext='.rmd', 
+                    out_ext = '.md', 
+                    in_ext = '.Rmd', 
                     recursive=FALSE) {
   
-  require(knitr, quietly=TRUE, warn.conflicts=FALSE)
+  require(knitr, quietly = TRUE, warn.conflicts = FALSE)
   
   #andy change to avoid path problems when running without sh on windows 
-  files <- list.files(path=file.path(path_site,dir_rmd), pattern=in_ext, ignore.case=TRUE, recursive=recursive)
+  files <- list.files(path = file.path(path_site,dir_rmd), 
+                      pattern = in_ext, ignore.case = TRUE, recursive = recursive)
   
-  for(f in files) {
-    message(paste("Processing ", f, sep=''))
-    content <- readLines(file.path(path_site,dir_rmd,f))
+  for (f in files) {
+    message(paste("Processing ", f, sep = ''))
+    content <- readLines(file.path(path_site, dir_rmd, f))
     frontMatter <- which(substr(content, 1, 3) == '---')
-    if(length(frontMatter) >= 2 & 1 %in% frontMatter) {
+    if (length(frontMatter) >= 2 & 1 %in% frontMatter) {
       statusLine <- which(substr(content, 1, 7) == 'status:')
       publishedLine <- which(substr(content, 1, 10) == 'published:')
-      if(statusLine > frontMatter[1] & statusLine < frontMatter[2]) {
+      if (statusLine > frontMatter[1] & statusLine < frontMatter[2]) {
         status <- unlist(strsplit(content[statusLine], ':'))[2]
         status <- sub('[[:space:]]+$', '', status)
         status <- sub('^[[:space:]]+', '', status)
-        if(tolower(status) == 'process') {
+        if (tolower(status) == 'process') {
           #This is a bit of a hack but if a line has zero length (i.e. a
           #black line), it will be removed in the resulting markdown file.
           #This will ensure that all line returns are retained.
           content[nchar(content) == 0] <- ' '
-          message(paste('Processing ', f, sep=''))
+          message(paste('Processing ', f, sep = ''))
           content[statusLine] <- 'status: publish'
           content[publishedLine] <- 'published: true'
           
           #andy change to path
-          outFile <- file.path(path_site, dir_md, paste0(substr(f, 1, (nchar(f)-(nchar(in_ext)))), out_ext))
+          outFile <- file.path(path_site, dir_md, paste0(substr(f, 1, (nchar(f) - (nchar(in_ext)))), out_ext))
           
           #render_markdown(strict=TRUE)
           #render_markdown(strict=FALSE) #code didn't render properly on blog
@@ -57,7 +58,7 @@ rmd2md <- function( path_site = getwd(),
           render_jekyll(highlight = "pygments")
           #render_jekyll(highlight = "prettify") #for javascript
           
-          opts_knit$set(out.format='markdown') 
+          opts_knit$set(out.format = 'markdown') 
           
           # andy BEWARE don't set base.dir!! it caused me problems
           # "base.dir is never used when composing the URL of the figures; it is 
@@ -73,7 +74,7 @@ rmd2md <- function( path_site = getwd(),
           #opts_chunk$set(fig.width  = 8.5,
           #               fig.height = 5.25)
           
-          try(knit(text=content, output=outFile), silent=FALSE)
+          try(knit(text = content, output = outFile), silent = FALSE)
           
         } else {
           warning(paste("Not processing ", f, ", status is '", status, 

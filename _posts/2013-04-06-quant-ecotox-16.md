@@ -51,7 +51,7 @@ summary(TOXICITY)
 
 
 {% highlight text %}
-## Error in summary(TOXICITY): object 'TOXICITY' not found
+## Error in summary(TOXICITY): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'TOXICITY' not found
 {% endhighlight %}
  
 The data consists of 5 columns:
@@ -100,7 +100,7 @@ plot(mod, col = rep(1:7, each=2), mark.time=FALSE, xlab = 'Hours', ylab = '% Sur
 
 
 {% highlight text %}
-## Error in plot(mod, col = rep(1:7, each = 2), mark.time = FALSE, xlab = "Hours", : object 'mod' not found
+## Error in plot(mod, col = rep(1:7, each = 2), mark.time = FALSE, xlab = "Hours", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod' not found
 {% endhighlight %}
 
 

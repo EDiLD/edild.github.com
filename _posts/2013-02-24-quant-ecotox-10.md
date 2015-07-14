@@ -84,7 +84,7 @@ summary(mod_nls)
 
 
 {% highlight text %}
-## Error in summary(mod_nls): object 'mod_nls' not found
+## Error in summary(mod_nls): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_nls' not found
 {% endhighlight %}
  
 * $K = 2.097 \pm 0.188$
@@ -101,7 +101,7 @@ plot(ZINC$C, ZINC$N, xlab = 'C', ylab = 'N')
 
 
 {% highlight text %}
-## Error in plot(ZINC$C, ZINC$N, xlab = "C", ylab = "N"): object 'ZINC' not found
+## Error in plot(ZINC$C, ZINC$N, xlab = "C", ylab = "N"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ZINC' not found
 {% endhighlight %}
 
 
@@ -167,7 +167,7 @@ plot(ZINC$C, ZINC$Y, ylab = 'C/N', xlab = 'C')
 
 
 {% highlight text %}
-## Error in plot(ZINC$C, ZINC$Y, ylab = "C/N", xlab = "C"): object 'ZINC' not found
+## Error in plot(ZINC$C, ZINC$Y, ylab = "C/N", xlab = "C"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ZINC' not found
 {% endhighlight %}
 
 
@@ -191,7 +191,7 @@ summary(mod_lm)
 
 
 {% highlight text %}
-## Error in summary(mod_lm): object 'mod_lm' not found
+## Error in summary(mod_lm): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_lm' not found
 {% endhighlight %}
 We get from this K and M as:
  
@@ -235,7 +235,7 @@ summary(mod_wgt)
 
 
 {% highlight text %}
-## Error in summary(mod_wgt): object 'mod_wgt' not found
+## Error in summary(mod_wgt): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_wgt' not found
 {% endhighlight %}
 The R^2 is slightly higher: 0.977.
  
@@ -278,7 +278,7 @@ plot(mod_lm, which = 1, main='linear model without weights')
 
 
 {% highlight text %}
-## Error in plot(mod_lm, which = 1, main = "linear model without weights"): object 'mod_lm' not found
+## Error in plot(mod_lm, which = 1, main = "linear model without weights"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod_lm' not found
 {% endhighlight %}
 
 
@@ -291,7 +291,7 @@ plot(fitted(mod_nls), residuals(mod_nls), xlab = 'fitted', ylab = 'Residuals', m
 
 
 {% highlight text %}
-## Error in fitted(mod_nls): object 'mod_nls' not found
+## Error in plot(fitted(mod_nls), residuals(mod_nls), xlab = "fitted", ylab = "Residuals", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_nls) : object 'mod_nls' not found
 {% endhighlight %}
 
 
