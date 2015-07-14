@@ -14,9 +14,13 @@ options(scipen = 1, digits = 5)
 ```
 ```{r echo=FALSE, message=FALSE}
 require(knitr)
-opts_chunk$set(fig.height=6, fig.width=6, chache=TRUE)
+opts_chunk$set(fig.height=6, fig.width=6, chache=TRUE, eval=FALSE)
 require(methods)
 ```
+
+**Update:**
+These functions have been integrated into the [webchem package](https://github.com/ropensci/webchem)!
+
 
 I recently came across the problem to convert [CAS numbers](http://en.wikipedia.org/wiki/CAS_registry_number) into [SMILES](Simplified molecular-input line-entry system) and retrieve additional information about the compound.
 

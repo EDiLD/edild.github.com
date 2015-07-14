@@ -12,6 +12,10 @@ tags: R web-scraping
 
 
  
+**Update:**
+These functions have been integrated into the [webchem package](https://github.com/ropensci/webchem)!
+ 
+ 
 I recently came across the problem to convert [CAS numbers](http://en.wikipedia.org/wiki/CAS_registry_number) into [SMILES](Simplified molecular-input line-entry system) and retrieve additional information about the compound.
  
 The are several sources around the web that provide chemical informations, eg.
@@ -43,12 +47,6 @@ casnr <- c("107-06-2", "107-13-1", "319-86-8")
 {% highlight r %}
 cactus(casnr, output = 'smiles')
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "cactus"
-{% endhighlight %}
  
 ##### Via ChemSpider
 Note, that ChemSpider requires a security token. To obtain a token please [register](http://www.chemspider.com/Register.aspx) at ChemSpider. 
@@ -57,48 +55,14 @@ Note, that ChemSpider requires a security token. To obtain a token please [regis
 
 {% highlight r %}
 csid <- get_csid(casnr, token = token)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "get_csid"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 csid_to_smiles(csid, token)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "csid_to_smiles"
 {% endhighlight %}
  
 ##### Via PubChem
 
 {% highlight r %}
 cid <- get_cid(casnr)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "get_cid"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 cid_to_smiles(cid)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "cid_to_smiles"
 {% endhighlight %}
  
  
@@ -112,35 +76,17 @@ All these web resources provide additional data. Here is an example retrieving t
 {% highlight r %}
 cactus(casnr, output = 'mw')
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "cactus"
-{% endhighlight %}
  
 ##### Via ChemSpider
 
 {% highlight r %}
 csid_to_ext(csid, token)$MolecularWeight
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "csid_to_ext"
-{% endhighlight %}
  
 ##### Via Pubchem
 
 {% highlight r %}
 cid_to_ext(cid)$mw
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "cid_to_ext"
 {% endhighlight %}
 ChemSpider and PubChem return the same values, however the results from cactus are slightly different.
  
@@ -153,30 +99,6 @@ Partition coefficients are another useful property. [LOGKOW](http://logkow.cisti
 
 {% highlight r %}
 get_kow(casnr)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in FUN(X[[i]], ...): NAs introduced by coercion
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in FUN(X[[i]], ...): NAs introduced by coercion
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in FUN(X[[i]], ...): NAs introduced by coercion
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## [1] NA NA NA NA NA NA
 {% endhighlight %}
  
 This function is very crude. For example, it returns only the first hit if multiple hits are found in the database - a better way would be to ask for user input, as we did the [taxize](https://github.com/ropensci/taxize) package.
