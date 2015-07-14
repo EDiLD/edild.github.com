@@ -9,5 +9,5 @@ node_modules
 package.json
 .Rproj.user
 
-_rmd/*.html
+_source/*.html
 _posts/*.html
