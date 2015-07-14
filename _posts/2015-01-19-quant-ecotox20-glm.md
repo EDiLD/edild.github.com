@@ -20,6 +20,8 @@ This post is about how to analyse example 5.1 on page 223 of [Quantitative Ecoto
  
 Data of this type (*x out of n*) can be directly modelled using a [binomial distribution](http://en.wikipedia.org/wiki/Binomial_distribution).
  
+<!--more-->
+ 
 The binomial distribution is described by two parameters:
  
 $$Bin(N, \pi)$$

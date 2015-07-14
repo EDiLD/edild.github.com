@@ -18,6 +18,8 @@ The function allanwood() has been integrated into the [webchem package](https://
 This week I had to find the [CAS-numbers](http://en.wikipedia.org/wiki/CAS_Registry_Number) for a bunch of pesticides. 
 Moreover, I also needed information about the major groups of these pesticides (e.g. herbicides, fungicides, ...) and some of them were in German language.
  
+<!--more-->
+ 
 [ETOX](http://webetox.uba.de/webETOX/index.do) is quite useful to find the CAS-numbers, even for German names, as they have also synonyms in their database.
  
 Another, useful source is the [Compendium of Pesticide Common Names](http://www.alanwood.net/pesticides/index.html) by Allan Wood.
