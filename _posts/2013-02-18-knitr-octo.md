@@ -69,15 +69,9 @@ end
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
  
 
-```r
+{% highlight r %}
 #! /usr/bin/Rscript
-```
-
-```r
  
-```
-
-```r
 knit <- function (inputFile, outputFile) {
  
   # per-document figure paths
@@ -93,17 +87,8 @@ knit <- function (inputFile, outputFile) {
   # do the knit
   knitr::knit(input = inputFile, output = outputFile)
 }
-```
-
-```r
  
-```
-
-```r
 # adaption of knitr::render_jekyll
-```
-
-```r
 renderOcto <- function(extra = '') {
   knitr::render_markdown(TRUE)
   # code
@@ -125,40 +110,18 @@ renderOcto <- function(extra = '') {
   knitr::knit_hooks$set(source = hook.c, output = hook.o, warning = hook.o,
                         error = hook.o, message = hook.o)
 }
-```
-
-```r
  
-```
-
-```r
 # get arguments and call knit
-```
-
-```r
 args <- commandArgs(TRUE)
-```
-
-```r
 inputFile <- args[1]
-```
-
-```r
 outputFile <- args[2]
-```
-
-```r
 knit(inputFile, outputFile)
-```
-
-```
-## Error in if (ext != "txt") c(base, ".txt") else c(base, "-out.", ext): missing value where TRUE/FALSE needed
-```
+{% endhighlight %}
  
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
  
 
-```r
+{% highlight sh %}
 KNIT = ../_scripts/knit.sh
 POSTS_DIR = ../_posts
 MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
@@ -169,11 +132,7 @@ $(POSTS_DIR)/%.markdown: %.Rmd
   $(KNIT) $< $@
 	$(RM) *.md
 	$(RM) *.html
-```
-
-```
-## Error in running command sh
-```
+{% endhighlight %}
  
 You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com) for this site and copy the files from there. I have not tested this very extensively - in case you find any bugs or have improvements, please let me know.
  
