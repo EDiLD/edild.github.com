@@ -15,7 +15,7 @@ tags: QETXR R
 
 This is example 3.6 on page 101 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about adsorption and how to fit an adsorption model to data.
 
-Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv) and read it into R:
+Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv) and read it into R: 
 
 
 {% highlight r %}
