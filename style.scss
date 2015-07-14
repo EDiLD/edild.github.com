@@ -284,22 +284,19 @@ footer {
 }
 
 
-.badge {
+.badge-success {
   padding: 1px 9px 2px;
   font-size: 12.025px;
   font-weight: bold;
   white-space: nowrap;
   color: #ffffff;
+  background-color: #46884
   background-color: #999999;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
 
-.badge-success {
-  color: #fff;
-  background-color: #468847;
-}
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
