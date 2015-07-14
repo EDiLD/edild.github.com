@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 108, Example 3.7, Accumulation"
 date: 2013-02-24 21:22
 author: Eduard Szöcs
 published: true
-status: no_process
+status: publish
 draft: false
 tags: QETXR R
 ---

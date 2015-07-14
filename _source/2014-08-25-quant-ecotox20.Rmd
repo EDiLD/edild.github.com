@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 223, Example 5.1"
 date: 2014-08-25 12:10
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: QETXR R
 ---

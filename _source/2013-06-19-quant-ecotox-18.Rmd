@@ -4,7 +4,7 @@ title:  "Quantitative Ecotoxicology, Page 189, Example 4.12, QICAR-Model"
 date: 2013-06-19 23:03
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: QETXR R
 ---

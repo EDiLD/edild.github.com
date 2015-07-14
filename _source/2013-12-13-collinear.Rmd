@@ -4,7 +4,7 @@ title: "Collinearity"
 date: 2013-12-13 15:12
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: R
 ---
