@@ -1,0 +1,154 @@
+---
+layout: post
+title: "Quantitative Ecotoxicology, Page 223, Example 5.1"
+date: 2014-08-25 12:10
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: QETXR R
+---
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
+options(scipen = 1, digits = 5)
+require(knitcitations)
+```
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height=6, fig.width=6)
+```
+
+This is example 5.1 on page 223 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. 
+
+
+#### Load and clean the data
+Read the data into R:
+```{r}
+df <- read.table(header = TRUE, text = 'conc A B C D
+0 1 1 0.9 0.9
+32 0.8 0.8 1 0.8
+64 0.9 1 1 1 
+128 0.9 0.9 0.8 1
+256 0.7 0.9 1 0.5
+512 0.4 0.3 0.4 0.2')
+df
+```
+
+Next we do some house-keeping: convert the data to long format and the concentration to factor.
+```{r, message=FALSE}
+require(reshape2)
+# to long
+dfm <- melt(df, id.vars = 'conc', value.name = 'y', variable.name = 'tank')
+# conc as factor
+dfm$conc <- factor(dfm$conc)
+head(dfm)
+```
+
+Let's have first look at the data:
+```{r}
+boxplot(y ~ conc, data = dfm, 
+        xlab = 'conc', ylab = 'Proportion surv.')
+```
+
+#### Transform response
+Next we apply the arcsine transformation:
+```{r}
+dfm$y_asin <- ifelse(dfm$y == 1, 
+                     asin(sqrt(dfm$y)) - asin(sqrt(1/40)), 
+                     asin(sqrt(dfm$y)) 
+                     )
+```
+This adds the transformed values as column `y_asin` to our data.frame. 
+Survivals of 1 (100%) are transformed 
+
+$$arcsin(sqrt(y)) - arcsin(\sqrt\frac{1}{4n}) =$$ 
+
+$$arcsin(1) - arcsin(\sqrt\frac{1}{4 \cdot 10}) = $$
+
+$$1.5708 - 0.1588 = $$
+
+$$ 1.412$$
+
+, where n = number of animals per replicate.
+
+All other values are transformed using
+
+$$ arcsin(\sqrt y) $$
+
+If we would have had observations with 0% survival, these zero values should be transformed using
+
+$$ arcsin(\sqrt\frac{1}{4n}) $$
+
+by adding an extra `ifelse()`.
+
+Let's look at the transformed values:
+```{r}
+head(dfm)
+boxplot(y_asin ~ conc, data = dfm, 
+        xlab = 'conc', ylab = 'Transformed prop. surv.')
+```
+
+Doesn't look that different...
+
+#### ANOVA
+To fit a ANOVA to his data we use the `aov()` function:
+```{r}
+mod <- aov(y_asin ~ conc, data = dfm)
+```
+
+And `summary()` gives the anova table:
+```{r}
+summary(mod)
+```
+The within-treatment variance is termed *Residuals* and the between-treatment variance is named according to the predictor *conc*. The total variance is simply the sum of those and not displayed.
+
+R already performed an F-test for us, indicated by the *F value* (=ratio of the *Mean Sq*) and *Pr (>F)* columns. 
+
+
+#### Multiple Comparisons
+Now we know that there is a statistically significant treatment effect, we might be interested which treatments differ from the control group. 
+
+The in the book mentioned Tukey contrasts (comparing each level with each other) can be easily done with the `multcomp` package:
+
+```{r, message=FALSE}
+require(multcomp)
+summary(glht(mod, linfct = mcp(conc = 'Tukey')))
+```
+
+However, this leads to 15 comparisons (and tests) and we may not be interested in all. Note that we are wrong in 1 out of 20 tests ($\alpha = 0.05$) (if we do not apply correction for multiple testing). 
+
+An alternative would be just to compare the control group to the treatments. This is called *Dunnett contrasts* and leads to only 5 comparison.
+
+The syntax is the same, just change Tukey to Dunnett:
+```{r, message=FALSE}
+summary(glht(mod, linfct = mcp(conc = 'Dunnett')))
+```
+
+The column *Estimate* gives use the difference in means between the control and the respective treatments and *Std. Error* the standard error from these estimates. Both are combined to a *t value* (=Estimate / Std. Error), from which we can get a p-value (*P(>t)*).
+
+Note, that the p-values are already corrected for multiple testing, as indicated at the bottom of the output. 
+If you want to change the correction method you can use:
+```{r, message=FALSE, eval=FALSE}
+summary(glht(mod, linfct = mcp(conc = 'Dunnett')), test = adjusted('bonferroni'))
+```
+
+This applies Bonferroni-correction, see `?p.adjust` and `?adjusted` for other methods.
+
+#### Outlook
+Warton & Hui (2011) demonstrated that *the arcsine transform should not be used in either circumstance*. Similarly as O’Hara & Kotze (2010) showed that count data should not be log-transformed. 
+
+I a future post I will show how to analyse this data without transformation using **Generalized Linear Models (GLM)** and perhabs some simulations showing that using GLM can lead to an increased statistical power for ecotoxicological data sets.
+
+Note, that I couldn't find any reference to Generalized Linear Models in Newman (2012) and EPA (2002), although they have been around for 30 years now (Nelder & Wedderburn, 1972).
+
+#### References
+
+* Warton, D. I., & Hui, F. K. (2011). The arcsine is asinine: the analysis of proportions in ecology. Ecology, 92(1), 3-10.
+
+* O’Hara, R. B., & Kotze, D. J. (2010). Do not log‐transform count data. Methods in Ecology and Evolution, 1(2), 118-122.
+
+* Newman, M. C. (2012). Quantitative ecotoxicology. Taylor & Francis, Boca Raton, FL.
+
+* EPA (2002). Methods for Measuring the Acute Toxicity of Effluents and Receiving Waters to Freshwater and Marine Organisms. 
+
+* Nelder J.A., & Wedderburn R.W.M. (1972). Generalized Linear Models. Journal of the Royal Statistical Society Series A (General) 135:370–384. 
+

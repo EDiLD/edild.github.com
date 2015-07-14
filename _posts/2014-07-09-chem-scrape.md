@@ -13,7 +13,7 @@ tags: R web-scraping
 
  
 **Update:**
-These functions have been integrated into the [webchem package](https://github.com/ropensci/webchem)!
+These functions have been integrated into the [webchem package](https://github.com/ropensci/webchem) and the functions removed from the esmisc package!
  
  
 I recently came across the problem to convert [CAS numbers](http://en.wikipedia.org/wiki/CAS_registry_number) into [SMILES](Simplified molecular-input line-entry system) and retrieve additional information about the compound.

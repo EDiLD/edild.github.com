@@ -77,7 +77,7 @@ summary(mod_accum)
 ## Residual standard error: 18900 on 8 degrees of freedom
 ## 
 ## Number of iterations to convergence: 7 
-## Achieved convergence tolerance: 3.86e-06
+## Achieved convergence tolerance: 3.87e-06
 {% endhighlight %}
  
 

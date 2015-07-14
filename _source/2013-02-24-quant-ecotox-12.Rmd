@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 109, Example 3.8, Bioaccumulation"
 date: 2013-02-24 23:14
 author: Eduard Szöcs
 published: true
-status: process
+status: no_process
 draft: false
 tags: QETXR R
 ---
