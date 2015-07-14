@@ -23,14 +23,8 @@ First we will look at the accumulation phase:
 require(RCurl)
 # Accumulation
 url_accum <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p109_accum.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 ACCUM <- read.table(text = url_accum, header = TRUE, sep = ";")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in read.table(text = url_accum, header = TRUE, sep = ";"): no lines available in input
 {% endhighlight %}
 
 {% highlight r %}
@@ -40,7 +34,13 @@ head(ACCUM)
 
 
 {% highlight text %}
-## Error in head(ACCUM): object 'ACCUM' not found
+##   HOUR BRPHOS
+## 1  0.5   1900
+## 2  1.0   3000
+## 3  2.0   5200
+## 4  4.0   6900
+## 5  8.0  24000
+## 6 24.0  50000
 {% endhighlight %}
  
 Again we have two columns: One for the time and one for the concentration.
@@ -55,12 +55,6 @@ mod_accum <- nls(BRPHOS ~ KU / KE * 10.5 * (1 - exp(-KE * HOUR)),
            data = ACCUM, 
            start = list(KU = 100, KE = 0.01))
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in nls(BRPHOS ~ KU/KE * 10.5 * (1 - exp(-KE * HOUR)), data = ACCUM, : object 'ACCUM' not found
-{% endhighlight %}
 Note that I used different starting values than in the SAS-Code (must be a typo in the book). Also I didn't specify any bounds.
 
 {% highlight r %}
@@ -70,45 +64,32 @@ summary(mod_accum)
 
 
 {% highlight text %}
-## Error in summary(mod_accum): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_accum' not found
+## 
+## Formula: BRPHOS ~ KU/KE * 10.5 * (1 - exp(-KE * HOUR))
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(>|t|)    
+## KU 344.79786   31.85529   10.82  4.7e-06 ***
+## KE   0.00525    0.00103    5.09  0.00094 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 18900 on 8 degrees of freedom
+## 
+## Number of iterations to convergence: 7 
+## Achieved convergence tolerance: 3.81e-06
 {% endhighlight %}
  
 
 {% highlight r %}
 HOUR_pred <- seq(min(ACCUM$HOUR), max(ACCUM$HOUR), by = 0.1) 
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in seq(min(ACCUM$HOUR), max(ACCUM$HOUR), by = 0.1): object 'ACCUM' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # Raw data
 plot(ACCUM, main = 'Accumulation')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(ACCUM, main = "Accumulation"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ACCUM' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add model
 lines(HOUR_pred, predict(mod_accum, newdata = data.frame(HOUR = HOUR_pred)))
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in lines(HOUR_pred, predict(mod_accum, newdata = data.frame(HOUR = HOUR_pred))): object 'HOUR_pred' not found
-{% endhighlight %}
+<img src="/figures/plot_accum_model-1.png" title="plot of chunk plot_accum_model" alt="plot of chunk plot_accum_model" width="400px" />
  
 So from the accumulation data we estimated the uptake and elimination constants as:
  
@@ -270,7 +251,7 @@ mod_accum2 <- nls(BRPHOS ~ KU / -coef(mod_elimin_lm)[2] * 10.5 * (1 - exp(coef(m
 
 
 {% highlight text %}
-## Error in nls(BRPHOS ~ KU/-coef(mod_elimin_lm)[2] * 10.5 * (1 - exp(coef(mod_elimin_lm)[2] * : object 'ACCUM' not found
+## Error in nls(BRPHOS ~ KU/-coef(mod_elimin_lm)[2] * 10.5 * (1 - exp(coef(mod_elimin_lm)[2] * : parameters without starting value in 'data': mod_elimin_lm
 {% endhighlight %}
 
 
@@ -291,30 +272,8 @@ Lets plot this model and the residuals:
 {% highlight r %}
 par(mfrow=c(1,2))
 HOUR_pred <- seq(min(ACCUM$HOUR), max(ACCUM$HOUR), by = 0.1) 
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in seq(min(ACCUM$HOUR), max(ACCUM$HOUR), by = 0.1): object 'ACCUM' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # Raw data
 plot(ACCUM, main = 'Accumulation')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(ACCUM, main = "Accumulation"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ACCUM' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add model
 lines(HOUR_pred, predict(mod_accum2, newdata = data.frame(HOUR = HOUR_pred)))
 {% endhighlight %}
@@ -322,7 +281,7 @@ lines(HOUR_pred, predict(mod_accum2, newdata = data.frame(HOUR = HOUR_pred)))
 
 
 {% highlight text %}
-## Error in lines(HOUR_pred, predict(mod_accum2, newdata = data.frame(HOUR = HOUR_pred))): object 'HOUR_pred' not found
+## Error in predict(mod_accum2, newdata = data.frame(HOUR = HOUR_pred)): object 'mod_accum2' not found
 {% endhighlight %}
 
 
@@ -336,6 +295,8 @@ plot(fitted(mod_accum2), residuals(mod_accum2))
 {% highlight text %}
 ## Error in plot(fitted(mod_accum2), residuals(mod_accum2)): error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_accum2) : object 'mod_accum2' not found
 {% endhighlight %}
+
+<img src="/figures/plot_accum_model2-1.png" title="plot of chunk plot_accum_model2" alt="plot of chunk plot_accum_model2" width="400px" />
  
  
 The residuals show a clear curve pattern. But we could also look at the residual sum of squares and the AIC to see which model fit better to the accumulation data:
@@ -349,7 +310,7 @@ mod_accum$m$deviance()
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'mod_accum' not found
+## [1] 2870355583
 {% endhighlight %}
 
 
@@ -374,7 +335,7 @@ AIC(mod_accum)
 
 
 {% highlight text %}
-## Error in AIC(mod_accum): object 'mod_accum' not found
+## [1] 229.13
 {% endhighlight %}
 
 

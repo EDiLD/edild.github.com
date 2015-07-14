@@ -25,7 +25,7 @@ We use data from the [previous example](http://edild.github.io/blog/2013/04/06/q
 ```{r message=FALSE}
 # download data from github
 require(RCurl)
-url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv", ssl.verifypeer = FALSE)
+url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv", ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 TOXICITY <- read.table(text = url, header = TRUE)
 # add status
 TOXICITY$FLAG <- ifelse(TOXICITY$TTD > 96, 1, 2)

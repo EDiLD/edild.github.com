@@ -25,7 +25,7 @@ Thankfully, Prof. Newman provided me the data for this example. You can get it f
 ```{r message=FALSE}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 TOXICITY <- read.table(text = url, header = TRUE)
 head(TOXICITY)
 summary(TOXICITY)

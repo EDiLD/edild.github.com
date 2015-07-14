@@ -20,27 +20,10 @@ We use data from the [previous example](http://edild.github.io/blog/2013/04/06/q
 {% highlight r %}
 # download data from github
 require(RCurl)
-url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv", ssl.verifypeer = FALSE)
+url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv", ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 TOXICITY <- read.table(text = url, header = TRUE)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in read.table(text = url, header = TRUE): no lines available in input
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add status
 TOXICITY$FLAG <- ifelse(TOXICITY$TTD > 96, 1, 2)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in ifelse(TOXICITY$TTD > 96, 1, 2): object 'TOXICITY' not found
 {% endhighlight %}
  
 #### Compare models
@@ -55,7 +38,7 @@ mod_exp <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'expon
 
 
 {% highlight text %}
-## Error in terms.formula(formula, special, data = data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -67,7 +50,7 @@ mod_wei <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'weibu
 
 
 {% highlight text %}
-## Error in terms.formula(formula, special, data = data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -79,7 +62,7 @@ mod_lnorm <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'log
 
 
 {% highlight text %}
-## Error in terms.formula(formula, special, data = data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -91,7 +74,7 @@ mod_llog <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'logl
 
 
 {% highlight text %}
-## Error in terms.formula(formula, special, data = data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
  
 From the models we can access the Log-Likelihood via `object$loglig[2]`. Note that survreg gives 2 likelihoods, one without covariables (intercept only) and one with covariables. We are interested in the second one.
@@ -221,55 +204,13 @@ We can plot the Kaplan-Meier curve as shown in previous example. Then add the mo
 {% highlight r %}
 # plot KM
 km <- survfit(Surv(TTD, FLAG) ~ PPT, data = TOXICITY)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 plot(km, col = 1:7)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(km, col = 1:7): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'km' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
+ 
 # Fit model only for Concentrations
 mod_ppt <- survreg(Surv(TTD, FLAG) ~ PPT, data = TOXICITY, dist = 'weibull')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in terms.formula(formula, special, data = data): object 'TOXICITY' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
+ 
 # add model to plot
 PPT_u <- sort(unique(TOXICITY$PPT))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in unique(TOXICITY$PPT): object 'TOXICITY' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 for(i in seq_along(PPT_u)){
   lines(predict(mod_ppt, 
                 newdata = list(PPT=PPT_u[i]),
@@ -280,11 +221,7 @@ for(i in seq_along(PPT_u)){
 }
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'PPT_u' not found
-{% endhighlight %}
+![plot of chunk plot_model](/figures/plot_model-1.png) 
  
 To produce a plot similar to Figure 4.11 we can use the following code:
 
@@ -294,65 +231,17 @@ To produce a plot similar to Figure 4.11 we can use the following code:
  
 # remove 0 and 20.1 treatments
 TOXICITY_sub <- TOXICITY[TOXICITY$PPT %!in% c(0, 20.1), , drop = TRUE]
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'TOXICITY' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # kaplan-meier estimates
 km <- survfit(Surv(TTD, FLAG) ~ PPT, data = TOXICITY_sub)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY_sub' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 fac <- factor(rep(sort(unique(TOXICITY_sub$PPT)), km$strata))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in unique(TOXICITY_sub$PPT): object 'TOXICITY_sub' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 cols <- 1:5
 # plot tranformed time vs. survival
 plot(log(km$time), log(-log(km$surv)), col=cols[fac], pch = 16)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(log(km$time), log(-log(km$surv)), col = cols[fac], pch = 16): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'km' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add legend
 legend('bottomright', legend=levels(fac), col=cols, pch = 16, cex = 0.7)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in levels(fac): object 'fac' not found
-{% endhighlight %}
+![plot of chunk unnamed-chunk-7](/figures/unnamed-chunk-7-1.png) 
  
  
 To fit a gamma distribution we have to use another package: `flexsurv`.
@@ -381,7 +270,7 @@ mod_flex_exp <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist
 
 
 {% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -393,7 +282,7 @@ mod_flex_wei <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist
 
 
 {% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -405,7 +294,7 @@ mod_flex_lnorm <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, di
 
 
 {% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -417,7 +306,7 @@ mod_flex_llog <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dis
 
 
 {% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
 
 
@@ -429,7 +318,7 @@ mod_flex_ggamma <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, d
 
 
 {% highlight text %}
-## Error in is.data.frame(data): object 'TOXICITY' not found
+## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
  
 Comparing the results from `flexsurvreg` with `survreg`, we see that the estimates are identical for all models. Therefore I conclude that `flexsurv` is an alternative when fitting with gamma distribution.

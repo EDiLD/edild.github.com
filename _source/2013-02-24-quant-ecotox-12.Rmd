@@ -27,7 +27,7 @@ First we will look at the accumulation phase:
 require(RCurl)
 # Accumulation
 url_accum <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p109_accum.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 ACCUM <- read.table(text = url_accum, header = TRUE, sep = ";")
 
 ```
