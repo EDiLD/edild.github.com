@@ -8,3 +8,6 @@ Gemfile.lock
 node_modules
 package.json
 .Rproj.user
+
+_rmd/*.html
+_posts/*.html
