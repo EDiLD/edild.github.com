@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, page 42, example 2.4, Wilcoxon rank sum test"
+title: "Quantitative Ecotoxicology, Page 42, Example 2.4, Wilcoxon rank sum test"
 date: 2012-12-01 22:50
 author: Eduard Szöcs
 published: true
