@@ -23,7 +23,7 @@ This post is about collinearity and the implications for linear models. The best
 
 The first problem for this simulation was: How can we create correlated random variables?
 
-This simulation is similar to the one in Dormann (2013), where it is also mentioned that one could use Cholesky Decompostion to create correlated variables:
+This simulation is similar to the one in Dormann (2013), where it is also mentioned that one could use Cholesky Decompostion to create correlated variables: 
 
 What this function function does:
 
@@ -82,9 +82,9 @@ cor(df1)
 
 {% highlight text %}
 ##          y      X1      X2
-## y  1.00000 0.94954 0.95340
-## X1 0.94954 1.00000 0.81895
-## X2 0.95340 0.81895 1.00000
+## y  1.00000 0.94741 0.94546
+## X1 0.94741 1.00000 0.80073
+## X2 0.94546 0.80073 1.00000
 {% endhighlight %}
 
 And the data follows the specified model.
@@ -103,19 +103,19 @@ summary(mod)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.1176 -0.6008  0.0208  0.6317  2.8495 
+## -3.1123 -0.6223  0.0017  0.6440  2.6804 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   5.0310     0.0297     169   <2e-16 ***
-## X1            6.9034     0.0502     138   <2e-16 ***
-## X2            7.0659     0.0493     143   <2e-16 ***
+## (Intercept)   4.9953     0.0310     161   <2e-16 ***
+## X1            7.0114     0.0501     140   <2e-16 ***
+## X2            6.9552     0.0506     137   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.94 on 997 degrees of freedom
+## Residual standard error: 0.98 on 997 degrees of freedom
 ## Multiple R-squared:  0.995,	Adjusted R-squared:  0.995 
-## F-statistic: 1.09e+05 on 2 and 997 DF,  p-value: <2e-16
+## F-statistic: 9.66e+04 on 2 and 997 DF,  p-value: <2e-16
 {% endhighlight %}
 
 
@@ -124,7 +124,7 @@ summary(mod)
 pairs(df1)
 {% endhighlight %}
 
-![plot of chunk example_datagen3](figures/source/2013-12-13-collinear/example_datagen3-1.png) 
+![plot of chunk example_datagen3](../figures/source/2013-12-13-collinear/example_datagen3-1.png) 
 
 
 ### Methods to spot collinearity
@@ -141,8 +141,8 @@ Dormann lists eight methods to spot collinearity (see their Table 1). I will onl
 
 {% highlight text %}
 ##         X1      X2
-## X1 1.00000 0.81895
-## X2 0.81895 1.00000
+## X1 1.00000 0.80073
+## X2 0.80073 1.00000
 {% endhighlight %}
 
 Dormann (2013) found that 'coefficients between predictor variables of r > 0.7 was an appropriate indicator for when collinearity begins to severely distort model estimation'.
@@ -159,7 +159,7 @@ vif(mod)
 
 {% highlight text %}
 ##     X1     X2 
-## 3.0365 3.0365
+## 2.7868 2.7868
 {% endhighlight %}
 
 Which is equivalent to (for variable X1):
@@ -172,7 +172,7 @@ sum <- summary(lm(X1 ~ X2, data = df1))
 
 
 {% highlight text %}
-## [1] 3.0365
+## [1] 2.7868
 {% endhighlight %}
 
 Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ...
@@ -223,7 +223,7 @@ ggplot(ses_m, aes(x = ps, y = value)) +
   xlab('Correlation')
 {% endhighlight %}
 
-![plot of chunk plot1](figures/source/2013-12-13-collinear/plot1-1.png) 
+![plot of chunk plot1](../figures/source/2013-12-13-collinear/plot1-1.png) 
 
 It can be clearly seen, that collinearity inflates the Standard Errors for the correlated variables. The intercept is not affected.
 
@@ -274,7 +274,7 @@ ggplot(ests, aes(y = value, x=factor(p))) +
   xlab('Correlation')
 {% endhighlight %}
 
-![plot of chunk plot2](figures/source/2013-12-13-collinear/plot2-1.png) 
+![plot of chunk plot2](../figures/source/2013-12-13-collinear/plot2-1.png) 
 The red line indicates the coefficients after the data has been generated (7 * X1 and 7 * X2). We see that the spread of estimates increases as correlation increases.
 
 
@@ -282,18 +282,8 @@ This is confirmed by looking at the standard deviation of the estimates:
 
 {% highlight r %}
 sds <- data.frame(ps, t(sapply(res2, function(x) apply(x[, 2:4], 2, sd))))
+require(reshape2)
 sds_m <- melt(sds, id.vars='ps')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "melt"
-{% endhighlight %}
-
-
-
-{% highlight r %}
 ggplot(sds_m, aes(x = ps, y = value)) +
   geom_point(size = 3) +
   facet_wrap(~variable) +
@@ -302,11 +292,7 @@ ggplot(sds_m, aes(x = ps, y = value)) +
   xlab('Correlation')
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): could not find function "ggplot"
-{% endhighlight %}
+![plot of chunk plot3](../figures/source/2013-12-13-collinear/plot3-1.png) 
 
 
 If the standard errors are large enough it may happen that parameter estimates may be so variable that even their sign is changed.

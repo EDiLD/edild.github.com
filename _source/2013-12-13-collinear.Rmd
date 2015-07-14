@@ -29,7 +29,7 @@ This post is about collinearity and the implications for linear models. The best
 
 The first problem for this simulation was: How can we create correlated random variables?
 
-This simulation is similar to the one in Dormann (2013), where it is also mentioned that one could use Cholesky Decompostion to create correlated variables:
+This simulation is similar to the one in Dormann (2013), where it is also mentioned that one could use Cholesky Decompostion to create correlated variables: 
 
 What this function function does:
 
@@ -210,6 +210,7 @@ The red line indicates the coefficients after the data has been generated (7 * X
 This is confirmed by looking at the standard deviation of the estimates:
 ```{r plot3, fig.width=10, fig.height=5}
 sds <- data.frame(ps, t(sapply(res2, function(x) apply(x[, 2:4], 2, sd))))
+require(reshape2)
 sds_m <- melt(sds, id.vars='ps')
 ggplot(sds_m, aes(x = ps, y = value)) +
   geom_point(size = 3) +

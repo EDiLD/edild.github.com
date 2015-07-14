@@ -20,7 +20,7 @@ When analysing multivariate community data the first step is often to transform 
 * Presence/Absence
 * and manymany more
 
-However these are all global transformations (applied to every species in the dataset).
+However these are all global transformations (applied to every species in the dataset). 
 
 In an email discussion with Bob Clarke he pointed me to one of his papers [Clarke et al. 2006](http://dx.doi.org/10.3354/meps320011):
 

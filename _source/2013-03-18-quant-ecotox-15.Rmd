@@ -19,7 +19,7 @@ opts_chunk$set(fig.height=6, fig.width=6)
 
 This is a short one (example 4.7 on page 1621 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647)). 
 
-First we create the data as matrix:
+First we create the data as matrix: 
 ```{r}
 TEST <- matrix(c(1,19,6,14), byrow=TRUE, ncol = 2, 
                dimnames=list(c('Tank_A', 'Tank_B'), c('Number_Dead', 'Number_Surviving')))

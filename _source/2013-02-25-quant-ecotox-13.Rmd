@@ -17,7 +17,7 @@ require(knitr)
 opts_chunk$set(fig.height=6, fig.width=6)
 ```
 
-This is about example 4.3 on page 147 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). This example is about Calculations of $LC_{50}$ values.
+This is about example 4.3 on page 147 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). This example is about Calculations of $LC_{50}$ values. 
 In this post I won't reproduce the SAS-Code since I do not have any experience with SAS PROC PROBIT and I do not fully understand whats happening there.
 
 Instead I will fit Dose-Response-Models using the `drc`-package to this data.

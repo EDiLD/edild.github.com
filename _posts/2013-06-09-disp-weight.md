@@ -20,7 +20,7 @@ When analysing multivariate community data the first step is often to transform 
 * Presence/Absence
 * and manymany more
 
-However these are all global transformations (applied to every species in the dataset).
+However these are all global transformations (applied to every species in the dataset). 
 
 In an email discussion with Bob Clarke he pointed me to one of his papers [Clarke et al. 2006](http://dx.doi.org/10.3354/meps320011):
 
@@ -80,7 +80,7 @@ ordihull(un_nmds, groups = dune.env$Management, lty = 'dotted')
 ordispider(un_nmds, groups = dune.env$Management, label = TRUE)
 {% endhighlight %}
 
-![plot of chunk plot_raw](figures/source/2013-06-09-disp-weight/plot_raw-1.png) 
+![plot of chunk plot_raw](../figures/source/2013-06-09-disp-weight/plot_raw-1.png) 
 
 
 Lets run the NMDS on dispersion-weighted abundances:

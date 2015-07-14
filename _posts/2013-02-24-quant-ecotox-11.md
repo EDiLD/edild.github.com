@@ -12,7 +12,7 @@ tags: QETXR R
 
 
 
-This is example 3.7 on page 108 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about accumulation in mosquitofish (*Gambusia holbrooki*).
+This is example 3.7 on page 108 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about accumulation in mosquitofish (*Gambusia holbrooki*). 
 
 Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p108.csv) and read it into R:
 

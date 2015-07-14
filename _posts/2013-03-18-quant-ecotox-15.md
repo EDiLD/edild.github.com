@@ -13,7 +13,7 @@ tags: QETXR R
 
 This is a short one (example 4.7 on page 1621 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647)). 
 
-First we create the data as matrix:
+First we create the data as matrix: 
 
 {% highlight r %}
 TEST <- matrix(c(1,19,6,14), byrow=TRUE, ncol = 2, 

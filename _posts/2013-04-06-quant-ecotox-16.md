@@ -12,7 +12,7 @@ tags: QETXR R
 
 
 
-This is example 4.9 on page 178 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - time-to-death data.
+This is example 4.9 on page 178 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - time-to-death data. 
 
 Thankfully, Prof. Newman provided me the data for this example. You can get it from the github-repo ([TOXICTY.csv](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/TOXICITY.csv)).
 
