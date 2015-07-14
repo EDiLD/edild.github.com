@@ -65,13 +65,6 @@ task :new_rmd, :title do |t, args|
   end
 end
 {% endhighlight %}
-
-
-
-
-{% highlight text %}
-## -e:2:in `<main>': undefined local variable or method `source_dir' for main:Object (NameError)
-{% endhighlight %}
  
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
  
