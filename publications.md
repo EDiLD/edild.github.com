@@ -15,7 +15,7 @@ date: 2015-02-12 16:00
 <span class="badge badge-poster">poster</span> **Szöcs E**, Schäfer RB (2015) Ecotoxicology is not normal.
 Poster presented at [SETAC Europe 2015](http://barcelona.setac.eu/?contentid=767) in Barcelona. [Download](https://github.com/EDiLD/usetheglm/raw/master/poster/poster.pdf). [Source code](https://github.com/EDiLD/usetheglm/tree/master/poster).
 
-**Szöcs E**, Van den Brink P, Lagadic L, Caquet T, Roucaute M, Auber A, Bayona Y, Liess M, Ebke P, Ippolito A, ter Braak CF, Brock TM, Schäfer RB 2015. Analysing chemical-induced changes in macroinvertebrate communities in aquatic mesocosm experiments: a comparison of methods. Ecotoxicology, 24(4), 760-769.  [Online (paywall)](http://link.springer.com/article/10.1007/s10646-015-1421-0#). [Supplemental Material](http://edild.github.io/publications/szöcs_2015_ecotox_som.pdf).
+**Szöcs E**, Van den Brink P, Lagadic L, Caquet T, Roucaute M, Auber A, Bayona Y, Liess M, Ebke P, Ippolito A, ter Braak CF, Brock TM, Schäfer RB 2015. Analysing chemical-induced changes in macroinvertebrate communities in aquatic mesocosm experiments: a comparison of methods. Ecotoxicology, 24(4), 760-769.  [Online (paywall)](http://link.springer.com/article/10.1007/s10646-015-1421-0#).
 
 
 
@@ -24,7 +24,7 @@ Poster presented at [SETAC Europe 2015](http://barcelona.setac.eu/?contentid=767
 **Szöcs E**, Coring E, Bäthe J, Schäfer RB (2014) Effects of anthropogenic salinization on biological traits and community composition of stream macroinvertebrates. Science of The Total Environment 468–469:943–949. [Online (paywall)](http://www.sciencedirect.com/science/article/pii/S0048969713009728).
 
 <span class="badge badge-poster">poster</span> **Szöcs E**, Chamberlain, SA (2014) taxize: taxonomic search and retrieval in R.
-Poster presented at [International Statistical Ecology Conference 2014](http://isec2014.sciencesconf.org/) in Montpellier. [Download](http://edild.github.io/publications/poster_isec2014.pdf). [Source code](https://github.com/EDiLD/taxize_poster).
+Poster presented at [International Statistical Ecology Conference 2014](http://isec2014.sciencesconf.org/) in Montpellier. [Download](http://edild.github.io/files/poster_isec2014.pdf). [Source code](https://github.com/EDiLD/taxize_poster).
 
 
 
@@ -48,7 +48,7 @@ Schäfer RB, Bundschuh M, Rouch DA, **Szöcs E**, von der Ohe PC, Pettigrove V, 
 
 ### 2011
 
-<span class="badge badge-poster">poster</span>  **Szöcs E**, Kefford BJ , Pettigrove V, Schäfer RB (2011) Einfluss von Pestiziden und Salinität auf Makroinvertebratengemeinschaften.  Poster presented at SETAC GLB meeting in Landau. [Download](http://edild.github.io/publications/Poster_2011_SETAC-GLB_Landau.pdf).
+<span class="badge badge-poster">poster</span>  **Szöcs E**, Kefford BJ , Pettigrove V, Schäfer RB (2011) Einfluss von Pestiziden und Salinität auf Makroinvertebratengemeinschaften.  Poster presented at SETAC GLB meeting in Landau. [Download](http://edild.github.io/files/Poster_2011_SETAC-GLB_Landau.pdf).
 
 
 
