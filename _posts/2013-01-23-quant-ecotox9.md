@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, page 94, example 3.5"
+title: "Quantitative Ecotoxicology, Page 94, Example 3.5"
 date: 2013-01-23 21:32
 author: Eduard Szöcs
 published: true

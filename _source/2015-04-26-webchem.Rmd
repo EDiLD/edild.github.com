@@ -16,6 +16,7 @@ To make these functions available to a broader audience I rewrote them, added ne
 
 Webchem is available on github and [CRAN](http://cran.r-project.org/web/packages/webchem/index.html) and is part of the [ROpenSci](https://ropensci.org/) project.
 
+<!--more-->
 
 ### Functionality
 Webchem is useful for all dealing with chemical data (e.g. [Daniel Münch](http://www.muench.bio/) is using it for his *Database of Odor Responses*, I use it for my work with monitoring data).
