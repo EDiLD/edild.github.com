@@ -4,7 +4,7 @@ title: "R, knitr and Octopress"
 date: 2013-03-01 14:00
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: R knitr Octopress
 ---
@@ -118,7 +118,7 @@ knit(inputFile, outputFile)
 
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
 
-```{make}
+```{sh}
 KNIT = ../_scripts/knit.sh
 POSTS_DIR = ../_posts
 MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))

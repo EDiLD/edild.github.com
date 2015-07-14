@@ -1,0 +1,16 @@
+base
+knitr
+bitops
+RCurl
+knitcitations
+MASS
+drc
+survival
+ggplot2
+eha
+flexsurv
+permute
+lattice
+vegan
+car
+reshape2

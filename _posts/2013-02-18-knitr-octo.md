@@ -4,41 +4,41 @@ title: "R, knitr and Octopress"
 date: 2013-03-01 14:00
 author: Eduard Szöcs
 published: true
-status: process
+status: publish
 draft: false
 tags: R knitr Octopress
 ---
-
+ 
 Recently, I moved this blog from [tumblr](http://edild.tumblr.com/) to github since I feeled I need more liberty.
 I have no experience with web programming, so I chose [Octopress](http://octopress.org/) as blogging framework since it nicely integrates with github.
-
+ 
 However after relocation my workflow for generating posts was quite laborious - it was similar to the tumblr-workflow:
-
+ 
 * Create an .Rmd file
 * knit the file
 * move the file to octopress/source/_posts/
 * move the figures to octopress/source/figure/
 * and so on...
-
+ 
 This was non-satisfying and I thought that this must be automated into a smooth workflow! 
-
+ 
 Last week I took a look at the new [Rcpp Gallery](http://gallery.rcpp.org/) and noticed that this is also hosted on [github](https://github.com/jjallaire/rcpp-gallery). I skimmed through their code and found a lot of useful stuff. Shamelessly I copied some files from the and modified them for my octopress needs.
-
+ 
 Basically I have now a folder for my .Rmd files (octopress/source/src). Invoking `make` in this folder creates the markdown-files in _posts and sets up the right figure paths (in _posts/figure). My workflow now:
-
+ 
 * `rake new_rmd[test]`, this sets up an empty .Rmd file in /src, according to the octopress naming-scheme and header.
 * add my post to this .Rmd file
 * invoke `make` in /src, this sets up the .markdown file in _posts and figures
 * the usual `rake gen_deploy`
-
+ 
 I am quite happy at the moment with this workflow. I can also use R-Studio.
-
-
+ 
+ 
 Here are the changes I made to my octopress:
-
+ 
 1) I added a new function `rake new_rmd` to my Rakefile. This mimics the behavior of `rake new_post`
 and creates a .Rmd-file in source/src. Simply add these lines to your Rakefile:
-
+ 
 
 {% highlight ruby %}
 # usage rake new_rmd[my-new-rmd] or rake new_post['my new rmd'] or rake new_rmd (defaults to "new-rmd")
@@ -72,21 +72,21 @@ end
 {% highlight text %}
 ## -e:2:in `<main>': undefined local variable or method `source_dir' for main:Object (NameError)
 {% endhighlight %}
-
+ 
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
-
+ 
 
 ```r
 #! /usr/bin/Rscript
 ```
 
 ```r
-
+ 
 ```
 
 ```r
 knit <- function (inputFile, outputFile) {
-
+ 
   # per-document figure paths
   stem <- tools::file_path_sans_ext(inputFile)
   prefix <- paste(stem, "-", sep="")
@@ -103,7 +103,7 @@ knit <- function (inputFile, outputFile) {
 ```
 
 ```r
-
+ 
 ```
 
 ```r
@@ -128,14 +128,14 @@ renderOcto <- function(extra = '') {
 					   x, 
 					   '```\n\n')
   }
-
+ 
   knitr::knit_hooks$set(source = hook.c, output = hook.o, warning = hook.o,
                         error = hook.o, message = hook.o)
 }
 ```
 
 ```r
-
+ 
 ```
 
 ```r
@@ -159,15 +159,36 @@ knit(inputFile, outputFile)
 ```
 
 ```
-## Warning in readLines(if (is.character(input2)) {: cannot open file
-## '_source/2013-02-18-knitr-octo.Rmd': No such file or directory
+## Error in if (ext != "txt") c(base, ".txt") else c(base, "-out.", ext): missing value where TRUE/FALSE needed
 ```
-
-```
-## Error in readLines(if (is.character(input2)) {: cannot open the connection
-```
-
+ 
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
+ 
 
+```r
+KNIT = ../_scripts/knit.sh
+POSTS_DIR = ../_posts
+MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
+ 
+all: $(MD_FILES)
+ 
+$(POSTS_DIR)/%.markdown: %.Rmd
+  $(KNIT) $< $@
+	$(RM) *.md
+	$(RM) *.html
+```
 
-
+```
+## Error in running command sh
+```
+ 
+You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com) for this site and copy the files from there. I have not tested this very extensively - in case you find any bugs or have improvements, please let me know.
+ 
+**Edit 01.03.2013**
+ 
+I had to add this line of code
+ 
+{% gist 5064922 %}
+ 
+to `source/_includes/custom/head.html` so that the figures are displayed properly, see
+[here](source/_includes/custom/head.html).
