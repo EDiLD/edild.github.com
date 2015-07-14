@@ -39,7 +39,7 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 {% highlight r %}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p189.csv",
-              .opts=curlOptions(followlocation=TRUE), ssl.verifypeer = FALSE)
+              .opts = curlOptions(followlocation=TRUE), ssl.verifypeer = FALSE)
 QICAR <- read.table(text = url, header = TRUE, sep = ";")
 {% endhighlight %}
  

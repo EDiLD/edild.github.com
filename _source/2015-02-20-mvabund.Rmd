@@ -1,0 +1,316 @@
+---
+layout: post
+title: "Analysing mesocosm experiments using Generalized Linear Models"
+date: 2015-02-20 15:39
+author: Eduard Szöcs
+published: true
+status: process
+draft: false
+tags: R ecotoxicology prc
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
+options(scipen = 1, digits = 5)
+require(knitcitations)
+```
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height=6, fig.width=8, cache = TRUE)
+set.seed(1234)
+options(width=90)
+```
+
+### Introduction
+The [first post](http://edild.github.io/prc1/) of this blog was about analysing mesocosm data using Principal Response Curves (PRC).
+At the of the second part of this post I mention alternatives to PRC.
+I picked up this topic for my Master's Thesis, which resulted in [a paper](http://link.springer.com/article/10.1007/s10646-015-1421-0#) that was published two weeks ago.
+
+Based on 11 mesocosm data sets (thanks to the co-authors who kindly shared their data) I compared 3 different methods to analyse such data.
+In this post I show how to analyse mesocosm data using Generalized Linear Models for multivariate data ($GLM_{mv}$).
+Compared to PRC these have a few advantages:
+
+* no need to choose a transformation of the community reponse, GLMs provide a natural way to model count data.
+* better representation of the responding taxa.
+* there is some indication that the models have higher power (Warton et al. (2012), Szöcs et al. (2015)*).
+
+Nevertheless, there are also some drawbacks:
+
+* $GLM_{mv}$ are computationally more expensive
+* The graphical presentation of results (but see below).
+
+In this post I will demonstrate how to analyse the chlorpyrifos data set also used in the [first post](http://edild.github.io/blog/2012/12/01/prc1/).
+
+
+
+### Setup and data set
+
+First we load some packages that I use in this post.
+```{r, message=FALSE}
+library(vegan)
+library(mvabund)
+library(reshape2)
+library(plyr)
+library(ggplot2)
+```
+
+The abundance data we will use come with the `vegan` package. For demonstration purposes and to save computation time I use only eight species (of the 178). Moreover, the data in this data set was `log(10 * x + 1)` transformed and I backtransform to the raw counts.
+
+```{r}
+data(pyrifos)
+take <- c('binitent', 'olchaeta', 'caenhora', 'cloedipt', 
+          'chaoobsc', 'gammpule', 'libellae', 'agdasphr')
+abu <- pyrifos[ , names(pyrifos) %in% take]
+abu <- round((exp(abu) - 1)/10)
+head(abu)
+```
+
+The explaining variables (time, treatment and replicate number) are not shipped with `vegan` but can be easily generated:
+```{r}
+env <- data.frame(time = rep(c(-4, -1, 0.1, 1, 2, 4, 8, 12, 15, 19, 24), each = 12),
+                  treatment = rep(c(0.1, 0, 0, 0.9, 0, 44, 6, 0.1, 44, 0.9, 0, 6), 11),
+                  replicate = gl(12, 1, length=132))
+head(env)
+```
+
+As always before a data analysis we first take a look at the raw data to get an impression what's going on.
+```{r, plotraw, message=FALSE}
+plotraw <- data.frame(abu, env)
+plotraw <- melt(plotraw, id.vars = c('treatment', 'time', 'replicate'))
+ggplot(plotraw, aes(x = time, y = value + 1, 
+                   col = factor(treatment))) +
+  geom_point() +
+  geom_smooth(aes(group = treatment), se = FALSE) +
+  facet_wrap(~variable) +
+  scale_y_log10() +
+  labs(y = 'Abundance + 1', x = 'Week') +
+  geom_vline(aes(xintercept = 0))  +
+  theme_bw() +
+  theme(legend.justification = c(1, 0), 
+        legend.position = c(1, 0), 
+        legend.key = element_blank())
+  
+```
+
+We see that *caenhora* and *cloedipt* show a strong treatment related negative response with a recovery after some weeks.
+This is also the case for *chaoobsc*, but weaker. *olchaeta*, *binitent* and *gammpule* might profit from treatment.
+*libellae* and *agdasphr* are low in abundance and we cannot much about their response.
+
+
+### Fit and check models
+To fit GLMs to these eight species we use the `mvabund` package (Wang et al. (2012)).
+We first need to create a mvabund object from our abundance data
+```{r}
+abu <- mvabund(abu)
+```
+
+
+Then we can try to fit a Poisson GLM with treatment, time and their interaction as predictors:
+```{r}
+mod_pois <- manyglm(abu ~ factor(treatment) * factor(time), 
+                    data = env, family = 'poisson')
+```
+
+But does this model fit to the data? We can use residual plots to check the model:
+```{r , plot_resid, fig.width=4, fig.height=4}
+plot(mod_pois)
+```
+
+The residual plot shows a pronounced fan-shape, which indicates that this model does not fit very well to the data!
+Let's try a negative binomial model (which allows accounting for overdispersion):
+
+```{r plot_resid_nb, fig.width=4, fig.height=4}
+mod_nb <- manyglm(abu ~ factor(treatment) * factor(time), 
+                  data = env, family = 'negative.binomial')
+plot(mod_nb)
+```
+
+This fits much better, we will stick with this model...
+
+
+### Test hypotheses
+To test hypotheses we must take the repeated measure design into account.
+As in PRC, we do this by using restricted permutations (maybe there will be multivariate mixed effect models available in the future).
+One permutation design would be to permute whole time series of replicated ditches (`plots`), keeping the order of samplings (`Within(type = 'none')`). 
+This is easily done via the `permute` package.
+
+```{r}
+control <- how(within = Within(type = 'none'),
+               plots = Plots(strata = env$replicate, type = 'free'),
+               nperm=50)
+permutations <- shuffleSet(nrow(abu), control = control)
+```
+The object `permuations` is a permutation matrix which we will use later in hypothesis testing.
+
+#### Treatment x Time Interaction
+One hypothesis we could test is 'The treatment effect is constant over time', which is the interaction between treatment and time.
+To test if we have a statistically significant interaction, we first fit a model without the interaction term 
+
+```{r}
+mod_nb_nointeraction <- manyglm(abu ~ factor(treatment) + factor(time), 
+                                data = env, family = 'negative.binomial')
+```
+
+Then we compare the two model using a Likelihood-Ratio Test. This is done with the `anova()` method
+
+```{r}
+mod_nb_aov <- anova(mod_nb, mod_nb_nointeraction, 
+                    bootID = permutations,  
+                    p.uni = 'adjusted', test = 'LR') 
+```
+
+The output is twofold - first we get a multivariate test:
+```{r , echo = FALSE}
+printCoefmat(mod_nb_aov$table, na.print = '')
+```
+Which indicates that there is an interaction between treatment and time.
+
+And second we retrieve a univariate test for every species. Here are just the p-values displayed:
+```{r}
+printCoefmat(mod_nb_aov$uni.p, na.print = '')
+```
+This indicates that *caenhora*, *cloedipt* and *chaoobsc* show treatment effect varying with time.
+
+#### General treatment effect
+
+We could also compare the model with interaction to a model containing only time as explaining variable.
+This gives us a test for the total treatment effect (treatment + treatment x time):
+
+```{r, message = FALSE, results=FALSE}
+mod_nb_null <- manyglm(abu ~ factor(time), data = env, 
+                       family = 'negative.binomial')
+mod_treat_aov <- anova(mod_nb, mod_nb_null , bootID = permutations,  
+      p.uni='adjusted', test = 'LR') 
+```
+
+
+
+#### Period of treatment effect
+Now that we know that the treatment effect is varying with time, we could further explore this interaction by testing the treatment effect at every sampling date.
+This is similar to [PRC](http://edild.github.io/blog/2012/12/01/prc2/).
+
+```{r, message=FALSE, results=FALSE}
+mod_pt <- NULL
+for(i in levels(factor(env$time))) {
+  take_abu <- abu[env$time == i, ]
+  take_env <- env[env$time == i, ]
+  # model
+  mod_pt[[i]]$mod <- manyglm(take_abu ~ factor(treatment), data = take_env)
+  mod_pt[[i]]$aov <- anova(mod_pt[[i]]$mod, nBoot = 100, 
+                           p.uni = 'adjusted', test = 'LR', show.time="none")
+  mod_pt[[i]]$sum <- summary(mod_pt[[i]]$mod, nBoot = 100, 
+                             p.uni = 'adjusted', test = 'LR')
+}
+```
+
+For every week I fit a model with treatment as explaining variable and the run a Likelihood-Ratio test. Moreover, I also return the summary of the models (will be used later for plotting). Note, that I used only 100 permutations here to safe computation time.
+
+From the resulting list we can extract informations that we are interested in.
+E.g. we could extract the p-values at every sampling week:
+
+```{r}
+get_pvals <- function(x){
+  comm <- c(community = x$aov$table[2, 4])
+  spec <- x$aov$uni.p[2, ]
+  c(comm, spec)
+}
+ldply(mod_pt, get_pvals)
+```
+
+This indicates a treatment effect on community structure from the day of application till week 12.
+
+Note, this test is different to the method described in the [PRC post](http://edild.github.io/blog/2012/12/01/prc2/).
+There I used the log-transformed treatment as **continuous** predictor (regression design). In contrast, I use treatment as **categorical** predictor (anova design) in this example, which explains the differences.
+
+
+### Plotting treatment effect
+Let's further investigate what's going on graphically.
+How dose the treatment effect on the community over time look like? 
+Which species are when responsible for this effect?
+
+To plot the effect of treatment I extract the species deviances (a sum-of-squares equivalent). Species with a high deviance show a strong treatment effect.
+The community effect is then simply the sum of species effects/deviances.
+
+And here is plot of treatment effects over time:
+```{r plot_deviance}
+devs <- ldply(mod_pt, function(x) x$aov$uni.test[2, ])
+plotdf <- melt(devs, id.vars = '.id')
+ggplot(plotdf, aes(x = as.numeric(as.character(.id)), y = value, fill = variable)) +
+  geom_area(col = 'grey15') + 
+  geom_vline(aes(xintercept = 0)) +
+  theme_bw() +
+  labs(x = 'time', y = 'Deviance (=Effect)')
+```
+
+We see that the treatment effect increases after chlorpyrifos application (Lo and behold!) and then lowers off (but not to the initial level).
+Moreover, wee see that the contributions to the effect also change with time:
+Shortly after application till week 8 *caenhora*, *cloedipt* and *chaoobsc* are responsible for the treatment effect. However, after week 8 the contribution of *gammapule* increases. Other taxa play only a minor role.
+
+Of course, we could extract this information also numerically, similar to the explained variance in PRC.
+
+
+### A PRC like plot
+We could also draw a PRC like plot (using the summary object from above).
+The procedure is always similar: extract the necessary information (coefficients in this case), 
+prepare it, plot it.
+```{r plot_coefs}
+get_coef <- function(x){
+  x$sum$coefficients[-1, 1]
+}
+coefs <- ldply(mod_pt, get_coef)
+coefs <- melt(coefs, id.vars = '.id')
+ggplot(coefs, aes(x = as.numeric(as.character(.id)), y = value, col = variable)) +
+  geom_line() +
+  geom_vline(aes(xintercept = 0)) +
+  theme_bw() +
+  labs(x = 'Time', y = 'Deviance (=Effect)') +
+  scale_color_discrete('Treatment', labels = c(0.1, 0.9, 6, 44)) +
+  theme(legend.position = 'bottom', 
+        legend.key = element_blank())
+```
+
+This plot basically show the same patterns as the [PRC](http://edild.github.io/blog/2012/12/01/prc1/).
+
+
+Getting a species plot is a bit harder. 
+The species information displayed in standard PRC plot condenses a lot of information. 
+Basically, the plot shows the general species responses.
+Therefore, I the general treatment test (`mod_treat_aov` from above) for this plot.
+
+I first extract and calculate contribution of each species to the community response from this test:
+```{r}
+contr <- data.frame(resp = mod_treat_aov$uni.test[2, ] / mod_treat_aov$table[2, 3])
+contr$spec <- row.names(contr)
+```
+
+Then I just plot the species names according to their contribution.
+```{r, fig.width = 2, fig.height = 4}
+ggplot(contr, aes(x = factor(1), y = resp * 100)) +
+  geom_text(aes(label = spec)) +
+  labs(y = 'Contribution [%]', x = '') +
+  theme_minimal() +
+  scale_x_discrete(breaks = NULL)
+```
+
+The only difference to the [PRC](http://edild.github.io/blog/2012/12/01/prc1/) is that the direction of response is not displayed. 
+
+However, the plot showing the species contribution over time (see "Plotting treatment effect") is much more informative
+
+
+
+### Outlook
+I hope this tutorial showed that applying GLMs for multivariate data to mesocosm data is not harder than performing a PRC in R. 
+However, currently there is no alternative to R and no graphical user interface (gui).
+PRC can be also run in the commercial CANOCO software package with a nice gui.
+This may hinder the adoption of these models to ecotoxicology and easy to use software is needed.
+
+
+
+### References
+
+* Warton, D.I., Wright, S.T., Wang, Y., 2012. Distance-based multivariate analyses confound location and dispersion effects. Methods in Ecology and Evolution 3, 89–101.
+* Szöcs, E., Van den Brink, P.J., Lagadic, L., Caquet, T., Roucaute, M., Auber, A., Bayona, Y., Liess, M., Ebke, P., Ippolito, A., ter Braak, C.J.F., Brock, T.C.M., Schäfer, R.B., 2015. Analysing chemical-induced changes in macroinvertebrate communities in aquatic mesocosm experiments: a comparison of methods. Ecotoxicology. doi:10.1007/s10646-015-1421-0
+* Wang, Y., Naumann, U., Wright, S.T., Warton, D.I., 2012. mvabund- an R package for model-based analysis of multivariate abundance data. Methods in Ecology and Evolution 3, 471–474.
+
+
+(*) Note, the main criticism from the reviewers was that I cannot deduce power differences from the analysis of these 11 data sets. E.g. Figure 1 in Szöcs (2015) shows lower p-values for GLM, which indicates a higher power. 
+This annoyed me a little, so I did a (univariate) simulation study. It is currently under review and I'll post soon about it.

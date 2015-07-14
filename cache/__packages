@@ -14,3 +14,12 @@ lattice
 vegan
 car
 reshape2
+sp
+spsurvey
+esmisc
+mvtnorm
+TH.data
+multcomp
+XML
+mvabund
+plyr
