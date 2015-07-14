@@ -20,14 +20,8 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 {% highlight r %}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p108.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 MERCURY <- read.table(text = url, header = TRUE, sep = ";")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in read.table(text = url, header = TRUE, sep = ";"): no lines available in input
 {% endhighlight %}
 
 {% highlight r %}
@@ -37,7 +31,13 @@ head(MERCURY)
 
 
 {% highlight text %}
-## Error in head(MERCURY): object 'MERCURY' not found
+##   DAY  HG
+## 1   0   0
+## 2   1 380
+## 3   2 540
+## 4   3 570
+## 5   4 670
+## 6   6 780
 {% endhighlight %}
  
 This is pretty much like the previous examples: 
@@ -53,11 +53,7 @@ $$C_t = \frac{k_u}{k_e} C_1 (1-e^{-k_e t})$$
 plot(MERCURY)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in plot(MERCURY): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'MERCURY' not found
-{% endhighlight %}
+<img src="/figures/plot_raw-1.png" title="plot of chunk plot_raw" alt="plot of chunk plot_raw" width="400px" />
  
 We can specify the model as follows:
 
@@ -65,12 +61,6 @@ We can specify the model as follows:
 mod <- nls(HG ~ KU / KE * 0.24 * (1 - exp(-KE * DAY)), 
            data = MERCURY, 
            start = list(KU = 1000, KE = 0.5))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in nls(HG ~ KU/KE * 0.24 * (1 - exp(-KE * DAY)), data = MERCURY, : object 'MERCURY' not found
 {% endhighlight %}
  
 This equals to equation 3.42:
@@ -93,7 +83,20 @@ summary(mod)
 
 
 {% highlight text %}
-## Error in summary(mod): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod' not found
+## 
+## Formula: HG ~ KU/KE * 0.24 * (1 - exp(-KE * DAY))
+## 
+## Parameters:
+##    Estimate Std. Error t value Pr(>|t|)   
+## KU 1866.700    241.784    7.72   0.0015 **
+## KE    0.589      0.106    5.55   0.0051 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 43.7 on 4 degrees of freedom
+## 
+## Number of iterations to convergence: 7 
+## Achieved convergence tolerance: 2.08e-06
 {% endhighlight %}
 So the parameter estimates are:
  
@@ -104,24 +107,14 @@ The BCF is given as $BCF = \frac{k_u}{k_e} = 3171.4$
 
 {% highlight r %}
 BCF = coef(mod)[1] / coef(mod)[2]
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in coef(mod): object 'mod' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 BCF
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'BCF' not found
+##     KU 
+## 3171.4
 {% endhighlight %}
  
 From this we can predict the fish concentration as $$C_{fish}=BCF \cdot C_1=761.14$$
@@ -133,7 +126,8 @@ BCF * 0.24
 
 
 {% highlight text %}
-## Error in eval(expr, envir, enclos): object 'BCF' not found
+##     KU 
+## 761.14
 {% endhighlight %}
  
 Finally we plot the data and our model:
@@ -142,39 +136,13 @@ Finally we plot the data and our model:
 DAY_pred <- seq(0, 6, by = 0.1) 
 # Raw data
 plot(MERCURY)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(MERCURY): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'MERCURY' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add model
 lines(DAY_pred, predict(mod, newdata = data.frame(DAY = DAY_pred)))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in predict(mod, newdata = data.frame(DAY = DAY_pred)): object 'mod' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add model-equation
 text(3, 100, bquote(HG == .(BCF*0.24)%.%(1-exp(-.(coef(mod)[2])%.%DAY))))
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'BCF' not found
-{% endhighlight %}
+<img src="/figures/plot_model-1.png" title="plot of chunk plot_model" alt="plot of chunk plot_model" width="400px" />
  
  
 Once again we reproduced the results as in the book using R :)

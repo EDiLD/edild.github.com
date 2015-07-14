@@ -23,14 +23,8 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 {% highlight r %}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p147.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 salt <- read.table(text = url, header = TRUE, sep = ";")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in read.table(text = url, header = TRUE, sep = ";"): no lines available in input
 {% endhighlight %}
 
 {% highlight r %}
@@ -40,7 +34,13 @@ head(salt)
 
 
 {% highlight text %}
-## Error in head(salt): object 'salt' not found
+##   DEAD TOTAL CONC
+## 1   16    76 10.3
+## 2   22    79 10.8
+## 3   40    77 11.6
+## 4   69    76 13.2
+## 5   78    78 15.8
+## 6   77    77 20.1
 {% endhighlight %}
  
 So the data consists of number of dead animals (DEAD) from all animals (TOTAL) exposed to a concentration (CONC).
@@ -50,12 +50,6 @@ First we create a new column with the proportion of dead animals:
 {% highlight r %}
 salt$prop <- salt$DEAD / salt$TOTAL
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'salt' not found
-{% endhighlight %}
  
 Lets have a look at the raw data (note that I use a logarithmic scale for the x-axis):
 
@@ -63,11 +57,7 @@ Lets have a look at the raw data (note that I use a logarithmic scale for the x-
 plot(salt$CONC, salt$prop, xlab = 'Concentration', ylab = 'Proportion dead', log='x')
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in plot(salt$CONC, salt$prop, xlab = "Concentration", ylab = "Proportion dead", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'salt' not found
-{% endhighlight %}
+![plot of chunk p147_plot_raw](/figures/p147_plot_raw-1.png) 
  
  
 I will use the drc-package of Christian Ritz and Jens Strebig to fit dose-response-curves to this data. The main function of this package is `drm`:
@@ -78,12 +68,6 @@ Here I fit a two-parameter log-logistic model to the data (see Ritz (2010) for a
 {% highlight r %}
 require(drc)
 mod <- drm(prop ~ CONC, data = salt, fct =  LL.2())
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in is.data.frame(data): object 'salt' not found
 {% endhighlight %}
  
 So the usage is similar to `lm()` or `nls()`, except the `fct` argument. This argument defines the model that is fitted to the data.
@@ -106,7 +90,10 @@ mselect(mod, fctList=list(W1.2(),G.2()))
 
 
 {% highlight text %}
-## Error in identical(object$type, "continuous"): object 'mod' not found
+##      logLik      IC Lack of fit    Res var
+## LL.2 14.613 -23.226          NA 0.00067322
+## W1.2     NA      NA          NA         NA
+## G.2      NA      NA          NA         NA
 {% endhighlight %}
  
 The LL.2-model has the lowest AIC so I will keep this. 
@@ -115,26 +102,12 @@ Lets see how the model looks like:
 {% highlight r %}
 # raw data
 plot(prop ~ CONC, data = salt, xlim = c(9,21), ylim = c(0,1), ylab = 'Proportion dead', xlab = 'Concentration')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'salt' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
+ 
 conc_pred <- seq(9, 21, 0.1)
 lines(conc_pred, predict(mod, newdata = data.frame(CONC = conc_pred)))
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in predict(mod, newdata = data.frame(CONC = conc_pred)): object 'mod' not found
-{% endhighlight %}
+![plot of chunk p147_plot_mod](/figures/p147_plot_mod-1.png) 
  
 We can get the $LC_{50}$ with confidence interval from the model using the `ED()` function:
 
@@ -145,7 +118,12 @@ ED(mod, 50, interval='delta')
 
 
 {% highlight text %}
-## Error in ED(mod, 50, interval = "delta"): object 'mod' not found
+## 
+## Estimated effective doses
+## (Delta method-based confidence interval(s))
+## 
+##      Estimate Std. Error   Lower Upper
+## 1:50  11.4768     0.0575 11.3171  11.6
 {% endhighlight %}
  
 Code and data is available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p147'.

@@ -69,7 +69,7 @@ summary(mod_accum)
 ## 
 ## Parameters:
 ##     Estimate Std. Error t value Pr(>|t|)    
-## KU 344.79786   31.85529   10.82  4.7e-06 ***
+## KU 344.79785   31.85529   10.82  4.7e-06 ***
 ## KE   0.00525    0.00103    5.09  0.00094 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -77,7 +77,7 @@ summary(mod_accum)
 ## Residual standard error: 18900 on 8 degrees of freedom
 ## 
 ## Number of iterations to convergence: 7 
-## Achieved convergence tolerance: 3.81e-06
+## Achieved convergence tolerance: 3.72e-06
 {% endhighlight %}
  
 

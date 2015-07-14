@@ -21,14 +21,8 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 {% highlight r %}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p101.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 ZINC <- read.table(text = url, header = TRUE, sep = ";")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in read.table(text = url, header = TRUE, sep = ";"): no lines available in input
 {% endhighlight %}
 
 {% highlight r %}
@@ -38,7 +32,13 @@ head(ZINC)
 
 
 {% highlight text %}
-## Error in head(ZINC): object 'ZINC' not found
+##      N     C
+## 1 0.75 0.030
+## 2 1.40 0.069
+## 3 1.95 0.118
+## 4 2.51 0.166
+## 5 3.03 0.217
+## 6 3.53 0.270
 {% endhighlight %}
  
 So we have a data.frame with two columns,
@@ -61,12 +61,6 @@ mod_nls <- nls(N ~ (K*C*M)/(1+K*C), data = ZINC,
            start = list(K = 3, M = 9), lower = 0, 
            algorithm = 'port')
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in nls(N ~ (K * C * M)/(1 + K * C), data = ZINC, start = list(K = 3, : object 'ZINC' not found
-{% endhighlight %}
 This fits the model 
  
 $$ N = \frac{KCM}{1+KC} $$ 
@@ -84,7 +78,19 @@ summary(mod_nls)
 
 
 {% highlight text %}
-## Error in summary(mod_nls): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_nls' not found
+## 
+## Formula: N ~ (K * C * M)/(1 + K * C)
+## 
+## Parameters:
+##   Estimate Std. Error t value Pr(>|t|)    
+## K    2.097      0.188    11.1  3.8e-06 ***
+## M    9.899      0.521    19.0  6.1e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0929 on 8 degrees of freedom
+## 
+## Algorithm "port", convergence message: relative convergence (4)
 {% endhighlight %}
  
 * $K = 2.097 \pm 0.188$
@@ -96,39 +102,13 @@ We can plot the raw data and the model easily using the predict-function:
 
 {% highlight r %}
 plot(ZINC$C, ZINC$N, xlab = 'C', ylab = 'N')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(ZINC$C, ZINC$N, xlab = "C", ylab = "N"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ZINC' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # generate C-values to predict
 x_n <- seq(min(ZINC$C), max(ZINC$C), length.out=200)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in seq(min(ZINC$C), max(ZINC$C), length.out = 200): object 'ZINC' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # add predicts to plot
 lines(x_n, predict(mod_nls, newdata = data.frame(C = x_n)))
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in lines(x_n, predict(mod_nls, newdata = data.frame(C = x_n))): object 'x_n' not found
-{% endhighlight %}
+<img src="/figures/plot-nls-1.png" title="plot of chunk plot-nls" alt="plot of chunk plot-nls" width="400px" />
  
  
  
@@ -139,50 +119,16 @@ First we create a the transformed y-variable:
 {% highlight r %}
 ZINC$Y <- ZINC$C / ZINC$N
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'ZINC' not found
-{% endhighlight %}
  
 Fitting a linear model to this data is done with lm():
 
 {% highlight r %}
 mod_lm <- lm(Y ~ C, data = ZINC)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in is.data.frame(data): object 'ZINC' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 plot(ZINC$C, ZINC$Y, ylab = 'C/N', xlab = 'C')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(ZINC$C, ZINC$Y, ylab = "C/N", xlab = "C"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ZINC' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 abline(mod_lm)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in abline(mod_lm): object 'mod_lm' not found
-{% endhighlight %}
-
-
+<img src="/figures/plot-lm-1.png" title="plot of chunk plot-lm" alt="plot of chunk plot-lm" width="400px" />
 
 {% highlight r %}
 summary(mod_lm)
@@ -191,7 +137,24 @@ summary(mod_lm)
 
 
 {% highlight text %}
-## Error in summary(mod_lm): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_lm' not found
+## 
+## Call:
+## lm(formula = Y ~ C, data = ZINC)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.006926 -0.001708  0.000268  0.003081  0.003706 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.04351    0.00225    19.3  5.3e-08 ***
+## C            0.11400    0.00754    15.1  3.6e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0037 on 8 degrees of freedom
+## Multiple R-squared:  0.966,	Adjusted R-squared:  0.962 
+## F-statistic:  229 on 1 and 8 DF,  p-value: 3.62e-07
 {% endhighlight %}
 We get from this K and M as:
  
@@ -207,35 +170,35 @@ Newman used N^4 / C^2 weighting. So first we need to calculate the weights:
 {% highlight r %}
 ZINC$WGT = ZINC$N^4 / ZINC$C^2
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'ZINC' not found
-{% endhighlight %}
  
 And fit the linear model with weighting:
 
 {% highlight r %}
 mod_wgt <- lm(Y ~ C, data = ZINC, weights = ZINC$WGT)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in is.data.frame(data): object 'ZINC' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 summary(mod_wgt)
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## Error in summary(mod_wgt): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_wgt' not found
+## 
+## Call:
+## lm(formula = Y ~ C, data = ZINC, weights = ZINC$WGT)
+## 
+## Weighted Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.1911 -0.0834  0.0291  0.0580  0.0858 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.04708    0.00199    23.6  1.1e-08 ***
+## C            0.10373    0.00568    18.3  8.3e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.105 on 8 degrees of freedom
+## Multiple R-squared:  0.977,	Adjusted R-squared:  0.974 
+## F-statistic:  333 on 1 and 8 DF,  p-value: 8.32e-08
 {% endhighlight %}
 The R^2 is slightly higher: 0.977.
  
@@ -248,7 +211,8 @@ coef(mod_wgt)[2] / coef(mod_wgt)[1]
 
 
 {% highlight text %}
-## Error in coef(mod_wgt): object 'mod_wgt' not found
+##      C 
+## 2.2033
 {% endhighlight %}
  
 and for M:
@@ -260,7 +224,8 @@ and for M:
 
 
 {% highlight text %}
-## Error in coef(mod_wgt): object 'mod_wgt' not found
+##      C 
+## 9.6403
 {% endhighlight %}
  
 #### Are the models appropiate?
@@ -273,38 +238,12 @@ We can inspect the residuals of both models:
 par(mfrow = c(1,2))
 # lm
 plot(mod_lm, which = 1, main='linear model without weights')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(mod_lm, which = 1, main = "linear model without weights"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'mod_lm' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 # nls
 plot(fitted(mod_nls), residuals(mod_nls), xlab = 'fitted', ylab = 'Residuals', main = 'nonlinear regression')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(fitted(mod_nls), residuals(mod_nls), xlab = "fitted", ylab = "Residuals", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_nls) : object 'mod_nls' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 abline(h = 0, lty = 'dotted')
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet
-{% endhighlight %}
+<img src="/figures/plot-resid-1.png" title="plot of chunk plot-resid" alt="plot of chunk plot-resid" width="500px" />
  
 The linear model clearly shows an arc-pattern in the residuals - so the data may not follow a linear relationship.
 The nonlinear model performs better.

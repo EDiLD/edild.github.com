@@ -24,7 +24,7 @@ Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_e
 ```{r message=FALSE}
 require(RCurl)
 url <- getURL("https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p108.csv",
-ssl.verifypeer = FALSE)
+ssl.verifypeer = FALSE, .opts=curlOptions(followlocation=TRUE))
 MERCURY <- read.table(text = url, header = TRUE, sep = ";")
 ```
 ```{r}
