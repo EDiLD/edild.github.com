@@ -4,12 +4,10 @@ title: R packages
 permalink: /packages/
 ---
 
-Packages
--------------------------
 
-I am contributing/developing several packages.
+I am developing and contributing to several packages:
 
-{:.pure-table}
+{:.pure-table pure-table-horizontal}
 Package   |   Description |   CRAN   |  github | Role
  :---: | :------- | :---: | :---: 
 <a href="https://github.com/ropensci/taxize" style="text-decoration:none">taxize</a> |  taxonomic search and retrieval in R | <a href="http://cran.r-project.org/web/packages/taxize/" style="text-decoration:none"><span class="badge-success">CRAN</span></a> |<a href="https://github.com/ropensci/taxize" style="text-decoration:none"><img src="/figures/blacktocat.png" alt="blacktocat" width="40" height="40"></a> | <a href="https://github.com/ropensci/taxize/commits?author=EDiLD" style="text-decoration:none">Co-Developer</a>
