@@ -11,7 +11,7 @@ tags: QETXR R
 
 
 
-This is example 4.14 on page 199 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R.
+This is example 4.14 on page 199 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. 
 
 ### Introduction
 

@@ -21,7 +21,7 @@ opts_chunk$set(fig.height=6, fig.width=6)
 This is example 4.10 on page 180 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). A follow-up to [example 4.9](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/).
 
 #### Data
-We use data from the [previous example](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/) and also convert the concentrations into a factor: 
+We use data from the [previous example](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/) and also convert the concentrations into a factor:
 ```{r message=FALSE}
 # download data from github
 require(RCurl)

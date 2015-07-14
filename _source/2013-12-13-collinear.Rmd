@@ -120,7 +120,7 @@ Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ..
 
 
 
-### Simulation 1: How does collinearity affect the precision of estimates?
+### Simulation 1: How does collinearity affect the precision of estimates? 
 
 Here we simulate datasets with correlations ranging from -0.8 to 0.8:
 ```{r sim1, cache=TRUE}

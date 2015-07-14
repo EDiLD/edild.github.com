@@ -38,7 +38,7 @@ head(ACCUM)
 Again we have two columns: One for the time and one for the concentration.
 
 
-We fit can same model as in [example 3.7](http://edild.github.com/blog/2013/02/24/quant-ecotox-11/) to this data. The uptake $(k_u)$ and elimination $(k_e)$ constants are estimated simultaneously (at the same time): 
+We fit can same model as in [example 3.7](http://edild.github.com/blog/2013/02/24/quant-ecotox-11/) to this data. The uptake $(k_u)$ and elimination $(k_e)$ constants are estimated simultaneously (at the same time):
 
 
 ```{r}

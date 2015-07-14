@@ -15,7 +15,7 @@ tags: QETXR R
 This is example 4.10 on page 180 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). A follow-up to [example 4.9](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/).
 
 #### Data
-We use data from the [previous example](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/) and also convert the concentrations into a factor: 
+We use data from the [previous example](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/) and also convert the concentrations into a factor:
 
 {% highlight r %}
 # download data from github
@@ -142,7 +142,7 @@ df
 ##         .Call(C_df, x, df1, df2, log)
 ##     else .Call(C_dnf, x, df1, df2, ncp, log)
 ## }
-## <bytecode: 0x462cc50>
+## <bytecode: 0x41c9548>
 ## <environment: namespace:stats>
 {% endhighlight %}
 
