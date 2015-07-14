@@ -42,7 +42,7 @@ require(vegan)
 The new function is named `dispweight` and takes three arguments:
 
 ```{r, eval=FALSE}
-dispweight(comm, group, nperm = 1000)
+dispweight(comm, group, nsimul = 1000)
 ```
 
 The community data matrix, a vector describing the group structure and the number of permutations to use for the permutation test.
@@ -81,10 +81,10 @@ ordispider(un_nmds, groups = dune.env$Management, label = TRUE)
 Lets run the NMDS on dispersion-weighted abundances:
 ```{r plot_disp,results='hide'}
 # calculate weights
-dpw <- dispweight(dune, dune.env$Management, nperm = 100)
+dpw <- dispweight(dune, dune.env$Management, nsimul = 100)
 
 # NMDS on dispersion weighted community data
-disp_nmds <- metaMDS(dpw$transformed, distance = 'bray')
+disp_nmds <- metaMDS(dpw, distance = 'bray')
 
 # plot
 plot(disp_nmds, display = 'sites', type = 'n')

@@ -73,6 +73,7 @@ datagen <- function(n , p){
 Let's see if it works. 
 This creates two variables with 1000 observations with a correlation of 0.8 between them and a dependent variable.
 ```{r example_datagen}
+set.seed(1234)
 df1 <- datagen(n = 1000, p = 0.8)
 ```
 

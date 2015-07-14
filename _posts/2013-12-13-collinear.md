@@ -69,6 +69,7 @@ Let's see if it works.
 This creates two variables with 1000 observations with a correlation of 0.8 between them and a dependent variable.
 
 {% highlight r %}
+set.seed(1234)
 df1 <- datagen(n = 1000, p = 0.8)
 {% endhighlight %}
  
@@ -82,9 +83,9 @@ cor(df1)
 
 {% highlight text %}
 ##          y      X1      X2
-## y  1.00000 0.94859 0.94180
-## X1 0.94859 1.00000 0.79764
-## X2 0.94180 0.79764 1.00000
+## y  1.00000 0.95023 0.95044
+## X1 0.95023 1.00000 0.81649
+## X2 0.95044 0.81649 1.00000
 {% endhighlight %}
  
 And the data follows the specified model.
@@ -102,20 +103,20 @@ summary(mod)
 ## lm(formula = y ~ X1 + X2, data = df1)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -3.373 -0.684 -0.002  0.689  3.164 
+##     Min      1Q  Median      3Q     Max 
+## -3.1316 -0.7196  0.0348  0.7022  3.0532 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   4.9507     0.0324     153   <2e-16 ***
-## X1            7.0781     0.0527     134   <2e-16 ***
-## X2            6.9256     0.0549     126   <2e-16 ***
+## (Intercept)   5.0300     0.0320     157   <2e-16 ***
+## X1            7.0669     0.0556     127   <2e-16 ***
+## X2            6.9385     0.0545     127   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.03 on 997 degrees of freedom
+## Residual standard error: 1.01 on 997 degrees of freedom
 ## Multiple R-squared:  0.994,	Adjusted R-squared:  0.994 
-## F-statistic: 8.38e+04 on 2 and 997 DF,  p-value: <2e-16
+## F-statistic: 8.81e+04 on 2 and 997 DF,  p-value: <2e-16
 {% endhighlight %}
 
 
@@ -141,8 +142,8 @@ Dormann lists eight methods to spot collinearity (see their Table 1). I will onl
 
 {% highlight text %}
 ##         X1      X2
-## X1 1.00000 0.79764
-## X2 0.79764 1.00000
+## X1 1.00000 0.81649
+## X2 0.81649 1.00000
 {% endhighlight %}
  
 Dormann (2013) found that 'coefficients between predictor variables of r > 0.7 was an appropriate indicator for when collinearity begins to severely distort model estimation'.
@@ -158,8 +159,8 @@ vif(mod)
 
 
 {% highlight text %}
-##    X1    X2 
-## 2.749 2.749
+##     X1     X2 
+## 2.9999 2.9999
 {% endhighlight %}
  
 Which is equivalent to (for variable X1):
@@ -172,7 +173,7 @@ sum <- summary(lm(X1 ~ X2, data = df1))
 
 
 {% highlight text %}
-## [1] 2.749
+## [1] 2.9999
 {% endhighlight %}
  
 Unfortunately there are many 'rules of thumb' associated with VIF: > 10, > 4, ...

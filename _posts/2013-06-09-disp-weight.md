@@ -44,7 +44,7 @@ The new function is named `dispweight` and takes three arguments:
  
 
 {% highlight r %}
-dispweight(comm, group, nperm = 1000)
+dispweight(comm, group, nsimul = 1000)
 {% endhighlight %}
  
 The community data matrix, a vector describing the group structure and the number of permutations to use for the permutation test.
@@ -87,76 +87,19 @@ Lets run the NMDS on dispersion-weighted abundances:
 
 {% highlight r %}
 # calculate weights
-dpw <- dispweight(dune, dune.env$Management, nperm = 100)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in dispweight(dune, dune.env$Management, nperm = 100): unused argument (nperm = 100)
-{% endhighlight %}
-
-
-
-{% highlight r %}
+dpw <- dispweight(dune, dune.env$Management, nsimul = 100)
+ 
 # NMDS on dispersion weighted community data
-disp_nmds <- metaMDS(dpw$transformed, distance = 'bray')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in metaMDS(dpw$transformed, distance = "bray"): object 'dpw' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
+disp_nmds <- metaMDS(dpw, distance = 'bray')
+ 
 # plot
 plot(disp_nmds, display = 'sites', type = 'n')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot(disp_nmds, display = "sites", type = "n"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'disp_nmds' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 points(disp_nmds, col = cols[dune.env$Management], pch = 16, cex = 1.5)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in points(disp_nmds, col = cols[dune.env$Management], pch = 16, : object 'disp_nmds' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 ordihull(disp_nmds, groups = dune.env$Management, lty = 'dotted')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in scores(ord, display = display, ...): object 'disp_nmds' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 ordispider(disp_nmds, groups = dune.env$Management, label = TRUE)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in inherits(ord, "cca"): object 'disp_nmds' not found
-{% endhighlight %}
+![plot of chunk plot_disp](/figures/plot_disp-1.png) 
  
 In this example there is not a big difference, but as they write in their paper:
  
