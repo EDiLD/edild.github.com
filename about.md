@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am a PhD student at the University of Koblenz-Landau, Germany, working within the [Quantitative Landscape Ecology Group](http://www.uni-koblenz-landau.de/landau/fb7/umweltwissenschaften/landscape-ecology).
+I am a PhD student at the University of Koblenz-Landau, Germany, working within the [Quantitative Landscape Ecology Group](https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology?set_language=en).
 
 I learned a lot from online resources and  would like to give something back.  
 
