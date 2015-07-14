@@ -10,12 +10,12 @@ tags: QETXR R
 ---
 
 
- 
+
 This is example 3.8 on page 109 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about accumulation and elimination of bromophos from water in a guppy (*Poecilia reticulata*).
- 
+
 There are two data files for this example - one for the [accumulation](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p109_accum.csv) and on for the [elimination](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p109_elimin.csv).
- 
- 
+
+
 ### Accumulation
 First we will look at the accumulation phase:
 
@@ -42,13 +42,13 @@ head(ACCUM)
 ## 5  8.0  24000
 ## 6 24.0  50000
 {% endhighlight %}
- 
+
 Again we have two columns: One for the time and one for the concentration.
- 
- 
+
+
 We fit can same model as in [example 3.7](http://edild.github.com/blog/2013/02/24/quant-ecotox-11/) to this data. The uptake $(k_u)$ and elimination $(k_e)$ constants are estimated simultaneously (at the same time):
- 
- 
+
+
 
 {% highlight r %}
 mod_accum <- nls(BRPHOS ~ KU / KE * 10.5 * (1 - exp(-KE * HOUR)),
@@ -79,7 +79,7 @@ summary(mod_accum)
 ## Number of iterations to convergence: 7 
 ## Achieved convergence tolerance: 3.87e-06
 {% endhighlight %}
- 
+
 
 {% highlight r %}
 HOUR_pred <- seq(min(ACCUM$HOUR), max(ACCUM$HOUR), by = 0.1) 
@@ -89,23 +89,23 @@ plot(ACCUM, main = 'Accumulation')
 lines(HOUR_pred, predict(mod_accum, newdata = data.frame(HOUR = HOUR_pred)))
 {% endhighlight %}
 
-<img src="/figures/plot_accum_model-1.png" title="plot of chunk plot_accum_model" alt="plot of chunk plot_accum_model" width="400px" />
- 
+<img src="../figures/source/2013-02-24-quant-ecotox-12/plot_accum_model-1.png" title="plot of chunk plot_accum_model" alt="plot of chunk plot_accum_model" width="400px" />
+
 So from the accumulation data we estimated the uptake and elimination constants as:
- 
+
 * $k_e = 0.0053 \pm 0.0010$
 * $k_u = 344.798 \pm 31.855$
- 
- 
- 
- 
+
+
+
+
 ### Sequential estimation
 However we could also estimate the elimination constant $(k_e)$ from the elimination phase and then use this estimate for our accumulation data. 
- 
+
 * First estimate $k_e$ from a linear model (linear transformation)
 * Plug this estimated $k_e$ into a nonlinear model to estimate $k_u$
- 
- 
+
+
 
 {% highlight r %}
 # Elimination data
@@ -139,12 +139,12 @@ plot(ELIMIN)
 
 
 {% highlight text %}
-## Error in plot(ELIMIN): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ELIMIN' not found
+## Error in plot(ELIMIN): object 'ELIMIN' not found
 {% endhighlight %}
- 
- 
+
+
 We will estimate $k_e$ from a linear model like in [previous examples](http://edild.github.com/blog/2013/02/24/quant-ecotox-10/). We could also use nls for this.
- 
+
 First we need to transform the bromophos-concentration to linearize the relationship.
 
 {% highlight r %}
@@ -156,7 +156,7 @@ ELIMIN$LBROMO <- log(ELIMIN$BRPHOS)
 {% highlight text %}
 ## Error in eval(expr, envir, enclos): object 'ELIMIN' not found
 {% endhighlight %}
- 
+
 The we can use lm() to fit the linear model:
 
 {% highlight r %}
@@ -178,11 +178,11 @@ summary(mod_elimin_lm)
 
 
 {% highlight text %}
-## Error in summary(mod_elimin_lm): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_elimin_lm' not found
+## Error in summary(mod_elimin_lm): object 'mod_elimin_lm' not found
 {% endhighlight %}
- 
+
 So we get an estimate of $k_e$ as $0.0147 \pm 0.0003$.
- 
+
 This is quite different to the $k_e$ estimated simultaneous from the accumulation data!
 Our linear model fits very good (R^2 = 0.998, no pattern in the residuals), so something is strange here...
 
@@ -221,7 +221,7 @@ plot(fitted(mod_elimin_lm), residuals(mod_elimin_lm), main = 'Residuals')
 
 
 {% highlight text %}
-## Error in plot(fitted(mod_elimin_lm), residuals(mod_elimin_lm), main = "Residuals"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_elimin_lm) : object 'mod_elimin_lm' not found
+## Error in fitted(mod_elimin_lm): object 'mod_elimin_lm' not found
 {% endhighlight %}
 
 
@@ -235,12 +235,12 @@ abline(h = 0, lty = 'dotted')
 {% highlight text %}
 ## Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet
 {% endhighlight %}
- 
- 
+
+
 ### Plug $k_e$ from the elimination phase into the accumulation model
- 
+
 Lets take $k_e$ from the elimination phase and plug it into our accumulation model and investigate the differences:
- 
+
 
 {% highlight r %}
 mod_accum2 <- nls(BRPHOS ~ KU / -coef(mod_elimin_lm)[2] * 10.5 * (1 - exp(coef(mod_elimin_lm)[2] * HOUR)),
@@ -263,9 +263,9 @@ summary(mod_accum2)
 
 
 {% highlight text %}
-## Error in summary(mod_accum2): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_accum2' not found
+## Error in summary(mod_accum2): object 'mod_accum2' not found
 {% endhighlight %}
- 
+
 This estimates $k_u = 643.9 \pm 40.4$ which differs greatly from our initial results!
 Lets plot this model and the residuals:
 
@@ -293,14 +293,14 @@ plot(fitted(mod_accum2), residuals(mod_accum2))
 
 
 {% highlight text %}
-## Error in plot(fitted(mod_accum2), residuals(mod_accum2)): error in evaluating the argument 'x' in selecting a method for function 'plot': Error in fitted(mod_accum2) : object 'mod_accum2' not found
+## Error in fitted(mod_accum2): object 'mod_accum2' not found
 {% endhighlight %}
 
-<img src="/figures/plot_accum_model2-1.png" title="plot of chunk plot_accum_model2" alt="plot of chunk plot_accum_model2" width="400px" />
- 
- 
+<img src="../figures/source/2013-02-24-quant-ecotox-12/plot_accum_model2-1.png" title="plot of chunk plot_accum_model2" alt="plot of chunk plot_accum_model2" width="400px" />
+
+
 The residuals show a clear curve pattern. But we could also look at the residual sum of squares and the AIC to see which model fit better to the accumulation data:
- 
+
 
 {% highlight r %}
 # Residual sum of squares
@@ -349,10 +349,10 @@ AIC(mod_accum2)
 {% highlight text %}
 ## Error in AIC(mod_accum2): object 'mod_accum2' not found
 {% endhighlight %}
- 
+
 So the first model seem to better fit to the data. However see the discussion in the book for this example!
- 
+
 Once again we reproduced the results as in the book using R :)
- 
+
 Code and data are available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p109'.
- 
+
