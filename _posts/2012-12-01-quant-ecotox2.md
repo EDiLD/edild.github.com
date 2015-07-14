@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, Page 33, example 2.1, Winsorization"
+title: "Quantitative Ecotoxicology, Page 33, Example 2.1, Winsorization"
 date: 2012-12-01 22:36
 author: Eduard Szöcs
 published: true

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, page 35, Robust Regression on Order Statistics"
+title: "Quantitative Ecotoxicology, Page 35, Robust Regression on Order Statistics"
 date: 2012-12-01 22:37
 author: Eduard Szöcs
 published: true

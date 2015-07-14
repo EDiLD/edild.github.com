@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, page 39, example 2.3, Kaplan–Meier estimates"
+title: "Quantitative Ecotoxicology, Page 39, Example 2.3, Kaplan–Meier estimates"
 date: 2012-12-01 22:47
 author: Eduard Szöcs
 published: true
