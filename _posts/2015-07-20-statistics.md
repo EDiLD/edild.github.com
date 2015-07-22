@@ -5,7 +5,7 @@ author: "Eduard Szöcs"
 date: "July 22, 2015"
 published: true
 status: publish
-draft: true
+draft: false
 tags: R
 ---
  
