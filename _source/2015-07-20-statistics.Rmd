@@ -1,0 +1,36 @@
+---
+layout: post
+title: 'Statistics: It works, bitches!'
+author: "Eduard Szöcs"
+date: "July 22, 2015"
+published: true
+status: process
+draft: true
+tags: R
+---
+
+
+One month ago R user Roman Luštrik [asked on the Stackoverflow R chat](http://chat.stackoverflow.com/transcript/message/24020860#24020860) for predictions when the R-tag will reach 100,000 questions.
+
+I accepted the challenge, grabbed some data from Stackoverflow and build a very simplistic GAM ([see here for details](http://rpubs.com/edisz/89600)).
+My model predicted that on **22nd July 2015** the 100,000th question will be asked.
+A [few days later](http://chat.stackoverflow.com/transcript/106?m=24158386#24158386) I refitted the model with updated data and the prediction was **21st July 2015**.
+
+Roman's prediction using **ETS** (Error, Trend, Seasonal) **E**xponen**T**ial**S**moothing was [few days later](http://rpubs.com/RomanL/89598), on 26th July.
+
+
+
+
+#### The truth 
+
+After waiting a month we knew the date when the 100,000th question was asked:
+
+Today, the **22nd July 2015**.
+
+This is exactly what my model predicted and I'm quite happy about it!
+In statistics one can always make predictions, but the best is when they are accurate and become true.
+
+Although, the modelling was quick & dirty and it might have been worth a look at the uncertainty of the prediction: **It works, bitches!**
+
+
+<iframe  title="YouTube video player" width="480" height="390" src="http://www.youtube.com/v/rj3rAJUVrGQ?html5=1" frameborder="0" allowfullscreen></iframe>
