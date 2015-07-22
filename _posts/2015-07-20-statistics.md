@@ -16,6 +16,8 @@ I accepted the challenge, grabbed some data from Stackoverflow and build a very 
 My model predicted that on **22nd July 2015** the 100,000th question will be asked.
 A [few days later](http://chat.stackoverflow.com/transcript/106?m=24158386#24158386) I refitted the model with updated data and the prediction was **21st July 2015**.
  
+<!--more-->
+ 
 Roman's prediction using **ETS** (Error, Trend, Seasonal) **E**xponen**T**ial**S**moothing was [few days later](http://rpubs.com/RomanL/89598), on 26th July.
  
  
