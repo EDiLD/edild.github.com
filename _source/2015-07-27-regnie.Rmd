@@ -13,6 +13,8 @@ Recently, I needed some rainfall data for an analysis of pesticide occurrences.
 The German Meteorological Service (DWD) provides the REGNIE dataset (temporal resolution 24h, spatial resolution 1km) for free (can be downloaded [here](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/)).
 REGNIE is a gridded dataset covering whole Germany and is produced by interpolation from station observations (via multiple regression), see the [description (german)](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/REGNIE_Beschreibung.pdf) for more details.
 
+<!--more-->
+
 For my project I needed to loop and extract daily precipitation from lots of such grids. 
 Therefore, I wrote a small function to read the REGNIE data into R as a raster object.
 The function unpacks the .gz archive, deals with missing values and set the CRS to longlat.
