@@ -1,0 +1,44 @@
+---
+layout: post
+title: 'Reading REGNIE DWD data into R'
+author: "Eduard Szöcs"
+date: "July 27, 2015"
+published: true
+status: published
+draft: false
+tags: R
+---
+
+Recently, I needed some rainfall data for an analysis of pesticide occurrences. 
+The German Meteorological Service (DWD) provides the REGNIE dataset (temporal resolution 24h, spatial resolution 1km) for free (can be downloaded [here](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/)).
+REGNIE is a gridded dataset covering whole Germany and is produced by interpolation from station observations (via multiple regression), see the [description (german)](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/REGNIE_Beschreibung.pdf) for more details.
+
+For my project I needed to loop and extract daily precipitation from lots of such grids. 
+Therefore, I wrote a small function to read the REGNIE data into R as a raster object.
+The function unpacks the .gz archive, deals with missing values and set the CRS to longlat.
+Currently is available in my [esmisc package](https://github.com/EDiLD/esmisc).
+
+### An example
+Here, I read the daily precipitation on Christmas 2014:
+
+```{r, eval=FALSE}
+# get the newest version of esmisc
+require(devtools)
+install_github('EDiLD/esmisc')
+```
+
+
+I downloaded the file from the FTP (see link above) and it is also shipped with the package. To read the file you can simply use (for downloaded data just use the path to the .gz file)
+
+```{r regnie, message=FALSE}
+require(esmisc)
+# read the file shipped with esmisc
+r <- read_regnie(system.file('extdata', 'ra141224.gz', package = 'esmisc'))
+# plot the raster
+require(raster)
+plot(r, main = 'Precipitation on 24.12.2014')
+```
+
+Et viola, the precipitation values are given in mm and the CRS is longlat.
+In a next step you could reproject the raster (using the `projectRaster()` function [slow, but R] or [gdalwarp](http://www.gdal.org/gdalwarp.html) [faster]) or extract some value from the raster (using `extract()`).
+

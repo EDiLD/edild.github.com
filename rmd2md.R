@@ -11,6 +11,7 @@
 #' @param out_ext the file extention to use for processed files.
 #' @param in_ext the file extention of input files to process.
 #' @param recursive should rmd files in subdirectories be processed.
+#' @param process all, irrespective of status
 #' @return nothing.
 #' @author Jason Bryer <jason@bryer.org> edited by Andy South
 rmd2md <- function(path_site = getwd(),
@@ -46,7 +47,7 @@ rmd2md <- function(path_site = getwd(),
           #This will ensure that all line returns are retained.
           content[nchar(content) == 0] <- ' '
           message(paste('Processing ', f, sep = ''))
-          content[statusLine] <- 'status: publish'
+          content[statusLine] <- 'status: published'
           content[publishedLine] <- 'published: true'
           
           #andy change to path
