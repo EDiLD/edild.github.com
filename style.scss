@@ -17,15 +17,15 @@ html {
   font-size: 100%;
 }
 
-body {
-	background: $white;
+body {	
+  background: $white;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 1000px;
   padding: 0 10px;
   width: 100%;
 }
@@ -69,11 +69,11 @@ p {
 }
 
 a {
-  color: $blue;
+  color: $red;
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    color: $red;
   }
 }
 
@@ -155,8 +155,8 @@ img {
 }
 
 .masthead {
-  padding: 4px 0;
-  border-bottom: 4px solid $lightGray;
+  padding: 2px 0;
+  border-bottom: 2px solid $lightGray;
 
   @include mobile {
     text-align: center;
@@ -192,7 +192,7 @@ img {
 
 .site-name {
   margin: 0;
-  color: #002593;
+  color: $darkerGray;
   cursor: pointer;
   font-family: $helveticaNeue;
   font-weight: 350;
@@ -215,7 +215,7 @@ nav {
   margin-top: 35px; 
   font-family: $helveticaNeue;
   font-size: 18px;
-  border-top: 4px solid $lightGray;
+  border-top: 2px solid $lightGray;
   padding-top: 10px 0;
 
   @include mobile {
@@ -240,14 +240,23 @@ nav {
   }
 }
 
-.active {
-    background-color: $lightGray;
-    color: $black;
-    -webkit-border-radius: 9px;
-    -moz-border-radius: 9px;
-    border-radius: 9px;
-    padding: 1px 6px 4px 6px;
+// active page in navigation bar
+.activepage {
+   color: $red; 
+   font-size: 1.6em; 
+   font-weight: bold;
 } 
+
+.activepage a {
+   color: $red; 
+   font-size: 1.6em; 
+   font-weight: bold;
+}
+
+.activepage a:hover { 
+  text-decoration: none; 
+  color: $red;
+  }
 
 //
 // .main
