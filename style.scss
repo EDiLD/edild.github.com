@@ -148,7 +148,7 @@ img {
 
 .site-name {
   margin: 0;
-  color: $darkerGray;
+  color: $darkGray;
   cursor: pointer;
   font-family: $fira;
   font-weight: 350;
@@ -157,7 +157,9 @@ img {
 }
 
 .site-description {
-  margin: -5px 0 0 0;
+  margin-top: -25px;
+  margin-bottom: -25px;
+  margin-left: 20px;
   color: $gray;
   font-size: 16px;
 
@@ -168,9 +170,10 @@ img {
 
 nav {
   margin-top: 35px; 
-  font-family: $fira;
+  font-family: $fira sans;
   font-size: 18px;
   border-top: 2px solid $lightGray;
+  border-bottom: 2px solid $lightGray;
   padding-top: 10px 0;
 
   @include mobile {
