@@ -68,8 +68,10 @@ sass:
 
 # Use the following plug-ins
 gems:
-  - jemoji # Emoji please!
-  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
+    - jekyll-mentions
+    - jemoji
+    - jekyll-redirect-from
+    - jekyll-sitemap
 
 # Exclude these files from your production _site
 exclude:
