@@ -27,12 +27,12 @@ body {
   margin: 0 auto;
   max-width: 1000px;
   padding: 0 10px;
-  width: 100%;
+  width: 100%
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $fira;
-  color: $darkerGray;
+  color: $gray;
   font-weight: bold;
 
   line-height: 1.7;
@@ -157,7 +157,7 @@ img {
 }
 
 .site-description {
-  margin-top: -25px;
+  margin-top: -10px;
   margin-bottom: -25px;
   margin-left: 20px;
   color: $gray;
@@ -171,7 +171,7 @@ img {
 nav {
   margin-top: 35px; 
   font-family: $fira;
-  font-size: 18px;
+  font-size: 16px;
   border-top: 2px solid $lightGray;
   border-bottom: 2px solid $lightGray;
   padding-top: 10px 0;
@@ -201,13 +201,13 @@ nav {
 // active page in navigation bar
 .activepage {
    color: $red; 
-   font-size: 1.6em; 
+   font-size: 18px; 
    font-weight: bold;
 } 
 
 .activepage a {
    color: $red; 
-   font-size: 1.6em; 
+   font-size: 18px; 
    font-weight: bold;
 }
 
@@ -246,20 +246,36 @@ nav {
 
   .read-more {
     text-transform: uppercase;
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
 .wrapper-footer {
-  margin-top: 50px;
-  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  border-top: 4px solid $red;
   border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  background-color: $darkGray;
 }
 
 footer {
   padding: 20px 0;
-  text-align: center;
+  text-align: left;
+}
+
+
+
+
+/*********************/
+/* Sidebar */
+/*********************/
+
+
+.sidebar {
+  list-style-type: none;
+  font-size: 14px;
+  padding-right: 0;
+  color: $gray;
+  line-height: 150%;
 }
 
 
@@ -278,34 +294,3 @@ footer {
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-
-.badge-poster {
-  padding: 1px 9px 2px;
-  font-size: 12.025px;
-  font-weight: bold;
-  white-space: nowrap;
-  color: #ffffff;
-  background-color: #ff9900;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
-  border-radius: 9px;
-}
-
-.badge-open {
-  padding: 1px 9px 2px;
-  font-size: 12.025px;
-  font-weight: bold;
-  white-space: nowrap;
-  color: #ffffff;
-  background-color: #0099ff;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
-  border-radius: 9px;
-}
-
-
-
-// Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
-@import "highlights";
-@import "svg-icons";

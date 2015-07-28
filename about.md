@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 
+<img style="float: left" width="150" src="/images/me.jpg" style="padding:20px;">
+
 I am a PhD student at the University of Koblenz-Landau, Germany, working within the [Quantitative Landscape Ecology Group](https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology?set_language=en).
 
 I learned a lot from online resources and  would like to give something back.  
@@ -13,7 +15,8 @@ Moreover, I am a freelance R developer with background in ecology and ecotoxicol
 
 
 
-For more see my [CV](/files/escv.pdf).
+See my [CV](/files/escv.pdf) for more details.
+
 
 <a href="https://scholar.google.de/citations?user=QlQH1zEAAAAJ&hl=en" target="_blank">
 <img height="49" src="http://scholar.google.de/intl/de/scholar/images/scholar_logo_lg_2011.gif" alt="google scholar">
