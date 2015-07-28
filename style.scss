@@ -19,7 +19,7 @@ html {
 
 body {	
   background: $white;
-  font: 18px/1.4 $helvetica;
+  font: 18px/1.4 $fira;
   color: $darkGray;
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
+  font-family: $fira;
   color: $darkerGray;
   font-weight: bold;
 
@@ -146,55 +146,11 @@ img {
 /* LAYOUT / SECTIONS */
 /*********************/
 
-//
-// .masthead
-//
-
-.wrapper-masthead {
-  margin-bottom: 50px;
-}
-
-.masthead {
-  padding: 2px 0;
-  border-bottom: 2px solid $lightGray;
-
-  @include mobile {
-    text-align: center;
-  }
-}
-
-.site-avatar {
-  float: left;
-  width: 80px;
-  height: 80px;
-  margin-right: 15px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-
-  img {
-    border-radius: 5px;
-  }
-}
-
-.site-info {
-  float: left;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-}
-
 .site-name {
   margin: 0;
   color: $darkerGray;
   cursor: pointer;
-  font-family: $helveticaNeue;
+  font-family: $fira;
   font-weight: 350;
   font-size: 30px;
   letter-spacing: 1px;
@@ -211,9 +167,8 @@ img {
 }
 
 nav {
-  float: right;
   margin-top: 35px; 
-  font-family: $helveticaNeue;
+  font-family: $fira;
   font-size: 18px;
   border-top: 2px solid $lightGray;
   padding-top: 10px 0;

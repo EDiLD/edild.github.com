@@ -14,44 +14,47 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+       <!--adding font awesome-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <!--adding fira sans-->
+    <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+    
+    <!--adding academicons-->
+    <link rel="stylesheet" href="/academicons_v1.4/academicons.css" />
   </head>
 
   <body>
     <!-- add mathjax -->
     <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-    });
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
     </script>
     <script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
     
-    
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <div class="site-info">
-             <p><span style="font-size: 230%">Eduard <strong>Szöcs</strong></span>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
-
-      {% assign current = page.url | downcase | split: '/' %}
-          <nav>
-            <a href="{{ site.baseurl }}/" {% if page.title == 'Home' %}class='activepage'{% endif %}>Home</a>
-            <a href="{{ site.baseurl }}/publications" {% if current[1] == 'publications' %}class='activepage'{% endif %} >Publications</a>
-            <a href="{{ site.baseurl }}/packages" {% if current[1] == 'packages' %}class='activepage'{% endif %}>R-Packages</a>
-            <a href="{{ site.baseurl }}/about" {% if current[1] == 'about' %}class='activepage'{% endif %}>About</a>
-            <a href="{{ site.baseurl }}/tags" {% if current[1] == 'tags' %}class='activepage'{% endif %}>Topics</a>
-            <a href="{{ site.baseurl }}/indexbrief" {% if current[1] == 'indexbrief' %}class='activepage'{% endif %}>Index</a>
-          </nav>
-        </header>
-      </div>
+    <div class="container">
+    <div class='site-name'>
+      <p><span style="font-size: 230%">Eduard <strong>Szöcs</strong></span>
+      <p class="site-description">{{ site.description }}</p>
     </div>
+     </div>
 
-    <div id="main" role="main" class="container">
+<div class="container">
+    {% assign current = page.url | downcase | split: '/' %}
+      <nav>
+        <a href="{{ site.baseurl }}/" {% if page.title == 'Home' %}class='activepage'{% endif %}>Home</a>
+        <a href="{{ site.baseurl }}/publications" {% if current[1] == 'publications' %}class='activepage'{% endif %} >Publications</a>
+        <a href="{{ site.baseurl }}/packages" {% if current[1] == 'packages' %}class='activepage'{% endif %}>R-Packages</a>
+        <a href="{{ site.baseurl }}/about" {% if current[1] == 'about' %}class='activepage'{% endif %}>About</a>
+        <a href="{{ site.baseurl }}/tags" {% if current[1] == 'tags' %}class='activepage'{% endif %}>Topics</a>
+        <a href="{{ site.baseurl }}/indexbrief" {% if current[1] == 'indexbrief' %}class='activepage'{% endif %}>Index</a>
+      </nav>
+  </div>
+    
+    <div class="container">
       {{ content }}
     </div>
 
