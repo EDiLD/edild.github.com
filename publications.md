@@ -3,6 +3,16 @@ layout: page
 permalink: /publications/
 ---
 
+
+<div class='sidebar'>
+	<li><span style="color:#e14000"><i class="fa fa-github"></i></span> Link to github repository</li>
+	<li><span style="color:#e14000"><i class="fa fa-file-pdf-o"></i></span> Link to pdf</li>
+	<li><span style="color:#e14000"><i class="cc cc-cc"></i></span> Link to pdf (Creative Commons License)</li>
+	<li><span style="color:#e14000"><i class="ai ai-figshare"></i></span> Link to data available on figshare </li>
+	<li><span style="color:#e14000"><i class="ai ai-dryad"></i></span> Link to data available on dryad</li>
+</div>
+
+
 2015
 --------
   
