@@ -14,8 +14,8 @@ permalink: /about/
   </div>
   <div class="col-md-9">
  <p>
-I am a PhD student at the University of Koblenz-Landau, Germany, working within the <a href="https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology?set_language=en" target="_blank">Quantitative Landscape Ecology Group</a>. 
-Although, many of the posts are related to my PhD work, anything I write here does not in any way represent the views of the University of Koblenz-Landau.
+I am a PhD student at the University of Koblenz-Landau, Germany, working in the <a href="https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology?set_language=en" target="_blank">Quantitative Landscape Ecology Group</a>. 
+Although, many of my posts are related to my work, anything I write here does not in any way represent the views of the University of Koblenz-Landau.
  </p>
   </div>
 </div>
