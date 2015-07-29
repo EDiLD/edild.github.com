@@ -1,6 +1,6 @@
 <div class="container">
       <div>
-        <p class='site-name'><span style="font-size: 200%">Eduard <strong>Szöcs</strong></span>
+        <p class='site-name'><span style="font-size: 200%"><span style="color: #6B6A6A">Eduard </span><strong>Szöcs</strong></span>
         <p class="site-description">{{ site.description }}</p>
       </div>
 </div>
@@ -10,7 +10,7 @@
       <nav>
         <a href="{{ site.baseurl }}/" {% if page.title == 'Home' %}class='activepage'{% endif %}><i class="fa fa-align-justify"></i> Blog        </a>
         <a href="{{ site.baseurl }}/publications" {% if current[1] == 'publications' %}class='activepage'{% endif %} ><i class="fa fa-file-o"></i> Publications        </a>
-        <a href="{{ site.baseurl }}/packages" {% if current[1] == 'packages' %}class='activepage'{% endif %}><i class="fa fa-code"></i> Software        </a>
+        <a href="{{ site.baseurl }}/packages" {% if current[1] == 'packages' %}class='activepage'{% endif %}><i class="fa fa-wrench"></i> Code        </a>
         <a href="{{ site.baseurl }}/about" {% if current[1] == 'about' %}class='activepage'{% endif %}><i class="fa fa-info-circle"></i> About        </a>
         <a href="{{ site.baseurl }}/tags" {% if current[1] == 'tags' %}class='activepage'{% endif %}><i class="fa fa-tags"></i> Topics        </a>
         <a href="{{ site.baseurl }}/archives" {% if current[1] == 'archives' %}class='activepage'{% endif %}><i class="fa fa-folder-open-o"></i> Archives        </a>
