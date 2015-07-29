@@ -35,4 +35,4 @@ I am an active member of the <a href="http://forum.r-statistik.de/index.php" tar
 Moreover, I am a freelance R consultant with background in ecology and eco(-toxico)logy.
 </p>
 
-See my [CV](/files/escv.pdf) for more details.
+See my [CV](https://github.com/EDiLD/CV/raw/master/escv.pdf) for more details.
