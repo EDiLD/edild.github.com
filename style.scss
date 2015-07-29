@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
   color: $gray;
   font-weight: bold;
 
-  line-height: 1.7;
+  line-height: 1.5;
   margin: 1em 0 15px;
   padding: 0;
 
@@ -295,4 +295,9 @@ footer {
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
+}
+
+
+.publist {
+    font-size: 16px;
 }
