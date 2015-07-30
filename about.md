@@ -5,14 +5,14 @@ permalink: /about/
 ---
 
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-xs-3">
     <div class="container">
       <div class='sidebar'>
 	<img style="float: left" width="400" src="/images/me.jpg" style="padding:20px;">
 	</div>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-xs-9">
  <p>
 I am a PhD student at the University of Koblenz-Landau, Germany, working in the <a href="https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology?set_language=en" target="_blank">Quantitative Landscape Ecology Group</a>. 
 Although, many of my posts are related to my work, anything I write here does not in any way represent the views of the University of Koblenz-Landau.

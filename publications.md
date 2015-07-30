@@ -5,7 +5,7 @@ permalink: /publications/
 
 
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-mxs-5">
     <div class="container">
       <div class='sidebar'>
 	<li><span style="color:#e14000"><i class="fa fa-github"></i></span> Link to github repository</li>
@@ -16,7 +16,7 @@ permalink: /publications/
 	</div>
     </div>
   </div>
-  <div class="col-md-7">
+  <div class="col-xs-7">
           All of my publications can also be found on ResearchGate and  Google Scholar. If you do not have access to any of my publications feel free to drop me an email.
   </div>
 </div>
