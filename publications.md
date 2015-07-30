@@ -5,7 +5,7 @@ permalink: /publications/
 
 
 <div class="row">
-  <div class="col-mxs-5">
+  <div class="col-xs-5">
     <div class="container">
       <div class='sidebar'>
 	<li><span style="color:#e14000"><i class="fa fa-github"></i></span> Link to github repository</li>
