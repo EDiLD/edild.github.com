@@ -1,0 +1,32 @@
+---
+layout: post
+title: webchem v0.0.2 is out.
+author: "Eduard Szöcs"
+date: "August 19, 2015"
+published: true
+status: process
+draft: false
+tags: R ecotoxicology web-scraping ropensci
+---
+
+A new version of the webchem package is available on [CRAN](https://cran.r-project.org/web/packages/webchem/index.html).
+
+### Allan Woods database
+The biggest visible change is the implementation of `allanwood()`, which queries data from [Allan Woods Compendium of Pesticides](http://www.alanwood.net/pesticides). 
+You can query his database via the common name or the CAS:
+```{r, message=FALSE}
+require(webchem)
+allanwood('Fluazinam', type = 'commonname')
+allanwood('79622-59-6', type = 'cas')$cname
+```
+
+### Other changes
+All other changes are under the hood:
+
+* fixing problems with `NA` handling
+* the functions now return `NA` if the server is not reachable
+* misc bug fixes
+* Addition of unit tests
+* Improved documentation
+* Some function now check the user input.
+
