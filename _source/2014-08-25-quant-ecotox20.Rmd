@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "Quantitative Ecotoxicology, Page 223, Example 5.1, Analysis of Variance"
-date: 2014-08-25 12:10
+date: 2015-09-05 15:50
 author: Eduard Szöcs
 published: true
 status: published
 draft: false
 tags: QETXR R
 ---
+
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
 options(scipen = 1, digits = 5)
 require(knitcitations)
