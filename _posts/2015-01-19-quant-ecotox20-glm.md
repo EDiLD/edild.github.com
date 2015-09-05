@@ -12,7 +12,7 @@ tags: QETXR R
 
 
  
-[Previously](http://edild.github.io/quant-ecotox20/), I showed how to analyze the fish survival data using the arcsine square root transformation.
+[Previously](http://edild.github.io/quant-ecotox20/), I showed how to analyse the fish survival data using the arcsine square root transformation.
 Warton & Hui (2011) demonstrated that *the arcsine transform should not be used in either circumstance*, but instead use Generalized Linear Models.
 This post is about how to analyse example 5.1 on page 223 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) using Generalised Linear Models.
  
@@ -27,7 +27,7 @@ The binomial distribution is described by two parameters:
  
 $$Bin(N, \pi)$$
  
-where N is the number of fish and $\pi$ is the probabilty of survial.
+where N is the number of fish and $\pi$ is the probability of survival.
  
  
 Here I plotted the binomial distribution for ten fish at different probabilities ($\pi = 0.5, 0.75, 0.95, 0.05$), to give you a feeling how this distribution looks like at difference $\pi$:
@@ -68,7 +68,7 @@ Let's explain this a little bit:
  
 $$ y \sim Bin(N, \pi) $$, basically says: We assume that the number of dead fish ($y$) binomially distributed, where N = exposed animals and $\pi$ i is the probability of survival, which together give the expected number of surviving fish ($E(y) = N \times \pi$).
  
-$$ logit~(\pi) = \alpha + \beta x $$, basically says: We are modeling the probability of survival as function of treatment (x) [note the righthand side of the formula is similar to linear regression]. However, we need to ensure that $$0 < \pi < 1$$, and therefor the relationship is on the logit scale. The estimated paremeters ($\beta) are directly interpretable as changes in log odds between treatments.
+$$ logit~(\pi) = \alpha + \beta x $$, basically says: We are modelling the probability of survival as function of treatment (x) [note the right-hand side of the formula is similar to linear regression]. However, we need to ensure that $$0 < \pi < 1$$, and therefore the relationship is on the logit scale. The estimated parameters ($\beta) are directly interpretable as changes in log odds between treatments.
  
 $$ var(y) =  \pi (1 - \pi) / N $$, says that variance of the binomial distribution
 is a quadratic function of the mean. Note, that in linear regression we assume a constant variance.
@@ -142,7 +142,7 @@ summary(modglm)
 ## Number of Fisher Scoring iterations: 5
 {% endhighlight %}
  
-The estimates for `(Intercept)` are the log odds to survive in the treament:
+The estimates for `(Intercept)` are the log odds to survive in the treatment:
  
  
 
@@ -189,7 +189,7 @@ logodd_512 - logodd_0
 Note, that this kind of interpretation is not possible with the arcsine transformation.
  
 #### Hypothesis tests
-Similar to the previuos post we can perform an F-Test:
+Similar to the previous post we can perform an F-Test:
  
 
 {% highlight r %}
