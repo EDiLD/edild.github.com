@@ -1,13 +1,14 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, Page 223, Example 5.1, with GLM"
+title: "Quantitative Ecotoxicology, Page 223, Example 5.1, Using GLM"
 date: 2015-01-19 22:08
 author: Eduard Szöcs
 published: false
-status: publish
+status: process
 draft: true
 tags: QETXR R
 ---
+
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
 options(scipen = 1, digits = 5)
 require(knitcitations)
@@ -22,7 +23,7 @@ Warton & Hui (2011) demonstrated that *the arcsine transform should not be used 
 This post is about how to analyse example 5.1 on page 223 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) using Generalised Linear Models.
 
 
-#### Introduction
+### Introduction
 
 Data of this type (*x out of n*) can be directly modelled using a [binomial distribution](http://en.wikipedia.org/wiki/Binomial_distribution).
 
@@ -35,8 +36,9 @@ $$Bin(N, \pi)$$
 where N is the number of fish and $\pi$ is the probabilty of survial.
 
 
-Here I plotted the binomial distribution for then fish at different probabilities ($\pi = 0.5, 0.75, 0.95, 0.05$):
-```{r, message=FALSE}
+Here I plotted the binomial distribution for ten fish at different probabilities ($\pi = 0.5, 0.75, 0.95, 0.05$), to give you a feeling how this distribution looks like at difference $\pi$:
+
+```{r, plot_binomial, message=FALSE}
 require(ggplot2)
 require(reshape2)
 df <- data.frame(k = 0:10, 
@@ -47,25 +49,112 @@ df <- data.frame(k = 0:10,
 dfm <- melt(df, id = 'k')
 
 ggplot(dfm, aes(x = factor(k), y = value, fill = variable)) +
-  geom_bar(stat = 'identity', position = "dodge")+
+  geom_bar(stat = 'identity', position = "dodge") +
   labs(x = expression(pi), y = expression(p(pi))) +
   scale_fill_discrete("Distribution", 
                     labels = c("Bin(10, 0.5)", "Bin(10, 0.75)", "Bin(10, 0.95)", "Bin(10, 0.05)")) +
   theme_bw()
 ```
 
+
+
+### The Model
+
 We can now build a model, where the probability of success is a function of treatment:
 
-$$  y_i \sim Bin(N, \pi_i) \\
-  logit~(\pi_i) = \alpha + \beta x_i \\
-  var(y_i) =  \pi_i (1 - \pi_i) / N $$
+$$  y \sim Bin(N, \pi) \\
+  logit~(\pi) = \alpha + \beta x \\
+  var(y) =  \pi (1 - \pi) / N $$
+  
   
 Let's explain this a little bit:
 
+$$ y \sim Bin(N, \pi) $$, basically says: We assume that the number of dead fish ($y$) binomially distributed, where N = exposed animals and $\pi$ i is the probability of survival, which together give the expected number of surviving fish ($E(y) = N \times \pi$).
 
-#### Which one is better?
-I would say GLMs! They have greater power (Warton & Hui, 2011) and are simpler to interpret.
-Nowadays, there is no need to transform the data as GLMs are readily available in most software packages.
+$$ logit~(\pi) = \alpha + \beta x $$, basically says: We are modeling the probability of survival as function of treatment (x) [note the righthand side of the formula is similar to linear regression]. However, we need to ensure that $$0 < \pi < 1$$, and therefor the relationship is on the logit scale. The estimated paremeters ($\beta) are directly interpretable as changes in log odds between treatments.
+
+$$ var(y) =  \pi (1 - \pi) / N $$, says that variance of the binomial distribution
+is a quadratic function of the mean. Note, that in linear regression we assume a constant variance.
+
+
+
+### How to do it in R?
+
+First I read again the data into R and prepare it:
+
+```{r}
+df <- read.table(header = TRUE, text = 'conc A B C D
+0 1 1 0.9 0.9
+32 0.8 0.8 1 0.8
+64 0.9 1 1 1 
+128 0.9 0.9 0.8 1
+256 0.7 0.9 1 0.5
+512 0.4 0.3 0.4 0.2')
+require(reshape2)
+dfm <- melt(df, id.vars = 'conc', value.name = 'y', variable.name = 'tank')
+dfm$conc <- factor(dfm$conc)
+```
+
+
+The compute a binomial GLM in R we can use the `glm()` function:
+
+```{r}
+modglm <- glm(y ~ conc , family = binomial(link = 'logit'), data = dfm, 
+              weights = rep(10, nrow(dfm)))
+```
+
+Note, that I use the `weights` argument to specify that in each tank we had 10 fish (N in the above formulas).
+The summary gives the estimated parameters:
+
+```{r}
+summary(modglm)
+```
+
+The estimates for `(Intercept)` are the log odds to survive in the treament:
+
+
+```{r}
+# mean proportion surviving in control
+p_0 <- mean(dfm$y[dfm$conc == 0])
+# log odds
+(logodd_0 <- log(p_0 / (1 - p_0)))
+```
+
+Similar the log odds for the highest treatment:
+```{r}
+# mean proportion surviving in control
+p_512 <- mean(dfm$y[dfm$conc == 512])
+# log odds
+(logodd_512 <- log(p_512 / (1 - p_512)))
+```
+
+The estimate for `conc512` (-3.675) gives you the difference in the log odds, as can be seen here:
+```{r}
+logodd_512 - logodd_0
+```
+
+Note, that this kind of interpretation is not possible with the arcsine transformation.
+
+#### Hypothesis tests
+Similar to the previuos post we can perform an F-Test:
+
+```{r}
+drop1(modglm, test = 'F')
+```
+
+Or do multiple comparisons:
+
+```{r, message=FALSE}
+require(multcomp)
+summary(glht(modglm, linfct = mcp(conc = 'Dunnett')))
+```
+
+
+
+
+### Which one is better?
+I would say GLMs! 
+They have greater power (Warton & Hui, 2011), are simpler to interpret and are readily available in most software packages.
 
 
 #### References
