@@ -4,7 +4,7 @@ title: "Species Sensitivity Distributions (SSD) with R"
 date: 2014-12-30 22:05
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: R ecotoxicology
 ---
@@ -66,7 +66,7 @@ df$frac <- ppoints(df$val, 0.5)
 ```
 
 Then we can take a first look at the data:
-```{r}
+```{r ssd_plot_raw}
 require(ggplot2)
 ggplot(data = df) +
   geom_point(aes(x = val, y = frac), size = 5) +
@@ -141,7 +141,7 @@ So for this data and the lognormal distribution the HC5 would be 0.096 with a CI
 ## A fancy plot
 Finally, I generate a fancy SSD plot with predictions (red), with bootstrapped values (blue), CI (dashed) and the raw data (dots):
 
-```{r}
+```{r ssd_plot}
 myboot2 <- function(fit, newxs){
   # resample
   xr <- rlnorm(fit$n, meanlog = fit$estimate[1], sdlog = fit$estimate[2])
