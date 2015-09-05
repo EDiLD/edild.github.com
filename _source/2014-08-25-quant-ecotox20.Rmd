@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, Page 223, Example 5.1"
+title: "Quantitative Ecotoxicology, Page 223, Example 5.1, Analysis of Variance"
 date: 2014-08-25 12:10
 author: Eduard Szöcs
 published: true
-status: publish
+status: process
 draft: false
 tags: QETXR R
 ---
@@ -44,7 +44,7 @@ head(dfm)
 ```
 
 Let's have first look at the data:
-```{r}
+```{r 20_plotraw}
 boxplot(y ~ conc, data = dfm, 
         xlab = 'conc', ylab = 'Proportion surv.')
 ```
@@ -81,7 +81,7 @@ $$ arcsin(\sqrt\frac{1}{4n}) $$
 by adding an extra `ifelse()`.
 
 Let's look at the transformed values:
-```{r}
+```{r 20_plottrans}
 head(dfm)
 boxplot(y_asin ~ conc, data = dfm, 
         xlab = 'conc', ylab = 'Transformed prop. surv.')

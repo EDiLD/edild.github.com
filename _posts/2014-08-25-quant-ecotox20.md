@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Quantitative Ecotoxicology, Page 223, Example 5.1"
+title: "Quantitative Ecotoxicology, Page 223, Example 5.1, Analysis of Variance"
 date: 2014-08-25 12:10
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
@@ -70,7 +70,7 @@ boxplot(y ~ conc, data = dfm,
         xlab = 'conc', ylab = 'Proportion surv.')
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-4](/figures/unnamed-chunk-4-1.png) 
+![plot of chunk 20_plotraw](/figures/20_plotraw-1.png) 
  
 #### Transform response
 Next we apply the arcsine transformation:
@@ -129,7 +129,7 @@ boxplot(y_asin ~ conc, data = dfm,
         xlab = 'conc', ylab = 'Transformed prop. surv.')
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-6](/figures/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-5](/figures/unnamed-chunk-5-1.png) 
  
 Doesn't look that different...
  
@@ -187,18 +187,18 @@ summary(glht(mod, linfct = mcp(conc = 'Tukey')))
 ## 32 - 0 == 0     -0.1472     0.1088   -1.35   0.7530    
 ## 64 - 0 == 0      0.0407     0.1088    0.37   0.9989    
 ## 128 - 0 == 0    -0.0762     0.1088   -0.70   0.9795    
-## 256 - 0 == 0    -0.2211     0.1088   -2.03   0.3633    
+## 256 - 0 == 0    -0.2211     0.1088   -2.03   0.3632    
 ## 512 - 0 == 0    -0.7273     0.1088   -6.69   <0.001 ***
-## 64 - 32 == 0     0.1879     0.1088    1.73   0.5325    
+## 64 - 32 == 0     0.1879     0.1088    1.73   0.5326    
 ## 128 - 32 == 0    0.0709     0.1088    0.65   0.9850    
 ## 256 - 32 == 0   -0.0740     0.1088   -0.68   0.9820    
 ## 512 - 32 == 0   -0.5802     0.1088   -5.33   <0.001 ***
 ## 128 - 64 == 0   -0.1170     0.1088   -1.08   0.8850    
-## 256 - 64 == 0   -0.2619     0.1088   -2.41   0.2055    
+## 256 - 64 == 0   -0.2619     0.1088   -2.41   0.2054    
 ## 512 - 64 == 0   -0.7681     0.1088   -7.06   <0.001 ***
 ## 256 - 128 == 0  -0.1449     0.1088   -1.33   0.7643    
 ## 512 - 128 == 0  -0.6511     0.1088   -5.98   <0.001 ***
-## 512 - 256 == 0  -0.5062     0.1088   -4.65   0.0024 ** 
+## 512 - 256 == 0  -0.5062     0.1088   -4.65   0.0023 ** 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## (Adjusted p values reported -- single-step method)
