@@ -1,0 +1,87 @@
+---
+layout: post
+title: webchem v0.0.3 is out!
+author: "Eduard Szöcs"
+date: "September 25, 2015"
+published: true
+status: published
+draft: false
+tags: R ecotoxicology web-scraping ropensci
+---
+
+A new version of the webchem package is available on [CRAN](https://cran.r-project.org/web/packages/webchem/index.html).
+Don't forget to update!
+
+This version add some functionality especially useful for ecotoxicologists and fixes some minor bugs.
+
+Thanks to [Johannes Ranke](https://github.com/jranke) for fixing a typo with Alan Wood's database:
+The old function name was `allanwood()` - this function is now deprecated and the new one is `alanwood()`.
+
+If you want to contribute - please help me to improve webchem!
+Either by creating a [pull request](https://github.com/ropensci/webchem/blob/master/CONTRIBUTING.md) or by [raising an issue](https://github.com/ropensci/webchem/issues) if you find a bug or some functionality is missing or by any other contribution.
+
+
+### New data sources
+
+#### SRC PHYSPROP
+
+You can now query [SRC physprop database](http://www.srcinc.com/what-we-do/environmental/scientific-databases.html), which contains names and physical properties for over 41,000 chemicals. 
+
+Currently, you can only search for CAS numbers (here for Diuron):
+
+```{r, message = FALSE}
+library(webchem)
+physprop('330-54-1')
+```
+
+
+#### ETOX
+
+[ETOX: Information System Ecotoxicology and Environmental Quality Targets](http://webetox.uba.de/webETOX/index.do?language=en) is a nice database which holds information on substances (a lot of synonyms in there), tests and quality targets.
+
+To use it we follow the common workflow: *Search ID -> Find data with this ID*.
+
+* First we need the ETOX-ID:
+```{r, message = FALSE}
+id <- get_etoxid('Triclosan')
+id
+```
+
+With this ID we can query **substance information**:
+
+```{r, message = FALSE}
+etox_basic(id)
+```
+
+Or **quality targets**:
+
+```{r, message = FALSE}
+targets <- etox_targets(id)
+targets[ , c('Substance', 'Country_or_Region', 'Designation', 'Value_Target_LR', 'Unit')]
+```
+
+And (similar to the EPA AQUIRE database) results of **toxicity tests**:
+
+```{r, message = FALSE}
+tests <- etox_tests(id)
+tests[ , c('Organism', 'Effect', 'Duration', 'Time_Unit','Endpoint', 'Value', 'Unit')]
+```
+
+
+#### PPDB
+The [PPDB : Pesticides Properties DataBase](http://sitem.herts.ac.uk/aeru/iupac/index.htm) is another useful data source for ecotoxicologists. 
+
+Currently, you can query the PPDB only using a CAS number and the function will definitively some improvements in future.
+
+```{r, message = FALSE}
+out <- ppdb_query('330-54-1')
+```
+
+The output is enormous, so I print here only a small part, e.g. the EU member states where
+CAS 330-54-1 (=Diuron) is approved for use.
+
+```{r}
+out[[2]]
+```
+
+
