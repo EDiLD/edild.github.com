@@ -4,7 +4,7 @@ title: webchem v0.0.3 is out!
 author: "Eduard Szöcs"
 date: "September 25, 2015"
 published: true
-status: published
+status: process
 draft: false
 tags: R ecotoxicology web-scraping ropensci
 ---
@@ -12,7 +12,7 @@ tags: R ecotoxicology web-scraping ropensci
 A new version of the webchem package is available on [CRAN](https://cran.r-project.org/web/packages/webchem/index.html).
 Don't forget to update!
 
-This version add some functionality especially useful for ecotoxicologists and fixes some minor bugs.
+This version adds some new functionality especially useful for ecotoxicologists and fixes some minor bugs.
 
 Thanks to [Johannes Ranke](https://github.com/jranke) for fixing a typo with Alan Wood's database:
 The old function name was `allanwood()` - this function is now deprecated and the new one is `alanwood()`.
