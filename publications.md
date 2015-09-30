@@ -28,12 +28,12 @@ permalink: /publications/
 
 ### 2015
 
-Mbaka JG, **Szöcs E**, Schäfer RB (2015). Meta-analysis on the responses of traits of different taxonomic groups to global and local stressors. [Acta Oecologica](http://www.sciencedirect.com/science/article/pii/S1146609X15300175) 69:65–70. doi: 10.1016/j.actao.2015.09.002. <a href="http://www.sciencedirect.com/science/article/pii/S1146609X15300175"><i class="fa fa-money"></i></a>
+Mbaka JG, **Szöcs E**, Schäfer RB (2015). Meta-analysis on the responses of traits of different taxonomic groups to global and local stressors. Acta Oecologica 69:65–70. doi: 10.1016/j.actao.2015.09.002. <a href="http://www.sciencedirect.com/science/article/pii/S1146609X15300175"><i class="fa fa-money"></i></a>
 
 
-**Szöcs E**,  Schäfer RB (2015). Ecotoxicology is not normal. [Environmental Science and Pollution Research](http://link.springer.com/article/10.1007%2Fs11356-015-4579-3). <a href="https://github.com/EDiLD/usetheglm"><i class="fa fa-github"></i></a> <a href="https://github.com/EDiLD/usetheglm/raw/master/manuscript/final/report.pdf"><i class="fa fa-file-pdf-o"></i></a> 
+**Szöcs E**,  Schäfer RB (2015). Ecotoxicology is not normal. Environmental Science and Pollution Research. <a href="https://github.com/EDiLD/usetheglm"><i class="fa fa-github"></i></a> <a href="https://github.com/EDiLD/usetheglm/raw/master/manuscript/final/report.pdf"><i class="fa fa-file-pdf-o"></i></a> <a href="http://link.springer.com/article/10.1007%2Fs11356-015-4579-3"><i class="fa fa-money"></i></a>
 
-**Szöcs E**, Van den Brink P, Lagadic L, Caquet T, Roucaute M, Auber A, Bayona Y, Liess M, Ebke P, Ippolito A, ter Braak CF, Brock TM, Schäfer RB (2015). Analysing chemical-induced changes in macroinvertebrate communities in aquatic mesocosm experiments: a comparison of methods.  [Ecotoxicology](http://link.springer.com/article/10.1007/s10646-015-1421-0#), 24(4), 760-769.
+**Szöcs E**, Van den Brink P, Lagadic L, Caquet T, Roucaute M, Auber A, Bayona Y, Liess M, Ebke P, Ippolito A, ter Braak CF, Brock TM, Schäfer RB (2015). Analysing chemical-induced changes in macroinvertebrate communities in aquatic mesocosm experiments: a comparison of methods.  Ecotoxicology, 24(4), 760-769. <a href="http://link.springer.com/article/10.1007/s10646-015-1421-0#"><i class="fa fa-money"></i></a>
 
 
 ### 2014
