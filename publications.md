@@ -28,7 +28,7 @@ permalink: /publications/
 
 ### 2015
 
-Mbaka JG, **Szöcs E**, Schäfer RB (2015). Meta-analysis on the responses of traits of different taxonomic groups to global and local stressors. [Acta Oecologica](http://www.sciencedirect.com/science/article/pii/S1146609X15300175) 69:65–70. doi: 10.1016/j.actao.2015.09.002
+Mbaka JG, **Szöcs E**, Schäfer RB (2015). Meta-analysis on the responses of traits of different taxonomic groups to global and local stressors. [Acta Oecologica](http://www.sciencedirect.com/science/article/pii/S1146609X15300175) 69:65–70. doi: 10.1016/j.actao.2015.09.002. <a href="http://www.sciencedirect.com/science/article/pii/S1146609X15300175"><i class="fa fa-money"></i></a>
 
 
 **Szöcs E**,  Schäfer RB (2015). Ecotoxicology is not normal. [Environmental Science and Pollution Research](http://link.springer.com/article/10.1007%2Fs11356-015-4579-3). <a href="https://github.com/EDiLD/usetheglm"><i class="fa fa-github"></i></a> <a href="https://github.com/EDiLD/usetheglm/raw/master/manuscript/final/report.pdf"><i class="fa fa-file-pdf-o"></i></a> 
