@@ -12,6 +12,7 @@ package.json
 _source/*.html
 _posts/*.html
 publications.html
+about.html
 
 edild.github.com.sublime-project
 edild.github.com.sublime-workspace

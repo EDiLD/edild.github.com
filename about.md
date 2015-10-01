@@ -22,6 +22,7 @@ Although, many of my posts are related to my work, anything I write here does no
 
 <p markdown = "1">
 My research encompasses **Quantitative Ecotoxicology** (Statistics for Ecotoxicology), **Pollution of streams** (mainly studying pesticides) and the **Effects** of these to communities in the field. 
+
 As an Environmental Scientist I need to have knowledge from very different disciplines, and so is also the software I am comfortable with: 
 <br>
 From storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programming (*R, Python, bash*), to statistics (*R*), to presentation (*LaTeX, markdown*).
@@ -35,4 +36,5 @@ I am an active member of the <a href="http://forum.r-statistik.de/index.php" tar
 Moreover, I am a freelance R consultant with background in ecology and eco(-toxico)logy.
 </p>
 
-See my [CV](https://github.com/EDiLD/edild.github.com/raw/master/files/escv.pdf) for more details.
+See my [CV](https://github.com/EDiLD/CV/raw/master/escv.pdf)<a href="https://github.com/EDiLD/CV/raw/master/escv.pdf"><i class="fa fa-file-pdf-o"></i>
+</a> for more details.
