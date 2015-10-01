@@ -36,5 +36,5 @@ I am an active member of the <a href="http://forum.r-statistik.de/index.php" tar
 Moreover, I am a freelance R consultant with background in ecology and eco(-toxico)logy.
 </p>
 
-See my [CV](https://github.com/EDiLD/CV/raw/master/escv.pdf)<a href="https://github.com/EDiLD/CV/raw/master/escv.pdf"><i class="fa fa-file-pdf-o"></i>
-</a> for more details.
+See my [CV](https://github.com/EDiLD/CV/raw/master/escv.pdf) <a href="https://github.com/EDiLD/CV/raw/master/escv.pdf"><i class="fa fa-file-pdf-o"></i>
+</a> for details.
