@@ -4,7 +4,7 @@ title: webchem v0.0.3 is out!
 author: "Eduard Szöcs"
 date: "September 25, 2015"
 published: true
-status: process
+status: published
 draft: false
 tags: R ecotoxicology web-scraping ropensci
 ---
