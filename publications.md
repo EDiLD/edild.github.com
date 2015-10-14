@@ -5,20 +5,20 @@ permalink: /publications/
 
 
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-xs-5">
     <div class="container">
       <div class='sidebar'>
-	<li><span style="color:#e14000"><i class="fa fa-file-pdf-o"></i></span> Link to pdf </li>
-	<li><span style="color:#e14000"><i class="fa fa-money"></i></span> Link to pdf (paywall)</li>
-	<li><span style="color:#e14000"><i class="cc cc-cc"></i></span> Link to pdf (Creative Commons License)</li>
-	<li><span style="color:#e14000"><i class="fa fa-github"></i></span> Link to github repository</li>
-	<li><span style="color:#e14000"><i class="ai ai-figshare"></i></span> Link to data available on figshare </li>
-	<li><span style="color:#e14000"><i class="ai ai-dryad"></i></span> Link to data available on dryad</li>
-	</div>
+      	<li><span style="color:#e14000"><i class="fa fa-file-pdf-o"></i></span> Link to pdf </li>
+      	<li><span style="color:#e14000"><i class="fa fa-money"></i></span> Link to pdf (paywall)</li>
+      	<li><span style="color:#e14000"><i class="cc cc-cc"></i></span> Link to pdf (Creative Commons License)</li>
+      	<li><span style="color:#e14000"><i class="fa fa-github"></i></span> Link to github repository</li>
+      	<li><span style="color:#e14000"><i class="ai ai-figshare"></i></span> Link to data available on figshare </li>
+      	<li><span style="color:#e14000"><i class="ai ai-dryad"></i></span> Link to data available on dryad</li>
+	    </div>
     </div>
   </div>
-  <div class="col-xs-8">
-    <img src="figures/wordclound_abstracts_firstauthor.png" />
+  <div class="col-xs-7">
+    <img style="float: rigth" width="350" src="/images/wordcloud_abstracts_firstauthor.png">
   </div>
 </div>
 
