@@ -32,8 +32,6 @@ From storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programm
 <p>
 I learned a lot from online resources and  would like to give something back.  
 I am an active member of the <a href="http://forum.r-statistik.de/index.php" target="_blank">german R-community</a>, but you can also find me on stackoverflow. 
-<br>
-Moreover, I am a freelance R consultant with background in ecology and eco(-toxico)logy.
 </p>
 
 See my [CV](https://github.com/EDiLD/CV/raw/master/escv.pdf) <a href="https://github.com/EDiLD/CV/raw/master/escv.pdf"><i class="fa fa-file-pdf-o"></i>
