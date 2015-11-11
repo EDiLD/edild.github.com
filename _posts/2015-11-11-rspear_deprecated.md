@@ -2,10 +2,10 @@
 layout: post
 title:  rspear is deprecated!
 author: "Eduard Szöcs"
-date: "September 25, 2015"
+date: "November 11, 2015"
 published: true
 status: published
-draft: true
+draft: false
 tags: R ecotoxicology SPEAR
 ---
  
