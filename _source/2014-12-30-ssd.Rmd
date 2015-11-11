@@ -4,7 +4,7 @@ title: "Species Sensitivity Distributions (SSD) with R"
 date: 2015-10-9 12:18
 author: Eduard Szöcs
 published: true
-status: process
+status: published
 draft: false
 tags: R ecotoxicology
 ---

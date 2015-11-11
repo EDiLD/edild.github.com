@@ -1,0 +1,26 @@
+---
+layout: post
+title:  rspear is deprecated!
+author: "Eduard Szöcs"
+date: "September 25, 2015"
+published: true
+status: published
+draft: true
+tags: R ecotoxicology SPEAR
+---
+ 
+After being around for three years ([here's](http://edild.github.io/rspear1/) the release post),
+[rspear](https://github.com/EDiLD/rspear) is now deprecated.
+ 
+`rspear` is out-of-date; development and maintenance has stopped. 
+Functionality of functions and updates of traits cannot be guaranteed any more!
+ 
+On CRAN the package will be [archived](https://cran.r-project.org/src/contrib/Archive/webchem/) and I also will keep the [GitHub repository](https://github.com/EDiLD/rspear) for future references.
+ 
+ 
+Please use the new SPEAR Calculator available [here](http://www.systemecology.eu/spearcalc/), to calculate SPEAR.
+ 
+ 
+**Query:**
+ 
+* **Did anybody use rspear?** -  If so ping me on twitter, raise an issue on GitHub or send me an Email.
