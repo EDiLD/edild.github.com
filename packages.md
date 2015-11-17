@@ -14,3 +14,6 @@ Package   |   Description |   CRAN   |  github | Role
 <a href="https://github.com/EDiLD/rspear" style="text-decoration:none">rspear</a> | Deprecated! (Calculate SPEARpesticides in R) | <a href="http://cran.r-project.org/web/packages/rspear/index.html" style="text-decoration:none"><span class="badge-deprecated">CRAN</span></a> | <a href="https://github.com/EDiLD/rspear" style="text-decoration:none"><img src="/figures/blacktocat.png" alt="blacktocat" width="30" height="30"></a> | Author
 <a href="https://github.com/EDiLD/restax" style="text-decoration:none">restax</a> | Resolve ambiguous taxa |  | <a href="https://github.com/EDiLD/restax" style="text-decoration:none"><img src="/figures/blacktocat.png" alt="blacktocat" width="30" height="30"></a> | Author
 <a href="https://github.com/EDiLD/esmisc" style="text-decoration:none">esmisc</a> | Miscellaneous functions |  | <a href="https://github.com/EDiLD/esmisc" style="text-decoration:none"><img src="/figures/blacktocat.png" alt="blacktocat" width="30" height="30"></a> | Author
+
+The *taxize* and *webchem* packages are part of the [ROpenSci](https://ropensci.org/) collective.
+[![alt text](https://ropensci.org/assets/common-files/img/content/blog_header_logo.png)](https://ropensci.org/)
