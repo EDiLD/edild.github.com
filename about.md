@@ -28,6 +28,10 @@ As an Environmental Scientist I need to have knowledge from very different disci
 From storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programming (*R, Python, bash*), to statistics (*R*), to presentation (*LaTeX, markdown*).
 </p>
 
+<p>
+Since November 2015 I also work as a part-time freelance scientist \& consultant. Main topics are data sourcing (web scraping), data cleaning, data analysis of environmental and ecological data. Moreover, I give course on ecological statistics using the software "R".
+Feel free to contact me, if you're interested.
+</p>
 
 <p>
 I learned a lot from online resources and  would like to give something back.  
