@@ -25,7 +25,7 @@ My research encompasses **Quantitative Ecotoxicology** (Statistics for Ecotoxico
 
 As an Environmental Scientist I need to have knowledge from very different disciplines, and so is also the software I am comfortable with: 
 <br>
-From storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programming (*R, Python, bash*), to statistics (*R*), to presentation (*LaTeX, markdown*).
+from storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programming (*R, Python, bash*), to statistics (*R*), to presentation (*LaTeX, markdown*).
 </p>
 
 <p>
