@@ -29,7 +29,7 @@ from storage (*PostgreSQL*), to spatial (*QGIS, GrassGIS, PostGIS*), to programm
 </p>
 
 <p>
-Since November 2015 I also work as a part-time freelance scientist \& consultant. Main topics are data sourcing (web scraping), data cleaning, data analysis of environmental and ecological data. Moreover, I give course on ecological statistics using the software "R".
+Since November 2015 I also work as a part-time **freelance scientist & consultant**. Main topics are: data sourcing (web scraping), cleaning and analysis of environmental and ecological data. Moreover, I give courses on ecological statistics using the software "R".
 Feel free to contact me, if you're interested.
 </p>
 
