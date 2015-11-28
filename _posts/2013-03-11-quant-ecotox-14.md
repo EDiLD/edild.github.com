@@ -30,13 +30,13 @@ head(NAP)
 
 
 {% highlight text %}
-##                      X..xml.version.1.0.encoding.utf.8..
-## 1 <!DOCTYPE html PUBLIC -//W3C//DTD XHTML 1.0 Strict//EN
-## 2     http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd>
-## 3                                                 <html>
-## 4                                                 <head>
-## 5                <title>503 Connection timed out</title>
-## 6                                                </head>
+##   CONC DEAD TOTAL
+## 1    0    1    26
+## 2    0    0    26
+## 3    0    0    26
+## 4    0    0    26
+## 5    0    1    26
+## 6    0    0    26
 {% endhighlight %}
  
 The data consists of number of dead animals (DEAD) from all animals (TOTAL) exposed to different concentrations (CONC).
@@ -45,12 +45,6 @@ First we create a new column with the proportion of dead animals:
 
 {% highlight r %}
 NAP$PROP <- NAP$DEAD / NAP$TOTAL
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in `$<-.data.frame`(`*tmp*`, "PROP", value = numeric(0)): replacement has 0 rows, data has 15
 {% endhighlight %}
  
 Here is a plot of the data. Note the use of `expression()` (greek letters in the axis labels).
@@ -63,36 +57,6 @@ plot(NAP$CONC, NAP$PROP,
      main = 'Raw data')
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Warning in min(x): no non-missing arguments to min; returning Inf
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in max(x): no non-missing arguments to max; returning -Inf
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in min(x): no non-missing arguments to min; returning Inf
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in max(x): no non-missing arguments to max; returning -Inf
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in plot.window(...): need finite 'xlim' values
-{% endhighlight %}
-
 ![plot of chunk plot_raw](/figures/plot_raw-1.png) 
  
  
@@ -102,30 +66,6 @@ We can estimate the mean control mortality and the confidence interval for the m
 
 {% highlight r %}
 contr_m <- t.test(NAP$PROP[NAP$CONC == 0])
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in is.na(x): is.na() applied to non-(list or vector) of type 'NULL'
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in mean.default(x): argument is not numeric or logical: returning
-## NA
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in var(x): 'x' is NULL
-{% endhighlight %}
-
-
-
-{% highlight r %}
 contr_m
 {% endhighlight %}
 
@@ -191,49 +131,30 @@ The mean control mortality can be calculated as:
 
 {% highlight r %}
 d_control <- mean(NAP$PROP[NAP$CONC == 0])
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in mean.default(NAP$PROP[NAP$CONC == 0]): argument is not numeric
-## or logical: returning NA
-{% endhighlight %}
-
-
-
-{% highlight r %}
 d_control
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## [1] NA
+## [1] 0.012821
 {% endhighlight %}
  
 And the corrected mortalities using Abbotts formula as:
 
 {% highlight r %}
 NAP$PROP_c <- (NAP$PROP - d_control) / (1 - d_control)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in `$<-.data.frame`(`*tmp*`, "PROP_c", value = numeric(0)): replacement has 0 rows, data has 15
-{% endhighlight %}
-
-
-
-{% highlight r %}
 NAP$PROP_c
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## NULL
+##  [1]  0.025974 -0.012987 -0.012987 -0.012987  0.025974 -0.012987  0.064935
+##  [8]  0.181818 -0.012987  0.311169  0.259740  0.181818  0.512266  0.454545
+## [15]  0.610390  0.649351  0.688312  0.766234  0.774892  0.805195  0.805195
+## [22]  1.000000  1.000000  0.922078  1.000000  0.961039  1.000000  1.000000
+## [29]  1.000000  1.000000
 {% endhighlight %}
  
  
@@ -246,12 +167,6 @@ As in the previous example we can fit a dose-response-model to this data using t
 {% highlight r %}
 require(drc)
 mod1 <- drm(PROP ~ CONC, data = NAP, fct = LL.2())
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'PROP' not found
 {% endhighlight %}
  
 Comparing with other model this models performs quite good. Also the lack-of-fit test indicates a reasonable model:
@@ -292,23 +207,11 @@ Abbotts correction resulted to some negative mortalities, therefore I set the co
 {% highlight r %}
 NAP$PROP_c[NAP$PROP_c < 0 | NAP$CONC == 0] <- 0
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in `$<-.data.frame`(`*tmp*`, "PROP_c", value = numeric(0)): replacement has 0 rows, data has 15
-{% endhighlight %}
  
 Then we fit a dose-response model:
 
 {% highlight r %}
 mod2 <- drm(PROP_c ~ CONC, data = NAP, fct = LL.2())
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'PROP_c' not found
 {% endhighlight %}
  
 However a Weibull model fits slightly better the data, so I change to a two-parameter Weibull model (using the `update` function).
@@ -323,7 +226,7 @@ mselect(mod2, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
 {% highlight text %}
 ##      logLik      IC Lack of fit   Res var
 ## W1.2 48.574 -91.148  3.7799e-71 0.0024611
-## W1.2 48.574 -91.148  3.7799e-71 0.0024611
+## LL.2 48.451 -90.902  3.7032e-71 0.0024813
 ## W1.3 48.680 -89.361  3.4656e-71 0.0025342
 ## LL.3 48.667 -89.333  3.4577e-71 0.0025365
 ## LL.4 48.690 -87.381  3.1128e-71 0.0026299
@@ -335,12 +238,6 @@ mselect(mod2, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
 
 {% highlight r %}
 mod2 <- update(mod2, fct = W1.2())
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'PROP_c' not found
 {% endhighlight %}
  
 
@@ -362,17 +259,6 @@ Let's fit a three parameter log-logistic function, where the lower limit is an a
 
 {% highlight r %}
 mod3 <- drm(PROP ~ CONC, data = NAP, fct = LL.3u())
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'PROP' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 plot(mod3, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 mtext('Free (estimated) lower limit - LL3.u', 3)
 {% endhighlight %}
