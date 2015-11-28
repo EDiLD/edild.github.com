@@ -159,6 +159,7 @@ NAP$PROP_c
  
  
 ### Dose-Response-Models
+ 
 #### Ignoring control mortality
  
 As in the previous example we can fit a dose-response-model to this data using the `drc` package:
