@@ -4,7 +4,7 @@ title: "Analysing mesocosm experiments using Generalized Linear Models"
 date: 2015-02-20 15:39
 author: Eduard Szöcs
 published: true
-status: publish
+status: process
 draft: false
 tags: R ecotoxicology prc mvabund
 ---
@@ -115,7 +115,7 @@ mod_pois <- manyglm(abu ~ factor(treatment) * factor(time),
 
 But does this model fit to the data? We can use residual plots to check the model:
 ```{r , plot_resid, fig.width=4, fig.height=4}
-plot(mod_pois)
+plot(mod_pois) 
 ```
 
 The residual plot shows a pronounced fan-shape, which indicates that this model does not fit very well to the data!
@@ -139,7 +139,7 @@ This is easily done via the `permute` package.
 ```{r}
 control <- how(within = Within(type = 'none'),
                plots = Plots(strata = env$replicate, type = 'free'),
-               nperm=50)
+               nperm = 50)
 permutations <- shuffleSet(nrow(abu), control = control)
 ```
 The object `permuations` is a permutation matrix which we will use later in hypothesis testing.
@@ -182,7 +182,7 @@ This gives us a test for the total treatment effect (treatment + treatment x tim
 mod_nb_null <- manyglm(abu ~ factor(time), data = env, 
                        family = 'negative.binomial')
 mod_treat_aov <- anova(mod_nb, mod_nb_null , bootID = permutations,  
-      p.uni='adjusted', test = 'LR') 
+      p.uni = 'adjusted', test = 'LR') 
 ```
 
 
@@ -193,13 +193,13 @@ This is similar to [PRC](http://edild.github.io/blog/2012/12/01/prc2/).
 
 ```{r, message=FALSE, results=FALSE}
 mod_pt <- NULL
-for(i in levels(factor(env$time))) {
+for (i in levels(factor(env$time))) {
   take_abu <- abu[env$time == i, ]
   take_env <- env[env$time == i, ]
   # model
   mod_pt[[i]]$mod <- manyglm(take_abu ~ factor(treatment), data = take_env)
   mod_pt[[i]]$aov <- anova(mod_pt[[i]]$mod, nBoot = 100, 
-                           p.uni = 'adjusted', test = 'LR', show.time="none")
+                           p.uni = 'adjusted', test = 'LR', show.time = "none")
   mod_pt[[i]]$sum <- summary(mod_pt[[i]]$mod, nBoot = 100, 
                              p.uni = 'adjusted', test = 'LR')
 }
