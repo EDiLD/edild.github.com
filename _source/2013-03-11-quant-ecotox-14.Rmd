@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 159, Example 4.6, Control Mortality"
 date: 2013-03-11 23:23
 author: Eduard Szöcs
 published: true
-status: published
+status: process
 draft: false
 tags: QETXR R
 ---
@@ -97,12 +97,13 @@ NAP$PROP_c
 As in the previous example we can fit a dose-response-model to this data using the `drc` package:
 ```{r message=FALSE, warning=FALSE}
 require(drc)
-mod1 <- drm(PROP ~ CONC, data = NAP, fct = LL.2())
+mod1 <- drm(DEAD/TOTAL ~ CONC, weight = TOTAL, data = NAP, fct = LL.2(), type = 'binomial')
 ```
 
-Comparing with other model this models performs quite good. Also the lack-of-fit test indicates a reasonable model:
+Comparing with other model this models performs quite good:
+
 ```{r warning=FALSE}
-mselect(mod1, fctList = list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
+mselect(mod1, fctList = list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3()))
 ```
 
 ```{r plot_mod1}
@@ -123,19 +124,13 @@ NAP$PROP_c[NAP$PROP_c < 0 | NAP$CONC == 0] <- 0
 
 Then we fit a dose-response model:
 ```{r warning=FALSE}
-mod2 <- drm(PROP_c ~ CONC, data = NAP, fct = LL.2())
+mod2 <- drm(PROP_c ~ CONC, weights = TOTAL, data = NAP, fct = LL.2(), type = 'binomial')
 ```
 
-However a Weibull model fits slightly better the data, so I change to a two-parameter Weibull model (using the `update` function).
-
-```{r warning=FALSE}
-mselect(mod2, fctList= list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3(), W1.4()))
-mod2 <- update(mod2, fct = W1.2())
-```
 
 ```{r plot_mod2}
 plot(mod2, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
-mtext('Corrected mortalities - W1.2', 3)
+mtext('Corrected mortalities - LL.2', 3)
 ```
 
 
@@ -147,12 +142,12 @@ Since we have a small amount of control mortality we could check if a model with
 Let's fit a three parameter log-logistic function, where the lower limit is an additional parameter:
 
 ```{r plot_mod3, warning=FALSE}
-mod3 <- drm(PROP ~ CONC, data = NAP, fct = LL.3u())
+mod3 <- drm(PROP ~ CONC, weights = TOTAL, data = NAP, fct = LL.3u(), type = 'binomial')
 plot(mod3, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 mtext('Free (estimated) lower limit - LL3.u', 3)
 ```
 
-However looking at the summary we see that the lower limit is estimated as $0.007 \pm 0.02$ and is statistically not significant.
+However looking at the summary we see that the lower limit (`c`) is basically zero.
 ```{r}
 summary(mod3)
 ```
