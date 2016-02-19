@@ -169,25 +169,6 @@ require(drc)
 mod1 <- drm(DEAD/TOTAL ~ CONC, weight = TOTAL, data = NAP, fct = LL.2(), type = 'binomial')
 {% endhighlight %}
  
-Comparing with other model this models performs quite good:
- 
-
-{% highlight r %}
-mselect(mod1, fctList = list(LL.3(), LL.4(), LL.5(), W1.2(), W1.3()))
-{% endhighlight %}
-
-
-
-{% highlight text %}
-##       logLik     IC Lack of fit
-## LL.2 -87.435 178.87     0.48919
-## LL.3      NA     NA          NA
-## LL.4      NA     NA          NA
-## LL.5      NA     NA          NA
-## W1.2      NA     NA          NA
-## W1.3      NA     NA          NA
-{% endhighlight %}
- 
 
 {% highlight r %}
 plot(mod1, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
