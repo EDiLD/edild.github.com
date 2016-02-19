@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 147, Example 4.3, LC50"
 date: 2013-02-25 18:22
 author: Eduard Szöcs
 published: true
-status: publish
+status: process
 draft: false
 tags: QETXR R
 ---
@@ -14,7 +14,7 @@ require(knitcitations)
 ```
 ```{r echo=FALSE, message=FALSE}
 require(knitr)
-opts_chunk$set(fig.height=6, fig.width=6)
+opts_chunk$set(fig.height = 6, fig.width = 6)
 ```
 
 This is about example 4.3 on page 147 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). This example is about Calculations of $LC_{50}$ values.
@@ -54,10 +54,12 @@ I will use the drc-package of Christian Ritz and Jens Strebig to fit dose-respon
 Here I fit a two-parameter log-logistic model to the data (see `r citet('10.1002/etc.7')` for a review of dose-response-models used in ecotoxicology):
 ```{r, warning=FALSE, message=FALSE}
 require(drc)
-mod <- drm(prop ~ CONC, data = salt, fct =  LL.2())
+mod <- drm(DEAD/TOTAL ~ CONC, weights = TOTAL, data = salt, fct =  LL.2(), type = 'binomial')
 ```
 
-So the usage is similar to `lm()` or `nls()`, except the `fct` argument. This argument defines the model that is fitted to the data.
+So the usage is similar to `lm()` or `nls()` with some addtions:
+The `fct` argument defines the model that is fitted to the data here a 2-parameter log-logistic.
+`weights` specifies the sample size for each group and `type = 'binomial'` specifies that we have a binomial response (default is `continuous` for normally distributed errors).
 
 We can compare this model with other models using the AIC (the smaller the better). 
 
@@ -85,7 +87,7 @@ lines(conc_pred, predict(mod, newdata = data.frame(CONC = conc_pred)))
 
 We can get the $LC_{50}$ with confidence interval from the model using the `ED()` function:
 ```{r}
-ED(mod, 50, interval='delta')
+ED(mod, 50, interval = 'delta')
 ```
 
 Code and data is available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p147'.
@@ -93,6 +95,6 @@ Code and data is available on my [github-repo](https://github.com/EDiLD/r-ed/tre
 #### References
 
 ```{r results='asis', echo=FALSE}
-bibliography('html')
+bibliography()
 ```
 

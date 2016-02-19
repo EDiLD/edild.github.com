@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 147, Example 4.3, LC50"
 date: 2013-02-25 18:22
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
@@ -57,7 +57,7 @@ Lets have a look at the raw data (note that I use a logarithmic scale for the x-
 plot(salt$CONC, salt$prop, xlab = 'Concentration', ylab = 'Proportion dead', log='x')
 {% endhighlight %}
 
-![plot of chunk p147_plot_raw](/figures/p147_plot_raw-1.png) 
+![plot of chunk p147_plot_raw](/figures/p147_plot_raw-1.png)
  
  
 I will use the drc-package of Christian Ritz and Jens Strebig to fit dose-response-curves to this data. The main function of this package is `drm`:
@@ -67,10 +67,12 @@ Here I fit a two-parameter log-logistic model to the data (see Ritz (2010) for a
 
 {% highlight r %}
 require(drc)
-mod <- drm(prop ~ CONC, data = salt, fct =  LL.2())
+mod <- drm(DEAD/TOTAL ~ CONC, weights = TOTAL, data = salt, fct =  LL.2(), type = 'binomial')
 {% endhighlight %}
  
-So the usage is similar to `lm()` or `nls()`, except the `fct` argument. This argument defines the model that is fitted to the data.
+So the usage is similar to `lm()` or `nls()` with some addtions:
+The `fct` argument defines the model that is fitted to the data here a 2-parameter log-logistic.
+`weights` specifies the sample size for each group and `type = 'binomial'` specifies that we have a binomial response (default is `continuous` for normally distributed errors).
  
 We can compare this model with other models using the AIC (the smaller the better). 
  
@@ -90,10 +92,10 @@ mselect(mod, fctList=list(W1.2(),G.2()))
 
 
 {% highlight text %}
-##      logLik      IC Lack of fit    Res var
-## LL.2 14.613 -23.226          NA 0.00067322
-## W1.2     NA      NA          NA         NA
-## G.2      NA      NA          NA         NA
+##       logLik     IC Lack of fit
+## LL.2 -10.045 24.091     0.72632
+## G.2  -11.340 26.681     0.35608
+## W1.2 -12.780 29.561     0.15027
 {% endhighlight %}
  
 The LL.2-model has the lowest AIC so I will keep this. 
@@ -107,12 +109,12 @@ conc_pred <- seq(9, 21, 0.1)
 lines(conc_pred, predict(mod, newdata = data.frame(CONC = conc_pred)))
 {% endhighlight %}
 
-![plot of chunk p147_plot_mod](/figures/p147_plot_mod-1.png) 
+![plot of chunk p147_plot_mod](/figures/p147_plot_mod-1.png)
  
 We can get the $LC_{50}$ with confidence interval from the model using the `ED()` function:
 
 {% highlight r %}
-ED(mod, 50, interval='delta')
+ED(mod, 50, interval = 'delta')
 {% endhighlight %}
 
 
@@ -122,16 +124,16 @@ ED(mod, 50, interval='delta')
 ## Estimated effective doses
 ## (Delta method-based confidence interval(s))
 ## 
-##      Estimate Std. Error   Lower Upper
-## 1:50  11.4768     0.0575 11.3171  11.6
+##      Estimate Std. Error  Lower Upper
+## 1:50   11.430      0.103 11.227  11.6
 {% endhighlight %}
  
 Code and data is available on my [github-repo](https://github.com/EDiLD/r-ed/tree/master/quantitative_ecotoxicology) under file name 'p147'.
  
 #### References
  
-
-{% highlight text %}
-## Error in mget(nom, envir = .BibOptions): invalid first argument
-{% endhighlight %}
+[1] C. Ritz. "Toward a unified approach to dose-response modeling
+in ecotoxicology". In: _Environmental Toxicology and Chemistry_
+29.1 (Jan. 2010), pp. 220-229. DOI: 10.1002/etc.7. <URL:
+http://dx.doi.org/10.1002/etc.7>.
  
