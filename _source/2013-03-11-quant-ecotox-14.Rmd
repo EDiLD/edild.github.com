@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 159, Example 4.6, Control Mortality"
 date: 2013-03-11 23:23
 author: Eduard Szöcs
 published: true
-status: process
+status: publishd
 draft: false
 tags: QETXR R
 ---
