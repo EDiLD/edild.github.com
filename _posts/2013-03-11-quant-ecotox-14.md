@@ -272,7 +272,7 @@ suggest that there is no statistically significant better fit of the more compli
 All three considered models give nearly the same $LC_{50}$ around 2100:
 
 ```r
-ED(mod1, 50, interval='delta')
+ED(mod1, 50, interval = 'delta')
 ```
 
 ```
@@ -285,7 +285,7 @@ ED(mod1, 50, interval='delta')
 ```
 
 ```r
-ED(mod2, 50, interval='delta')
+ED(mod2, 50, interval = 'delta')
 ```
 
 ```
@@ -298,7 +298,7 @@ ED(mod2, 50, interval='delta')
 ```
 
 ```r
-ED(mod3, 50, interval='delta')
+ED(mod3, 50, interval = 'delta')
 ```
 
 ```

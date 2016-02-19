@@ -126,8 +126,7 @@ Then we fit a dose-response model:
 ```{r warning=FALSE}
 mod2 <- drm(PROP_c ~ CONC, weights = TOTAL, data = NAP, fct = LL.2(), type = 'binomial')
 ```
-
-
+ 
 ```{r plot_mod2}
 plot(mod2, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))
 mtext('Corrected mortalities - LL.2', 3)
@@ -165,8 +164,8 @@ suggest that there is no statistically significant better fit of the more compli
 
 All three considered models give nearly the same $LC_{50}$ around 2100:
 ```{r}
-ED(mod1, 50, interval='delta')
-ED(mod2, 50, interval='delta')
-ED(mod3, 50, interval='delta')
+ED(mod1, 50, interval = 'delta')
+ED(mod2, 50, interval = 'delta')
+ED(mod3, 50, interval = 'delta')
 ```
 
