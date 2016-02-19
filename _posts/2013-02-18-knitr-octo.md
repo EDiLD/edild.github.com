@@ -141,7 +141,7 @@ You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com)
 I had to add this line of code
  
 
-```html
+```sh
 <base href="{% if root_url != '' %}{{ root_url }}{% else %}/{% endif %}" />
 ```
  
