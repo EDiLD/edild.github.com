@@ -198,7 +198,6 @@ Then we fit a dose-response model:
 mod2 <- drm(PROP_c ~ CONC, weights = TOTAL, data = NAP, fct = LL.2(), type = 'binomial')
 ```
  
- 
 
 ```r
 plot(mod2, broken = TRUE, type = 'all', bp = 500, xt = seq(500,3000,500))

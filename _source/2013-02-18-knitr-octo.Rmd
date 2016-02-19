@@ -4,7 +4,7 @@ title: "R, knitr and Octopress"
 date: 2013-03-01 14:00
 author: Eduard Szöcs
 published: true
-status: publish
+status: process
 draft: false
 tags: R
 ---
@@ -137,7 +137,10 @@ You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com)
 
 I had to add this line of code
 
-{% gist 5064922 %}
+```{html}
+<base href="{% if root_url != '' %}{{ root_url }}{% else %}/{% endif %}" />
+```
+
 
 to `source/_includes/custom/head.html` so that the figures are displayed properly, see
 [here](source/_includes/custom/head.html).

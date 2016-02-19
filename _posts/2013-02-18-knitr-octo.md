@@ -4,7 +4,7 @@ title: "R, knitr and Octopress"
 date: 2013-03-01 14:00
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: R
 ---
@@ -40,7 +40,7 @@ Here are the changes I made to my octopress:
 and creates a .Rmd-file in source/src. Simply add these lines to your Rakefile:
  
 
-{% highlight ruby %}
+```ruby
 # usage rake new_rmd[my-new-rmd] or rake new_post['my new rmd'] or rake new_rmd (defaults to "new-rmd")
 desc "Begin a new post in #{source_dir}/#{src_dir}"
 task :new_rmd, :title do |t, args|
@@ -64,12 +64,12 @@ task :new_rmd, :title do |t, args|
     post.puts "---"
   end
 end
-{% endhighlight %}
+```
  
 2) I modified and cleaned `knit.sh` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knitr on the .Rmd files and saves the output to _posts. Put this file (knit.sh) into source/_scripts!
  
 
-{% highlight r %}
+```r
 #! /usr/bin/Rscript
  
 knit <- function (inputFile, outputFile) {
@@ -116,12 +116,12 @@ args <- commandArgs(TRUE)
 inputFile <- args[1]
 outputFile <- args[2]
 knit(inputFile, outputFile)
-{% endhighlight %}
+```
  
 3) Modified and cleaned the `Makefile` from the [Rcpp Gallery](https://github.com/jjallaire/rcpp-gallery) for my needs. This runs knit.sh on the /src folder, returns the .markdown files to _posts/ and cleans up the .md and .hmtl files created by R-Studio. Put this file (Makefile) into source/src!
  
 
-{% highlight sh %}
+```sh
 KNIT = ../_scripts/knit.sh
 POSTS_DIR = ../_posts
 MD_FILES := $(patsubst %.Rmd, $(POSTS_DIR)/%.markdown, $(wildcard *.Rmd))
@@ -132,7 +132,7 @@ $(POSTS_DIR)/%.markdown: %.Rmd
   $(KNIT) $< $@
 	$(RM) *.md
 	$(RM) *.html
-{% endhighlight %}
+```
  
 You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com) for this site and copy the files from there. I have not tested this very extensively - in case you find any bugs or have improvements, please let me know.
  
@@ -140,7 +140,11 @@ You can skim through my [github-repo](https://github.com/EDiLD/edild.github.com)
  
 I had to add this line of code
  
-{% gist 5064922 %}
+
+```html
+<base href="{% if root_url != '' %}{{ root_url }}{% else %}/{% endif %}" />
+```
+ 
  
 to `source/_includes/custom/head.html` so that the figures are displayed properly, see
 [here](source/_includes/custom/head.html).

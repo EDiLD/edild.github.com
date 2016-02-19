@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 147, Example 4.3, LC50"
 date: 2013-02-25 18:22
 author: Eduard Szöcs
 published: true
-status: process
+status: published
 draft: false
 tags: QETXR R
 ---
