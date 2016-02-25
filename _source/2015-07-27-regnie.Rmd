@@ -2,12 +2,18 @@
 layout: post
 title: 'Reading REGNIE DWD data into R'
 author: "Eduard Szöcs"
-date: "July 27, 2015"
+date: "25 Feb. 2016"
 published: true
-status: published
+status: process
 draft: false
 tags: R
 ---
+
+
+**Update**
+DWD has published a own python3 script to process the REGNIE data, see the documentation [here](ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/daily/regnie/Regnie2GIS/doc/Unterst%C3%BCtzungsdokumente%20-%20Geografische%20Darstellung%20von%20REGNIE-Daten.pdf).
+I cross-checked `esmisc::read_regnie()` and they both give the same results.
+
 
 Recently, I needed some rainfall data for an analysis of pesticide occurrences. 
 The German Meteorological Service (DWD) provides the REGNIE dataset (temporal resolution 24h, spatial resolution 1km) for free (can be downloaded [here](ftp://ftp.dwd.de/pub/CDC/grids_germany/daily/regnie/)).
@@ -15,13 +21,14 @@ REGNIE is a gridded dataset covering whole Germany and is produced by interpolat
 
 <!--more-->
 
-For my project I needed to loop and extract daily precipitation from lots of such grids. 
-Therefore, I wrote a small function to read the REGNIE data into R as a raster object.
-The function unpacks the .gz archive, deals with missing values and set the CRS to longlat.
-Currently is available in my [esmisc package](https://github.com/EDiLD/esmisc).
+For my project I needed extract daily precipitation from lots of such grids. 
+Therefore, I wrote a small function to read the REGNIE data into R as a `raster` object.
+The function unpacks the .gz archive, deals with missing values and sets the CRS to longlat.
+Currently the function is available in my [esmisc package](https://github.com/EDiLD/esmisc).
 
 ### An example
-Here, I read the daily precipitation on Christmas 2014:
+Here, I read the daily precipitation on Christmas 2014.
+First, install the `esmisc` package:
 
 ```{r, eval=FALSE}
 # get the newest version of esmisc
@@ -30,7 +37,8 @@ install_github('EDiLD/esmisc')
 ```
 
 
-I downloaded the file from the FTP (see link above) and it is also shipped with the package. To read the file you can simply use (for downloaded data just use the path to the .gz file)
+I downloaded the file from the FTP (see link above), but it is also shipped with the package. 
+To read the file you can simply use (for downloaded data just use the path to the .gz file):
 
 ```{r regnie, message=FALSE}
 require(esmisc)
@@ -42,5 +50,5 @@ plot(r, main = 'Precipitation on 24.12.2014')
 ```
 
 Et viola, the precipitation values are given in mm and the CRS is longlat.
-In a next step you could reproject the raster (using the `projectRaster()` function [slow, but R] or [gdalwarp](http://www.gdal.org/gdalwarp.html) [faster]) or extract some value from the raster (using `extract()`).
+In a next step you could reproject the raster (using the `projectRaster()` function [slow, but R] or [gdalwarp](http://www.gdal.org/gdalwarp.html) [faster]) or extract values from the raster (using `extract()`).
 
