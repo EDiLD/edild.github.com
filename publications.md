@@ -26,6 +26,11 @@ permalink: /publications/
 
 <div class="publist" markdown="1">
 
+### 2016
+
+Lagadic, L., Schäfer, R.B., Roucaute, M., **Szöcs, E.**, Chouin, S., de Maupeou, J., Duchet, C., Franquet, E., Le Hunsec, B., Bertrand, C., Fayolle, S., Francés, B., Rozier, Y., Foussadier, R., Santoni, J.-B., Lagneau, C. (2016). No association between the use of Bti for mosquito control and the dynamics of non-target aquatic invertebrates in French coastal and continental wetlands. Science of The Total Environment 553, 486–494. doi:10.1016/j.scitotenv.2016.02.096
+
+
 ### 2015
 
 Mbaka JG, **Szöcs E**, Schäfer RB (2015). Meta-analysis on the responses of traits of different taxonomic groups to global and local stressors. *Acta Oecologica* 69:65–70. <a href="http://www.sciencedirect.com/science/article/pii/S1146609X15300175"><i class="fa fa-money"></i></a>
