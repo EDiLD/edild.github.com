@@ -30,6 +30,9 @@ permalink: /publications/
 
 Lagadic, L., Schäfer, R.B., Roucaute, M., **Szöcs, E.**, Chouin, S., de Maupeou, J., Duchet, C., Franquet, E., Le Hunsec, B., Bertrand, C., Fayolle, S., Francés, B., Rozier, Y., Foussadier, R., Santoni, J.-B., Lagneau, C. (2016). No association between the use of Bti for mosquito control and the dynamics of non-target aquatic invertebrates in French coastal and continental wetlands. Science of The Total Environment 553, 486–494. doi:10.1016/j.scitotenv.2016.02.096 <a href="http://www.sciencedirect.com/science/article/pii/S0048969716303060"><i class="fa fa-money"></i></a>
 
+**Szöcs E.**, Schäfer R.B. (2016). Statistical hypothesis testing—To transform or not to transform? Integr Environ Assess Manag 12:398–400. doi: 10.1002/ieam.1748 <a href="http://onlinelibrary.wiley.com/doi/10.1002/ieam.1748/abstract"><i class="fa fa-money"></i></a>
+
+
 
 ### 2015
 
