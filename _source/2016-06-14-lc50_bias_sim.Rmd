@@ -4,10 +4,10 @@ author: "Eduard Szöcs"
 date: "2016-6-14 20:00"
 output: pdf_document
 layout: post
-published: yes
-status: process
+published: true
+status: published
 tags: R ecotoxicology
-draft: yes
+draft: false
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
