@@ -1,0 +1,233 @@
+---
+title: "Experimental design for dose-reponse-experiments - a simulation"
+author: "Eduard Szöcs"
+date: "2016-6-14 20:00"
+output: pdf_document
+layout: post
+published: yes
+status: process
+tags: R ecotoxicology
+draft: yes
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE}
+options(scipen = 1, digits = 5)
+```
+```{r echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(fig.height = 6, fig.width = 6, chache = TRUE, message = FALSE, echo = TRUE, cache = TRUE)
+require(methods)
+```
+
+
+## Introduction
+
+Ecotoxicologist face often the problem how to allocate resource when conducting a dose-response experiment to determine the $EC_{50}$ of species towards a substance.
+
+*How many concentrations should I test?* *How many replicates should I run per concentration?*
+*How many animals should I use per replicate?*
+
+Often the answers are constrained by laboratory resources (e.g. How many beakers are available?) or the amount of work per replicate (e.g. How much time do I need to prepare I replicate?).
+
+One way to address such questions is to run simulations of different experimental setups and to compare their performance.
+In this post I will demonstrate how to run such simulations.
+
+
+## Simulation setup
+
+First of all we need a algorithm that generates data where we know the properties of.
+I will simulate data from a logistic regression with a binomial response variable
+
+$y \sim Bin(N, p)$
+
+Here `N` is the total number of animals and `p` is the probability of an animal to survive.
+I simulate the probability `p` as function of the concentration `x`:
+
+$logit(p) = \alpha + \beta~x$
+
+where $\alpha$ and $\beta$ are the parameters of the relationship and the $EC_{50}$ is given by $- \frac{\alpha}{\beta}$.
+
+
+
+## Simulation scenarious
+
+`x` values were evenly spaced in $0 \le x \le 1$, with varying numbers of treatments: 
+
+$n_{x} = \{4,6,8,10,12\}$.
+
+I will also modify the number of replicates per treatment:
+
+$n_{rep} = \{1, 3, 5, 7, 9\}$
+
+And the number of animals per replicate:
+
+$N = \{3, 6, 9, 12, 15, 18, 21, 24, 27, 30\}$.
+
+I chose $\alpha = 5$ and $\beta = -10$, giving a LC50 of 0.5 and a decent slope.
+
+First we need a function that generates data, according to the above described setup:
+
+```{r datagen}
+# Data generation function
+#' -param alpha intercept
+#' -param beta slope  
+#' -param n_x number of treatments
+#' -param n_rep number of replicates per treatment
+#' -param N number of animals per replicate
+#' -param n_sim number of simulation runs
+#' -return a list with three components:
+#'  x: x-values, y = a matrix, each column is one simulation run, N = number of animals
+data_gen <- function(alpha = 5, beta = -10, n_x = 6, 
+                    n_rep = 3,  N = 10, n_sim = 1){
+  # evenly space x-values
+  x <- seq(0, 1, length.out = n_x) 
+  # inv-logit
+  p <-  1 / (1 + exp(-(alpha + beta*x)))  
+  # sample from binomial
+  y <-  replicate(n_sim, rbinom(n_x * n_rep, N, p)) 
+  return(list(x = rep(x, n_rep), y = y, N = N))
+}
+```
+
+The arguments of this functions are all described above, let's see how the generated data looks like:
+
+Here I generate data with the default set-up ($\alpha = 5$, $\beta = -10$, $n_x = 6$, $n_{rep} = 3$, $N = 10$ and $n_{sim}=1$)
+
+```{r datagen_ex1}
+sim1 <- data_gen()
+plot(sim1$x, sim1$y[, 1], xlab = 'Conc.', ylab = 'Animals survived')
+```
+
+We can fit a log-logistic dose-response model (DRM) to this data using the `drc` package to determine the LC50
+
+```{r drc_ex1}
+library(drc)
+mod <- drm(y/sim1$N ~ x, 
+    weights = rep(sim1$N, length(x)),
+    data = data.frame(x = sim1$x, y = sim1$y[, 1]), 
+    fct = LL2.2(), 
+    type = "binomial")
+plot(mod)
+ED(mod, 50, interval = 'fls')
+```
+
+We see that the simulated data corresponds to the $EC_{50}$ we aimed to simulate (=0.5).
+
+As we will have a lot of simulation scenarios ($5 \cdot 5 \cdot 10~=~250$) we need a function to analyse each generated dataset. 
+I am only interested in the deviation from the specified $EC_{50}$ value and therefore use the absolute-error (AE) from 0.5 as benchmark.
+Here is a function that fits a log-logistic drm to given simulated data and returns the AE from the specified value of 0.5:
+
+```{r data_ana}
+#' analysis function
+#' -param z a list as returned by data_gen()
+data_ana <- function(z) {
+  ana <- function(x, y, N) {
+    # model
+    mod <- try(drm(y/N ~ x, 
+                   weights = rep(N, length(x)),
+                   data = data.frame(x = x, y = y), 
+                   fct = LL2.2(), type = "binomial"))
+    if (inherits(mod, "try-error")) {
+      bias <- NA
+    } else {
+      # LC50
+      LC50 <- try(exp(ED(mod, 50, interval = 'none', 
+                         display = FALSE)[1, 1]), silent = TRUE)
+      if (inherits(LC50, "try-error")) {
+        bias <- NA
+      } else {
+        # AE
+        bias <- abs(LC50 - 0.5)
+      }
+    }
+    return(bias)
+  }
+  out <- apply(z$y, 2, ana, x = z$x, N = z$N)
+  return(out)
+}
+```
+
+This function fits a DRM to a given dataset and returns the absolute deviation from 0.5.
+I wrapped some calls into `try()` because for some data we might fails to fit a model (because of convergence problem , complete separation etc...).
+
+Let's see the function in action with the `sim1` object from above:
+
+```{r ae}
+data_ana(sim1)
+```
+
+and a cross-check:
+```{r ae2}
+abs(ED(mod, 50, interval = 'fls', display = FALSE)[1] - 0.5)
+```
+
+
+
+OK, now we have the parts we need - let's get to work.
+First I define the scenarios I want to run through:
+
+```{r scenarious}
+scenarious <- expand.grid(N = seq(3, 30, 3),
+                          n_rep = seq(1,9 , 2),
+                          n_x = seq(4, 12, 2))
+head(scenarious)
+```
+
+Each row corresponds to a specific scenario.
+I will now run through all scenarios, generate 100 datasets from each and calculated the AE of each:
+
+[Important note: This code block takes some time to run! I actually run it on a Amazon EC2 instance...]
+```{r sim, warning=FALSE, eval=FALSE}
+ae <- NULL
+# for each scenario
+for (i in seq_len(nrow(scenarious))) {
+  message('scenario: ', i)
+  take <- scenarious[i, ]
+  sims <- data_gen(n_rep = take$n_rep, N = take$N, 
+                n_x = take$n_x, n_sim = 100)
+  ae[[i]] <- data_ana(sims)
+}
+```
+
+```{r cache_file, include=FALSE, eval=FALSE, echo=FALSE}
+saveRDS(ae, "/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+```
+
+```{r read_cache, echo=FALSE}
+ae <- readRDS("/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+```
+
+
+The bias of each of the 100 generated datasets for each scenario are stored in `ae`.
+Next I compute the mean of the AE for each scenario and add it the the `scenarious` data.frame:
+
+```{r mean_ae}
+scenarious$mean_ae <- sapply(ae, mean, na.rm = TRUE)
+```
+
+## Results
+Let's look at the results. Because we have 3 factors possibly affecting the error in $EC_{50}$ determination if will use a faceted plot:
+
+```{r plot_results, fig.width=8, fig.height=8}
+library(ggplot2)
+ggplot(scenarious, aes(x = N, y = mean_ae)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(n_rep ~ n_x, labeller = label_both) +
+  theme_bw() +
+  labs(y = 'Mean absolute error', x = 'N')
+```
+
+We see that with increasing $N$, $n_{rep}$ and $n_x$ the absolute error decreases and levels off at something around 0.02.
+
+Having only 4 tested concentrations (left-most column) is not feasible, as the AE never reaches this low level.
+Also if you have only one replicate you need to have either lots of concentrations or animals (or both).
+However, having lots of replicates, animals and concentrations does not add much and is possibly a waste of resources.
+
+The displayed plot matrix can help to decide how to allocate your resources.
+This simulation is of course only valid in the specified scenarios, but could be easily modified to other scenarios.
+
+
+
+
+
