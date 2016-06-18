@@ -108,7 +108,7 @@ mod <- drm(y/sim1$N ~ x,
     fct = LL2.2(), 
     type = "binomial")
 plot(mod)
-ED(mod, 50, interval = 'fls')
+exp(ED(mod, 50, display = FALSE))
 ```
 
 We see that the simulated data corresponds to the $EC_{50}$ we aimed to simulate (=0.5).
