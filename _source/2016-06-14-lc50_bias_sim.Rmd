@@ -14,7 +14,7 @@ options(scipen = 1, digits = 5)
 ```
 ```{r echo=FALSE, message=FALSE}
 require(knitr)
-opts_chunk$set(fig.height = 6, fig.width = 6, chache = FALSE, message = FALSE, echo = TRUE, cache = TRUE)
+opts_chunk$set(fig.height = 6, fig.width = 6, cache = FALSE, message = FALSE, echo = TRUE, cache = TRUE)
 require(methods)
 ```
 
