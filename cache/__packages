@@ -24,3 +24,6 @@ XML
 mvabund
 plyr
 raster
+DBI
+RPostgreSQL
+scales
