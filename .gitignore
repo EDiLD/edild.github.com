@@ -8,6 +8,7 @@ Gemfile.lock
 node_modules
 package.json
 .Rproj.user
+serve
 
 _source/*.html
 _posts/*.html
