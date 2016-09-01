@@ -17,6 +17,7 @@ require(knitr)
 opts_chunk$set(fig.height = 6, fig.width = 6, cache = FALSE, message = FALSE, echo = TRUE, cache = TRUE)
 require(methods)
 ```
+<img src="http://vg03.met.vgwort.de/na/9bf3caab5a394f028eb7c781ea3e73d6" width="1" height="1" alt="">
 
 
 ## Introduction
