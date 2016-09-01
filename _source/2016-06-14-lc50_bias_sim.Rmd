@@ -4,7 +4,7 @@ author: "Eduard Szöcs"
 date: "2016-6-14 20:00"
 layout: post
 published: true
-status: published
+status: process
 tags: R ecotoxicology
 draft: false
 ---
