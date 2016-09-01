@@ -4,7 +4,7 @@ title: "Collinearity"
 date: 2013-12-13 15:12
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: R
 ---
@@ -17,6 +17,7 @@ require(knitr)
 opts_chunk$set(fig.height=6, fig.width=6, chache=TRUE)
 require(methods)
 ```
+<img src="http://vg03.met.vgwort.de/na/c4dc0cf996544b1fbaf4caf76e72de06" width="1" height="1" alt="">
 
 It has been quiet the last months here - main reason is that I'm working on my master's thesis.
 I have already prepared some more examples from 'Quantitative Ecotoxicolgy', but I didn't come to publish them here.

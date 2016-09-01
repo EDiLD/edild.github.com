@@ -9,9 +9,8 @@ draft: false
 tags: QETXR R
 ---
 
+<img src="http://vg03.met.vgwort.de/na/160d7f4ca18045b69c7e2921826d8f8e" width="1" height="1" alt="">
 
- 
- 
 This is example 3.7 on page 108 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about accumulation in mosquitofish (*Gambusia holbrooki*).  
  
 Get the data from [here](https://raw.github.com/EDiLD/r-ed/master/quantitative_ecotoxicology/data/p108.csv) and read it into R:

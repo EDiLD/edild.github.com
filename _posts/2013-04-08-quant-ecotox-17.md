@@ -4,13 +4,14 @@ title: "Quantitative Ecotoxicology, Page 180, Example 4.10, Time-to-death"
 date: 2013-05-21 18:39
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
  
 
 
+<img src="http://vg03.met.vgwort.de/na/d27cc555a366431285c8f5ec06bfb002" width="1" height="1" alt="">
  
 This is example 4.10 on page 180 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). A follow-up to [example 4.9](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/).
  
@@ -33,48 +34,9 @@ We can fit parametric survival time models using the `survreg()` function, where
 require(survival)
 # fit different models
 mod_exp <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'exponential')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_wei <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'weibull')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_lnorm <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'lognorm')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_llog <- survreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'loglogistic')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
  
 From the models we can access the Log-Likelihood via `object$loglig[2]`. Note that survreg gives 2 likelihoods, one without covariables (intercept only) and one with covariables. We are interested in the second one.
@@ -87,12 +49,6 @@ df <- data.frame(model = c('exp', 'weibull', 'lnorm', 'loglog'),
                             mod_lnorm$loglik[2],
                             mod_llog$loglik[2]))
 {% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in data.frame(model = c("exp", "weibull", "lnorm", "loglog"), logLik = c(mod_exp$loglik[2], : object 'mod_exp' not found
-{% endhighlight %}
  
 and extract the AIC-values (`extractAIC`) for model comparisons:
 
@@ -102,31 +58,17 @@ df$AIC <- c(extractAIC(mod_exp)[2],
             extractAIC(mod_wei)[2],
             extractAIC(mod_lnorm)[2],
             extractAIC(mod_llog)[2])
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in extractAIC(mod_exp): object 'mod_exp' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
 df
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## function (x, df1, df2, ncp, log = FALSE) 
-## {
-##     if (missing(ncp)) 
-##         .Call(C_df, x, df1, df2, log)
-##     else .Call(C_dnf, x, df1, df2, ncp, log)
-## }
-## <bytecode: 0x3747980>
-## <environment: namespace:stats>
+##     model  logLik    AIC
+## 1     exp -1309.7 2625.4
+## 2 weibull -1114.3 2236.7
+## 3   lnorm -1121.8 2251.5
+## 4  loglog -1118.1 2244.2
 {% endhighlight %}
  
 Like with SAS the weibull-model has the lowest AIC. Not that the Log-Likelihood values differ by a constant of ~920 from SAS. Therefore also the AIC deviates by a constant of ~1840 (=2*920).
@@ -143,7 +85,23 @@ summary(mod_wei)
 
 
 {% highlight text %}
-## Error in summary(mod_wei): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'mod_wei' not found
+## 
+## Call:
+## survreg(formula = Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, 
+##     dist = "weibull")
+##              Value Std. Error      z         p
+## (Intercept)  7.849    0.08449  92.89  0.00e+00
+## PPT         -0.295    0.00512 -57.54  0.00e+00
+## WETWT        1.066    0.25604   4.16  3.15e-05
+## Log(scale)  -1.189    0.04455 -26.69 6.09e-157
+## 
+## Scale= 0.305 
+## 
+## Weibull distribution
+## Loglik(model)= -1114.3   Loglik(intercept only)= -1606.3
+## 	Chisq= 983.9 on 2 degrees of freedom, p= 0 
+## Number of Newton-Raphson Iterations: 9 
+## n=480 (70 observations deleted due to missingness)
 {% endhighlight %}
  
 Note that the estimate of $0.0602 \pm 0.2566$ for WETWT in the book must be a typo: The standard error is way too big to be statistically significant, so I think the R result is right here.
@@ -168,17 +126,7 @@ newtox <- expand.grid(WETWT = seq(0, 1.5, length.out=100),
             PPT = seq(12.5, 20, by = 2.5))
 # predict ttd for newdata
 newtox$preds <- predict(mod_wei, newdata=newtox, type='quantile', p = 0.5)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in predict(mod_wei, newdata = newtox, type = "quantile", p = 0.5): error in evaluating the argument 'object' in selecting a method for function 'predict': Error: object 'mod_wei' not found
-{% endhighlight %}
-
-
-
-{% highlight r %}
+ 
 # plot
 require(ggplot2)
 ggplot(newtox, aes(x = WETWT, y = preds, col = factor(PPT), group = PPT)) +
@@ -188,11 +136,7 @@ ggplot(newtox, aes(x = WETWT, y = preds, col = factor(PPT), group = PPT)) +
   coord_cartesian(ylim=c(0,100))
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in eval(expr, envir, enclos): object 'preds' not found
-{% endhighlight %}
+![plot of chunk plot_predicts](/figures/plot_predicts-1.png)
  
  
 #### Notes
@@ -221,7 +165,7 @@ for(i in seq_along(PPT_u)){
 }
 {% endhighlight %}
 
-![plot of chunk plot_model](/figures/plot_model-1.png) 
+![plot of chunk plot_model](/figures/plot_model-1.png)
  
 To produce a plot similar to Figure 4.11 we can use the following code:
 
@@ -241,7 +185,7 @@ plot(log(km$time), log(-log(km$surv)), col=cols[fac], pch = 16)
 legend('bottomright', legend=levels(fac), col=cols, pch = 16, cex = 0.7)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-7](/figures/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](/figures/unnamed-chunk-7-1.png)
  
  
 To fit a gamma distribution we have to use another package: `flexsurv`.
@@ -265,60 +209,10 @@ custom.llogis <- list(name="llogis",
 require(flexsurv)
 # fit all models using flexsurvreg
 mod_flex_exp <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'exp')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_flex_wei <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'weibull')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_flex_lnorm <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'lnorm')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_flex_llog <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = custom.llogis)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
-{% endhighlight %}
-
-
-
-{% highlight r %}
 mod_flex_ggamma <- flexsurvreg(Surv(TTD, FLAG) ~ PPT + WETWT, data = TOXICITY, dist = 'gengamma')
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in na.fail.default(structure(list(`Surv(TTD, FLAG)` = structure(c(8, : missing values in object
 {% endhighlight %}
  
 Comparing the results from `flexsurvreg` with `survreg`, we see that the estimates are identical for all models. Therefore I conclude that `flexsurv` is an alternative when fitting with gamma distribution.

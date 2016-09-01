@@ -19,6 +19,7 @@ opts_chunk$set(fig.height=6, fig.width=8, cache = TRUE)
 set.seed(1234)
 options(width=90)
 ```
+<img src="http://vg03.met.vgwort.de/na/a3dc5e42a98347e3bfa8414a1d1070af" width="1" height="1" alt="">
 
 ### Introduction
 The [first post](http://edild.github.io/prc1/) of this blog was about analysing mesocosm data using Principal Response Curves (PRC).

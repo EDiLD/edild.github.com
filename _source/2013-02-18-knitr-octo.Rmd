@@ -9,6 +9,8 @@ draft: false
 tags: R
 ---
 
+<img src="http://vg03.met.vgwort.de/na/a55e1fa303c04de18004230e30c26973" width="1" height="1" alt="">
+
 Recently, I moved this blog from [tumblr](http://edild.tumblr.com/) to github since I feeled I need more liberty.
 I have no experience with web programming, so I chose [Octopress](http://octopress.org/) as blogging framework since it nicely integrates with github.
 

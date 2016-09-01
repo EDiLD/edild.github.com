@@ -11,6 +11,7 @@ tags: QETXR R
  
 
 
+<img src="http://vg03.met.vgwort.de/na/b3d8f2a40fb04d8c9bb4a6ae40f709e3" width="1" height="1" alt="">
  
 [Previously](http://edild.github.io/quant-ecotox20/), I showed how to analyse the fish survival data using the arcsine square root transformation.
 Warton & Hui (2011) demonstrated that *the arcsine transform should not be used in either circumstance*, but instead use Generalized Linear Models.
@@ -51,7 +52,7 @@ ggplot(dfm, aes(x = factor(k), y = value, fill = variable)) +
   theme_bw()
 {% endhighlight %}
 
-![plot of chunk plot_binomial](/figures/plot_binomial-1.png) 
+![plot of chunk plot_binomial](/figures/plot_binomial-1.png)
  
  
  

@@ -4,13 +4,14 @@ title: "Collinearity"
 date: 2013-12-13 15:12
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: R
 ---
  
 
 
+<img src="http://vg03.met.vgwort.de/na/c4dc0cf996544b1fbaf4caf76e72de06" width="1" height="1" alt="">
  
 It has been quiet the last months here - main reason is that I'm working on my master's thesis.
 I have already prepared some more examples from 'Quantitative Ecotoxicolgy', but I didn't come to publish them here.
@@ -125,7 +126,7 @@ summary(mod)
 pairs(df1)
 {% endhighlight %}
 
-![plot of chunk example_datagen3](/figures/example_datagen3-1.png) 
+![plot of chunk example_datagen3](/figures/example_datagen3-1.png)
  
  
 ### Methods to spot collinearity
@@ -284,6 +285,17 @@ This is confirmed by looking at the standard deviation of the estimates:
 {% highlight r %}
 sds <- data.frame(ps, t(sapply(res2, function(x) apply(x[, 2:4], 2, sd))))
 require(reshape2)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading required package: reshape2
+{% endhighlight %}
+
+
+
+{% highlight r %}
 sds_m <- melt(sds, id.vars='ps')
 ggplot(sds_m, aes(x = ps, y = value)) +
   geom_point(size = 3) +
@@ -293,7 +305,7 @@ ggplot(sds_m, aes(x = ps, y = value)) +
   xlab('Correlation')
 {% endhighlight %}
 
-![plot of chunk plot3](/figures/plot3-1.png) 
+![plot of chunk plot3](/figures/plot3-1.png)
  
  
 If the standard errors are large enough it may happen that parameter estimates may be so variable that even their sign is changed.
