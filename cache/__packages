@@ -27,3 +27,4 @@ raster
 DBI
 RPostgreSQL
 scales
+fitdistrplus

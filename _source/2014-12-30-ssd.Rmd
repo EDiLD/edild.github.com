@@ -17,6 +17,7 @@ require(knitr)
 opts_chunk$set(fig.height = 6, fig.width = 6, chache = TRUE, message = FALSE)
 require(methods)
 ```
+<img src="http://vg03.met.vgwort.de/na/d18b775b8a5440b68e571570148c0aa3" width="1" height="1" alt="">
 
 ## Introduction
 Species Sensitivity Distributions (SSD) are a central tool for ecological risk 

@@ -4,13 +4,14 @@ title: "Quantitative Ecotoxicology, Page 178, Example 4.9, Time-to-death"
 date: 2013-04-06 23:08
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
  
 
 
+<img src="http://vg03.met.vgwort.de/na/d76385f5dae2424fa4cd61b927bd360d" width="1" height="1" alt="">
  
 This is example 4.9 on page 178 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - time-to-death data.
  
@@ -91,7 +92,7 @@ plot(mod, col = rep(1:7, each=2), mark.time=FALSE, xlab = 'Hours', ylab = '% Sur
 legend('bottomleft', legend = sort(unique(TOXICITY$PPT)), col=1:7, lty = 1)
 {% endhighlight %}
 
-![plot of chunk plot_surv](/figures/plot_surv-1.png) 
+![plot of chunk plot_surv](/figures/plot_surv-1.png)
  
 We see a clear relationship between concentration and the survival curves. In  this example we are interested in differences between the duplicates. We see that the two curves for the 11.6 g/L concentration are quite similar, while there is more divergence between tanks in the 13.2 g/L treatment.
  

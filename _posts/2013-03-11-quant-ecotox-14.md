@@ -11,6 +11,8 @@ tags: QETXR R
 
 
  
+<img src="http://vg03.met.vgwort.de/na/806623c005e14e7f891fd86417842403" width="1" height="1" alt="">
+ 
 This is example 4.6 on page 159 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). It is about how to deal with control mortalities.
  
  
@@ -235,9 +237,9 @@ summary(mod3)
 ## Parameter estimates:
 ## 
 ##                 Estimate Std. Error    t-value p-value
-## b:(Intercept)  -13.12559    1.56664   -8.37819    0.00
+## b:(Intercept)  -13.12559    1.56664   -8.37820    0.00
 ## c:(Intercept)   -0.00105    0.06066   -0.01728    0.99
-## e:(Intercept) 2101.42620   34.69350   60.57118    0.00
+## e:(Intercept) 2101.42620   34.69346   60.57125    0.00
 {% endhighlight %}
  
 Since the lower limit (=control mortality) is so low we could also stick with the simpler model:

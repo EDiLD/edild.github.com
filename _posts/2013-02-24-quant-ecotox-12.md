@@ -9,7 +9,7 @@ draft: false
 tags: QETXR R
 ---
 
-
+<img src="http://vg03.met.vgwort.de/na/1cb8f914a5124bbc8657258c29bf7b13" width="1" height="1" alt="">
  
 This is example 3.8 on page 109 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647) - reproduced with R. This example is about accumulation and elimination of bromophos from water in a guppy (*Poecilia reticulata*).
  

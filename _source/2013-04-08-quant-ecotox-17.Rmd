@@ -4,7 +4,7 @@ title: "Quantitative Ecotoxicology, Page 180, Example 4.10, Time-to-death"
 date: 2013-05-21 18:39
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
@@ -17,6 +17,7 @@ require(knitcitations)
 require(knitr)
 opts_chunk$set(fig.height=6, fig.width=6)
 ```
+<img src="http://vg03.met.vgwort.de/na/d27cc555a366431285c8f5ec06bfb002" width="1" height="1" alt="">
 
 This is example 4.10 on page 180 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). A follow-up to [example 4.9](http://edild.github.io/blog/2013/04/06/quant-ecotox-16/).
 

@@ -9,6 +9,7 @@ draft: false
 tags: QETXR R
 ---
 
+<img src="http://vg03.met.vgwort.de/na/e757946f55b144cfaaa489e5fdd63dc1" width="1" height="1" alt="">
 
  
 This is about example 4.3 on page 147 of [Quantitative Ecotoxicology](http://www.crcpress.com/product/isbn/9781439835647). This example is about Calculations of $LC_{50}$ values.
