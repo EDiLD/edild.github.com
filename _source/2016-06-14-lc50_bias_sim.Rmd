@@ -192,27 +192,30 @@ for (i in seq_len(nrow(scenarios))) {
 ```
 
 ```{r cache_file, include=FALSE, eval=FALSE, echo=FALSE}
-saveRDS(ae, "/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+saveRDS(ae, "/files/ae.rds")
 ```
 
-```{r read_cache, echo=FALSE}
-ae <- readRDS("/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+For convenience I provide the results as a file:
+```{r read_cache}
+tmp <- tempfile()
+download.file(url = 'edild.github.com/files/ae.rds', destfile = tmp)
+ae <- readRDS(tmp)
 ```
 
 
 The bias of each of the 100 generated datasets for each scenario are stored in `ae`.
 Next I compute the mean of the AE for each scenario and add it to the `scenarios` data.frame:
 
-```{r mean_ae}
+```{r mean_aes}
 scenarios$mean_ae <- sapply(ae, mean, na.rm = TRUE)
 ```
 
 ## Results
 Let's look at the results. Because we have 3 factors possibly affecting the error in $EC_{50}$ determination I will use a faceted plot:
 
-```{r plot_results, fig.width=8, fig.height=8}
+```{r ggplot_results, fig.width=8, fig.height=8}
 library(ggplot2)
-ggplot(scenarious, aes(x = N, y = mean_ae)) +
+ggplot(scenarios, aes(x = N, y = mean_ae)) +
   geom_line() +
   geom_point() +
   facet_grid(n_rep ~ n_x, labeller = label_both) +
