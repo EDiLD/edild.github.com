@@ -114,7 +114,7 @@ con <- dbConnect(drv, user = DBuser,
                  port = DBport)
 {% endhighlight %}
  
-No we are ready to copy the data:
+Now we are ready to copy the data:
  
 ### Data tables
 First the 8 data tables.
@@ -192,7 +192,7 @@ dbSendQuery(con, "CREATE INDEX idx_test_application_type ON tests(application_ty
 {% endhighlight %}
  
 All tables are copied to the `'public'` SCHEMA.
-However, I prefer to keep the data in schemas other then public and move all tables to a schema named `'ecotox'`
+However, I prefer to keep the data in schemas other than public and move all tables to a schema named `'ecotox'`
  
 
 {% highlight r %}
@@ -324,7 +324,7 @@ dbSendQuery(con, "
 This function tries to convert to a numeric and if this is not possible returns `NULL`.
  
  
-### Maintainance
+### Maintenance
 Now all data of the US EPA ECOTOX database is in our database.
 But before we quit the connection to do some maintenance:
  
@@ -414,7 +414,7 @@ head(res, 10)
  
  
 We  get 41 entries, from different exposure times and endpoints.
-There are many variable stored in the database! - 
+There are many variables stored in the database! - 
 Here I show only a small subset of test duration, endpoint (e.g. $EC_x$), effect (e.g. mortality, growth, etc),
 concentration type (e.g active ingredient or formulation)...
  
@@ -574,10 +574,10 @@ We see that the values spread over several orders of magnitude...
  
 ### Query 2: All acute EC50/LC50 for Chlorpyrifos to build a SSD.
  
-In a [previous post](https://edild.github.io/ssd/) I showed how the calculate Species Sensitivity Distribution (SSDs) using R.
+In a [previous post](https://edild.github.io/ssd/) I showed how to calculate Species Sensitivity Distribution (SSDs) using R.
 However, I did not show how to retrieve the used data.
  
-The following query is similar to the one above. However I do not restrict to a specific taxon:
+The following query is similar to the one above. However, I do not restrict to a specific taxon:
  
 * all taxa
 * Chlropyrifos
@@ -744,8 +744,8 @@ Nevertheless, it maybe useful to others working with this data from the US EPA E
 It is an incredibly important resource for ecotoxicology.
 Thanks @USEPA for making this available!
  
-I hopefully showed that it is worth having a local mirror of this database:
-it gives much much more flexibility than the web interface and you can get directly the data you need in R (where can can further process it).
+Hopefully, I showed that it is worth having a local mirror of this database:
+it gives much more flexibility than the web interface and you can get directly the data you need in R (where can can further process it).
 I must admit: Because the database is so huge it need some time to get familiar with it and to use it efficiently (what are the tables? What are the variables therein? What are the meaning of the codes?). 
  
 I only showed two example queries here, but don't take them serious!
