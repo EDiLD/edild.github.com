@@ -18,7 +18,7 @@ permalink: /publications/
     </div>
   </div>
   <div class="col-xs-7">
-    <img style="float: right" width="350" src="/images/wordcloud_abstracts_firstauthor.png">
+    <img style="float: rigth" width="350" src="/images/wordcloud.png">
   </div>
 </div>
 

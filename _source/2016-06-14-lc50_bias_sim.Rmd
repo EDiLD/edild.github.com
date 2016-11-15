@@ -4,7 +4,7 @@ author: "Eduard Szöcs"
 date: "2016-6-14 20:00"
 layout: post
 published: true
-status: process
+status: published
 tags: R ecotoxicology
 draft: false
 ---
@@ -31,7 +31,7 @@ Often the answers are constrained by laboratory resources (e.g. How many beakers
 
 One way to address such questions is to run simulations of different experimental setups and to compare their performance.
 In Szöcs & Schäfer (2015) I used simulations to study the statistical power of hypotheses testing in common ecotoxicological setups.
-In this post I will demonstrate how to run such simulations in the context of dose-response modelling.
+In this post I will demonstrate how to run such simulations in the context of dose-response modeling.
 
 
 ## Simulation setup
@@ -50,7 +50,7 @@ where $\alpha$ and $\beta$ are the parameters of the relationship and the $EC\_{
 
 
 
-## Simulation scenarious
+## Simulation scenarios
 
 `x` values were evenly spaced in $0 \le x \le 1$, with varying numbers of treatments: 
 
@@ -90,7 +90,7 @@ data_gen <- function(alpha = 5, beta = -10, n_x = 6,
 }
 ```
 
-The arguments of this functions are all described above, let's see how the generated data looks like:
+The arguments of this function are all described above, let's see how the generated data looks like:
 
 Here I generate data with the default set-up ($\alpha = 5$, $\beta = -10$, $n_x = 6$, $n_{rep} = 3$, $N = 10$ and $n_{sim}=1$)
 
@@ -115,7 +115,7 @@ exp(ED(mod, 50, display = FALSE))
 
 We see that the simulated data corresponds to the $EC_{50}$ we aimed to simulate (=0.5).
 
-As we will have a lot of simulation scenarios ($5 \cdot 5 \cdot 10~=~250$) we need a function to analyse each generated dataset. 
+As we will have a lot of simulation scenarios ($5 \cdot 5 \cdot 10~=~250$), we need a function to analyse each generated dataset. 
 I am only interested in the deviation from the specified $EC_{50}$ value and therefore use the absolute-error (AE) from 0.5 as benchmark.
 Here is a function that fits a log-logistic drm to given simulated data and returns the AE from the specified value of 0.5:
 
@@ -150,7 +150,7 @@ data_ana <- function(z) {
 ```
 
 This function fits a DRM to a given dataset and returns the absolute deviation from 0.5.
-I wrapped some calls into `try()` because for some data we might fails to fit a model (because of convergence problem , complete separation etc...).
+I wrapped some calls into `try()` because for some data we might fail to fit a model (because of convergence problems, complete separation etc).
 
 Let's see the function in action with the `sim1` object from above:
 
@@ -169,22 +169,22 @@ OK, now we have the parts we need - let's get to work.
 First I define the scenarios I want to run through:
 
 ```{r scenarious}
-scenarious <- expand.grid(N = seq(3, 30, 3),
+scenarios <- expand.grid(N = seq(3, 30, 3),
                           n_rep = seq(1,9 , 2),
                           n_x = seq(4, 12, 2))
-head(scenarious)
+head(scenarios)
 ```
 
 Each row corresponds to a specific scenario.
 I will now run through all scenarios, generate 100 datasets from each and calculated the AE of each:
 
-[Important note: This code block takes some time to run! I actually run it on a Amazon EC2 instance...]
+[Important note: This code block takes some time to run! I actually run it on an Amazon EC2 instance...]
 ```{r sim, warning=FALSE, eval=FALSE}
 ae <- NULL
 # for each scenario
-for (i in seq_len(nrow(scenarious))) {
+for (i in seq_len(nrow(scenarios))) {
   message('scenario: ', i)
-  take <- scenarious[i, ]
+  take <- scenarios[i, ]
   sims <- data_gen(n_rep = take$n_rep, N = take$N, 
                 n_x = take$n_x, n_sim = 100)
   ae[[i]] <- data_ana(sims)
@@ -192,27 +192,30 @@ for (i in seq_len(nrow(scenarious))) {
 ```
 
 ```{r cache_file, include=FALSE, eval=FALSE, echo=FALSE}
-saveRDS(ae, "/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+saveRDS(ae, "/files/ae.rds")
 ```
 
-```{r read_cache, echo=FALSE}
-ae <- readRDS("/home/edisz/Documents/Uni/Projects/edild.github.com//files/ae.rds")
+For convenience I provide the results as a file:
+```{r read_cache}
+tmp <- tempfile()
+download.file(url = 'edild.github.com/files/ae.rds', destfile = tmp)
+ae <- readRDS(tmp)
 ```
 
 
 The bias of each of the 100 generated datasets for each scenario are stored in `ae`.
-Next I compute the mean of the AE for each scenario and add it the the `scenarious` data.frame:
+Next I compute the mean of the AE for each scenario and add it to the `scenarios` data.frame:
 
-```{r mean_ae}
-scenarious$mean_ae <- sapply(ae, mean, na.rm = TRUE)
+```{r mean_aes}
+scenarios$mean_ae <- sapply(ae, mean, na.rm = TRUE)
 ```
 
 ## Results
-Let's look at the results. Because we have 3 factors possibly affecting the error in $EC_{50}$ determination if will use a faceted plot:
+Let's look at the results. Because we have 3 factors possibly affecting the error in $EC_{50}$ determination I will use a faceted plot:
 
-```{r plot_results, fig.width=8, fig.height=8}
+```{r ggplot_results, fig.width=8, fig.height=8}
 library(ggplot2)
-ggplot(scenarious, aes(x = N, y = mean_ae)) +
+ggplot(scenarios, aes(x = N, y = mean_ae)) +
   geom_line() +
   geom_point() +
   facet_grid(n_rep ~ n_x, labeller = label_both) +
@@ -223,7 +226,7 @@ ggplot(scenarious, aes(x = N, y = mean_ae)) +
 We see that with increasing $N$, $n_{rep}$ and $n_x$ the absolute error decreases and levels off at something around 0.02.
 
 Having only 4 tested concentrations (left-most column) is not feasible, as the AE never reaches this low level.
-Also if you have only one replicate you need to have either lots of concentrations or animals (or both).
+Also, if you have only one replicate you need to have either lots of concentrations or animals (or both).
 However, having lots of replicates, animals and concentrations does not add much and is possibly a waste of resources.
 
 The displayed plot matrix can help to decide how to allocate your resources.
