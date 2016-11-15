@@ -8,6 +8,7 @@ node_modules
 package.json
 .Rproj.user
 serve
+*.directory
 
 _source/*.html
 _posts/*.html
