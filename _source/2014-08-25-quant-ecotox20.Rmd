@@ -115,9 +115,9 @@ require(multcomp)
 summary(glht(mod, linfct = mcp(conc = 'Tukey')))
 ```
 
-However, this leads to 15 comparisons (and tests) and we may not be interested in all. Note that we are wrong in 1 out of 20 tests ($\alpha = 0.05$) (if we do not apply correction for multiple testing). 
+However, this leads to 15 comparisons (and tests) and we may not be interested in all. Note that we are wrong in 1 out of 20 tests ($\alpha = 0.05$) (if we do not apply a correction for multiple testing). 
 
-An alternative would be just to compare the control group to the treatments. This is called *Dunnett contrasts* and leads to only 5 comparison.
+An alternative would be just to compare the control group to the treatments. This is called *Dunnett contrasts* and leads to only 5 comparisons.
 
 The syntax is the same, just change Tukey to Dunnett:
 ```{r, message=FALSE}
@@ -137,7 +137,7 @@ This applies Bonferroni-correction, see `?p.adjust` and `?adjusted` for other me
 #### Outlook
 Warton & Hui (2011) demonstrated that *the arcsine transform should not be used in either circumstance*. Similarly as O’Hara & Kotze (2010) showed that count data should not be log-transformed. 
 
-I a future post I will show how to analyse this data without transformation using **Generalized Linear Models (GLM)** and perhabs some simulations showing that using GLM can lead to an increased statistical power for ecotoxicological data sets.
+I a future post I will show how to analyse this data without transformation using **Generalized Linear Models (GLM)** and perhaps some simulations showing that using GLM can lead to an increased statistical power for ecotoxicological data sets.
 
 Note, that I couldn't find any reference to Generalized Linear Models in Newman (2012) and EPA (2002), although they have been around for 30 years now (Nelder & Wedderburn, 1972).
 

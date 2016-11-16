@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "Quantitative Ecotoxicology, Page 223, Example 5.1, Analysis of Variance"
-date: 2014-08-25 12:10
+date: 2015-09-05 15:50
 author: Eduard Szöcs
 published: true
 status: published
 draft: false
 tags: QETXR R
 ---
+ 
 
 
  
@@ -70,7 +71,7 @@ boxplot(y ~ conc, data = dfm,
         xlab = 'conc', ylab = 'Proportion surv.')
 {% endhighlight %}
 
-![plot of chunk 20_plotraw](/figures/20_plotraw-1.png) 
+![plot of chunk 20_plotraw](/figures/20_plotraw-1.png)
  
 #### Transform response
 Next we apply the arcsine transformation:
@@ -129,7 +130,7 @@ boxplot(y_asin ~ conc, data = dfm,
         xlab = 'conc', ylab = 'Transformed prop. surv.')
 {% endhighlight %}
 
-![plot of chunk 20_plottrans](/figures/20_plottrans-1.png) 
+![plot of chunk 20_plottrans](/figures/20_plottrans-1.png)
  
 Doesn't look that different...
  
@@ -184,19 +185,19 @@ summary(glht(mod, linfct = mcp(conc = 'Tukey')))
 ## 
 ## Linear Hypotheses:
 ##                Estimate Std. Error t value Pr(>|t|)    
-## 32 - 0 == 0     -0.1472     0.1088   -1.35   0.7531    
+## 32 - 0 == 0     -0.1472     0.1088   -1.35   0.7530    
 ## 64 - 0 == 0      0.0407     0.1088    0.37   0.9989    
 ## 128 - 0 == 0    -0.0762     0.1088   -0.70   0.9795    
-## 256 - 0 == 0    -0.2211     0.1088   -2.03   0.3633    
+## 256 - 0 == 0    -0.2211     0.1088   -2.03   0.3632    
 ## 512 - 0 == 0    -0.7273     0.1088   -6.69   <0.001 ***
-## 64 - 32 == 0     0.1879     0.1088    1.73   0.5326    
+## 64 - 32 == 0     0.1879     0.1088    1.73   0.5327    
 ## 128 - 32 == 0    0.0709     0.1088    0.65   0.9850    
 ## 256 - 32 == 0   -0.0740     0.1088   -0.68   0.9820    
 ## 512 - 32 == 0   -0.5802     0.1088   -5.33   <0.001 ***
 ## 128 - 64 == 0   -0.1170     0.1088   -1.08   0.8849    
-## 256 - 64 == 0   -0.2619     0.1088   -2.41   0.2055    
+## 256 - 64 == 0   -0.2619     0.1088   -2.41   0.2056    
 ## 512 - 64 == 0   -0.7681     0.1088   -7.06   <0.001 ***
-## 256 - 128 == 0  -0.1449     0.1088   -1.33   0.7643    
+## 256 - 128 == 0  -0.1449     0.1088   -1.33   0.7644    
 ## 512 - 128 == 0  -0.6511     0.1088   -5.98   <0.001 ***
 ## 512 - 256 == 0  -0.5062     0.1088   -4.65   0.0023 ** 
 ## ---
@@ -204,9 +205,9 @@ summary(glht(mod, linfct = mcp(conc = 'Tukey')))
 ## (Adjusted p values reported -- single-step method)
 {% endhighlight %}
  
-However, this leads to 15 comparisons (and tests) and we may not be interested in all. Note that we are wrong in 1 out of 20 tests ($\alpha = 0.05$) (if we do not apply correction for multiple testing). 
+However, this leads to 15 comparisons (and tests) and we may not be interested in all. Note that we are wrong in 1 out of 20 tests ($\alpha = 0.05$) (if we do not apply a correction for multiple testing). 
  
-An alternative would be just to compare the control group to the treatments. This is called *Dunnett contrasts* and leads to only 5 comparison.
+An alternative would be just to compare the control group to the treatments. This is called *Dunnett contrasts* and leads to only 5 comparisons.
  
 The syntax is the same, just change Tukey to Dunnett:
 
@@ -251,7 +252,7 @@ This applies Bonferroni-correction, see `?p.adjust` and `?adjusted` for other me
 #### Outlook
 Warton & Hui (2011) demonstrated that *the arcsine transform should not be used in either circumstance*. Similarly as O’Hara & Kotze (2010) showed that count data should not be log-transformed. 
  
-I a future post I will show how to analyse this data without transformation using **Generalized Linear Models (GLM)** and perhabs some simulations showing that using GLM can lead to an increased statistical power for ecotoxicological data sets.
+I a future post I will show how to analyse this data without transformation using **Generalized Linear Models (GLM)** and perhaps some simulations showing that using GLM can lead to an increased statistical power for ecotoxicological data sets.
  
 Note, that I couldn't find any reference to Generalized Linear Models in Newman (2012) and EPA (2002), although they have been around for 30 years now (Nelder & Wedderburn, 1972).
  

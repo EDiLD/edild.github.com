@@ -4,7 +4,7 @@ title:  "Quantitative Ecotoxicology, Page 189, Example 4.12, QICAR-Model"
 date: 2013-06-19 23:03
 author: Eduard Szöcs
 published: true
-status: publish
+status: published
 draft: false
 tags: QETXR R
 ---
@@ -24,7 +24,7 @@ Quantitative Ion Character-Activity Relationships (QICAR) are models that are us
 
 One such metal ion characteristic is the *'softness'*:
 
-metal ions can classified into 
+metal ions can be classified into 
 
 * hard (e.g., Be2, Al3, Fe3)
 * soft (e.g., Cu, Ag, Hg, Pt2)
@@ -32,7 +32,7 @@ metal ions can classified into
 
 Hard acids preferentially bind to O or N, soft acids to S, and the borderline ions form stable complexes with S, O, or N `r citep("10.1002/qsar.200390018")`. 
 
-In this example the softness of 20 metal ions is given, as well as associated toxicity data (EC50 values from a bacterial assay). 
+In this example, the softness of 20 metal ions is given, as well as associated toxicity data (EC50 values from a bacterial assay). 
 
 We want to relate softness to toxicity by a linear model.
 
@@ -68,7 +68,7 @@ Since we are interested in the model properties we take a look at the model summ
 ```{r}
 (mod_sum <- summary(mod))
 ```
-This output shows us the intercept (2.617) and slope (SOFTCON, - 2.931) of our model, the R-Square (0.866) as well as some other usefull information.
+This output shows us the intercept (2.617) and slope (SOFTCON, - 2.931) of our model, the R-Square (0.866) as well as some other useful information.
 
 To make a quick plot of our data and model we can use `abline`:
 ```{r}
@@ -94,7 +94,7 @@ plot(TOTLEC ~ SOFTCON, data = QICAR,
 abline(mod, lty = 'dashed')
 ```
 As above we plot the data and our model. The model is display as a dashed line (`lty = 'dashed'`), the raw data as solid (`pch = 16`) and bigger (`cex = 1.4`) points. 
-Moreoever the axis labels were customized. All `plotmath` annotations have to be wrapped into expressions, `sigma[con]` is equal to the greek letter sigma subscript with con.
+Moreoever, the axis labels were customized. All `plotmath` annotations have to be wrapped into expressions, `sigma[con]` is equal to the greek letter sigma subscript with con.
 
 We can also add the model equation to this plot via `text()` which is slightly trickier:
 
