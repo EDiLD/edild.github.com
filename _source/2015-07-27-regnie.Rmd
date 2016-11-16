@@ -23,10 +23,10 @@ REGNIE is a gridded dataset covering whole Germany and is produced by interpolat
 
 <!--more-->
 
-For my project I needed extract daily precipitation from lots of such grids. 
+For my recent project, I needed to extract daily precipitation from lots of such grids. 
 Therefore, I wrote a small function to read the REGNIE data into R as a `raster` object.
 The function unpacks the .gz archive, deals with missing values and sets the CRS to longlat.
-Currently the function is available in my [esmisc package](https://github.com/EDiLD/esmisc).
+Currently, the function is available in my [esmisc package](https://github.com/EDiLD/esmisc).
 
 ### An example
 Here, I read the daily precipitation on Christmas 2014.

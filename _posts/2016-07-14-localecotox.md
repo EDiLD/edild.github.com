@@ -20,14 +20,14 @@ Databases of toxicity data (like EC50 of a species towards a chemical) play an i
  
 Several such databases are available, maintained by different institutions and with a possible overlap.
 The most comprehensive database (with more than 600,000 tests) may be the [US EPA ECOTOX database](https://cfpub.epa.gov/ecotox/).
-Although, you can query the ECOTOX database via the web interface, this is limited by the number of rows, your internet connection and maybe you need a more customized query.
+Although you can query the ECOTOX database via the web interface, this is limited by the number of rows, your internet connection and maybe you need a more customized query.
 Luckily, the US EPA provides all the data as download [(here)](https://cfpub.epa.gov/ecotox/data_download.cfm) and also updates it regularly (every 3 months).
  
 In this post I will describe how you can build a local (= on your own computer / server) version of the US EPA ECOTOX database. 
 To follow this post you will need 
  
-1. basic R knowledge - I write everything as an R script, because later on I will also use R to analyse this data.
-2. basic SQL knowledge - I will store the data in a PostgreSQL database. Basically this is all SQL (wrapped into R)
+1. basic R knowledge - I write everything as an R script because later on, I will also use R to analyse this data.
+2. basic SQL knowledge - I will store the data in a PostgreSQL database. Basically, this is all SQL (wrapped into R)
  
  
  
@@ -85,7 +85,7 @@ Create a database named `'ecotox'`.
 ## Copy the data
  
 I will copy all downloaded tables to the database.
-For this I will use the `RPostgreSQL` package (which saves me to write up all the `CREATE TABLE` statements...).
+For this, I will use the `RPostgreSQL` package (which saves me writting up all the `CREATE TABLE` statements...).
  
 First we specify the path to the downloaded and extracted folder (`ecotox_ascii_06_15_2016`)
 
@@ -267,7 +267,7 @@ for (i in names2[!names2 %in% 'references']) {
  
 For data-cleaning I also created custom lookup tables to convert durations and concentrations, as well as to unify groups.
 You can download these tables [here](https://github.com/EDiLD/localecotox) (in the folder `/data/conversions`).
-Use them on your own risk!
+Use them at your own risk!
 I have some more of these tables available (contact me if interested) and you can also easily create the for your needs.
  
 We follow the same procedure for these files:
@@ -298,7 +298,7 @@ dbSendQuery(con, "CREATE INDEX idx_duration_convert_duration ON ecotox.duration_
  
 ### Custom PostgreSQL Functions
  
-Some concentrations are stored as text in the database, to convert to numeric values I provide you a function to convert these to numerics [(see here)](https://stackoverflow.com/questions/10306830/postgres-define-a-default-value-for-cast-failures):
+Some concentrations are stored as text in the database, to convert to numeric values I provide you a with function to convert these to numerics [(see here)](https://stackoverflow.com/questions/10306830/postgres-define-a-default-value-for-cast-failures):
  
 
 {% highlight r %}
@@ -359,7 +359,7 @@ con <- dbConnect(drv, user = DBuser,
 res <- dbGetQuery(con, "
 SELECT 
   species.latin_name,
--- test dureation
+-- test duration
   results.obs_duration_mean,
   results.obs_duration_unit,
   results.endpoint,
@@ -572,7 +572,7 @@ We see that the values spread over several orders of magnitude...
  
  
  
-### Query 2: All acute EC50/LC50 for Chlorpyrifos to build a SSD.
+### Query 2: All acute EC50/LC50 for Chlorpyrifos to build an SSD.
  
 In a [previous post](https://edild.github.io/ssd/) I showed how to calculate Species Sensitivity Distribution (SSDs) using R.
 However, I did not show how to retrieve the used data.
@@ -580,7 +580,7 @@ However, I did not show how to retrieve the used data.
 The following query is similar to the one above. However, I do not restrict to a specific taxon:
  
 * all taxa
-* Chlropyrifos
+* Chlorpyrifos
 * only EC50 or LC50
 * only 48h tests
 * only ITX or MOR effects
@@ -648,7 +648,7 @@ head(res)
 I also added the taxonomic group (from a custom lookup-table).
 We end up with 286 entries from 115 taxa.
 So we have multiple entries per taxon.
-For graphical display I will aggregate them using the geometric mean.
+For graphical display, I will aggregate them using the geometric mean.
  
 [Note, that further data-quality and plausibility checks could and should (!) be done:
 e.g. based on the solubility, baseline-tox etc...].
@@ -740,15 +740,15 @@ We may see an ordering of sensitivity: fish < insects < crustaceans...
 ## Conclusions
  
 This was a rather technical post, but dealing with (big)data in ecotoxicology requires some technical expertise in data wrangling.
-Nevertheless, it maybe useful to others working with this data from the US EPA ECOTOX database.
+Nevertheless, it may be useful to others working with this data from the US EPA ECOTOX database.
 It is an incredibly important resource for ecotoxicology.
 Thanks @USEPA for making this available!
  
 Hopefully, I showed that it is worth having a local mirror of this database:
-it gives much more flexibility than the web interface and you can get directly the data you need in R (where can can further process it).
+it gives much more flexibility than the web interface and you can get directly the data you need in R (where can further process it).
 I must admit: Because the database is so huge it need some time to get familiar with it and to use it efficiently (what are the tables? What are the variables therein? What are the meaning of the codes?). 
  
-I only showed two example queries here, but don't take them serious!
+I only showed two example queries here, but don't take them seriously!
 A robust use of this database requires also a lot of quality checks! (I'll leave this for a future post...)
  
-I have created few more custom lookup tables - if you are interested in these or have question feel free to contact me.
+I have created few more custom lookup tables - if you are interested in these or have a question feel free to contact me.
