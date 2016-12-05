@@ -28,3 +28,6 @@ DBI
 RPostgreSQL
 scales
 fitdistrplus
+webchem
+tabulizer
+tidyr

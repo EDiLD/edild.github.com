@@ -1,7 +1,7 @@
 ---
 title: "Build a local version of the EPA ECOTOX database"
 author: "Eduard Szöcs"
-date: "2016-6-14 20:00"
+date: "2016-8-14 20:00"
 layout: post
 published: true
 status: published
