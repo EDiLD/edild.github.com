@@ -4,7 +4,7 @@ title: 'Reading REGNIE DWD data into R'
 author: "Eduard Szöcs"
 date: "25 Feb. 2016"
 published: true
-status: process
+status: published
 draft: false
 tags: R
 ---
