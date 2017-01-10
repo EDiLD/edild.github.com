@@ -4,11 +4,17 @@ title: 'Reading REGNIE DWD data into R'
 author: "Eduard Szöcs"
 date: "25 Feb. 2016"
 published: true
-status: published
+status: process
 draft: false
 tags: R
 ---
 <img src="http://vg03.met.vgwort.de/na/f58fe69f3ee147c5b0e0634146bd7119" width="1" height="1" alt="">
+
+## **Update (10. Jan 2017):**
+I fixed a bug in `read_regnie()` [it was not able to read rasters with >99mm precipitation].
+The new functions is also 4.5x faster, then the old function.
+Check out the new version on [github](https://github.com/EDiLD/esmisc).
+I will also submit esmisc to CRAN.
 
 
 ## **Update (25. Feb. 2016):**
