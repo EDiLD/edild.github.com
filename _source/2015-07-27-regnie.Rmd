@@ -51,10 +51,10 @@ To read the file you can simply use (for downloaded data just use the path to th
 ```{r regnie, message=FALSE}
 require(esmisc)
 # read the file shipped with esmisc
-r <- read_regnie(system.file('extdata', 'ra141224.gz', package = 'esmisc'))
+r <- read_regnie(system.file("extdata", "ra050120.gz", package = "esmisc"))
 # plot the raster
 require(raster)
-plot(r, main = 'Precipitation on 24.12.2014')
+plot(r, main = 'Precipitation on 20.01.2005')
 ```
 
 Et viola, the precipitation values are given in mm and the CRS is longlat.
