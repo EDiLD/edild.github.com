@@ -4,7 +4,7 @@ author: "Eduard Szöcs"
 date: "2017-01-10 20:00"
 layout: post
 published: false
-status: process
+status: published
 tags: R 
 draft: true
 ---
@@ -20,10 +20,10 @@ opts_chunk$set(fig.height = 6, fig.width = 8, message = FALSE,
                echo = TRUE, cache = TRUE)
 ```
 
-A user of [`read_regnie()`](http://edild.github.io/regnie/) pointed me to some problems with few raster files that could not be read.
+A user of `read_regnie()` [(a function to read precipitation data from DWD)](http://edild.github.io/regnie/) pointed me to some problems with some raster files that throw an error.
 It turned out that the function could not read rasters with a precipitation greater than 99 mm.
-The bug was fixed and the function is now also 4.5x faster than the old one.
+The bug was fixed and also the function is now 4.5x faster than the old code.
 
-Check our the new version on [github](https://github.com/EDiLD/esmisc).
+Check out the new version of `esmisc` on [github](https://github.com/EDiLD/esmisc).
 
-I will also submit `esmisc` shortly to CRAN.
+ `esmisc` is now also available from [CRAN](https://CRAN.R-project.org/package=esmisc).
